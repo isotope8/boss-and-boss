@@ -1,6 +1,6 @@
 # Boss & Boss: Game Design Document
 
-Version 0.9 · November 2026 · Owner: JP (Richmark Training / ENSY Training Services)
+Version 1.0 · November 2026 · Owner: JP (Richmark Training / ENSY Training Services)
 
 ---
 
@@ -125,7 +125,7 @@ English (built in), Bahasa Melayu, 华文, தமிழ். Everything is transl
 ## 14. Platforms and distribution
 | Platform | How |
 |---|---|
-| Any browser | Static folder on a web host (GitHub Pages planned: isotope8.github.io/boss-and-boss) |
+| Any browser | Live on GitHub Pages: https://isotope8.github.io/boss-and-boss/ |
 | Phone (iOS/Android) | Install from browser ("Add to Home Screen" / "Install app"); works offline |
 | Windows / Mac | Install from Chrome/Edge (Safari: Add to Dock), or double-click `index.html` |
 | Steam (future) | Wrap the same folder in a desktop shell (e.g. Electron) |
