@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boss &amp; Boss art style exploration</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Kalam:wght@400;700&family=Abril+Fatface&family=Bangers&family=Cormorant+Garamond:wght@600&family=Press+Start+2P&display=swap">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Bricolage Grotesque',system-ui,sans-serif;background:#0f3d3e;color:#fbf4e6;padding:28px 18px 60px}
+h1{font-size:30px;font-weight:800;margin-bottom:6px}
+.sub{opacity:.85;margin-bottom:10px;max-width:760px;line-height:1.45}
+.sec{margin-top:34px;max-width:880px}
+h2{font-size:20px;font-weight:800;color:#e8a33d}
+.meta{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:14px;margin:6px 0 14px;opacity:.9}
+.meta b{color:#e8a33d;font-weight:600}
+.row{display:flex;flex-wrap:wrap;gap:16px}
+.card{width:230px;border-radius:18px;overflow:hidden;box-shadow:0 12px 26px rgba(0,0,0,.35);color:#1d1a16;background:#fbf4e6}
+.card svg,.card canvas{display:block;width:100%;height:auto}
+.nm{padding:9px 14px 13px;font-size:19px;font-weight:800}
+.nm small{display:block;font-size:12px;font-weight:400;opacity:.65;margin-top:1px}
+.pick{display:inline-block;margin-top:4px;font-size:12px;padding:2px 8px;border-radius:10px;background:#e8a33d;color:#1d1a16;font-weight:700}
+</style>
+</head>
+<body>
+<h1>Boss &amp; Boss: art style exploration</h1>
+<p class="sub">The same three characters (Kak Ros, Uncle Lim, Aina) in seven styles. Same drawings underneath, different finishes, so you can judge the <i>style</i>, not the drawing. All are quick samples, not final art.</p>
+<div id="out"></div>
+<script>
+function ros(c){return `
+ <path class="fill" fill="${c.c1}" d="M28 232 Q34 170 100 162 Q166 170 172 232Z"/>
+ <path class="fill" fill="${c.c2}" d="M50 124 Q44 54 100 46 Q156 54 150 124 Q152 166 100 176 Q48 166 50 124Z"/>
+ <ellipse class="fill" fill="${c.skin}" cx="100" cy="116" rx="35" ry="41"/>
+ <path class="line" d="M66 96 Q100 72 134 96"/>
+ <circle class="blush" cx="80" cy="128" r="8"/><circle class="blush" cx="120" cy="128" r="8"/>
+ <path class="line" d="M80 112 Q87 105 94 112 M106 112 Q113 105 120 112"/>
+ <path class="line" d="M74 108 l-5 -3 M74 113 l-6 0 M126 108 l5 -3 M126 113 l6 0"/>
+ <path class="line" d="M101 115 Q95 128 103 130"/>
+ <path class="fill" fill="#fff" d="M85 136 Q100 150 115 136 Q100 141 85 136Z"/>
+ <path class="line" d="M84 135 Q100 151 116 135"/>
+ <path class="line" d="M84 150 Q90 153 96 150"/>
+ <path class="fill" fill="${c.acc}" d="M150 232 L178 104 L186 106 L158 232Z"/>
+ <path class="fill" fill="#e8c67a" d="M168 104 Q182 70 196 104 Q186 112 178 106 Q172 110 168 104Z"/>`}
+
+function lim(c){return `
+ <path class="fill" fill="${c.c1}" d="M20 232 Q26 160 100 152 Q174 160 180 232Z"/>
+ <path class="fill" fill="${c.c2}" d="M78 156 L100 182 L122 156 Q100 166 78 156Z"/>
+ <ellipse class="fill" fill="${c.skin}" cx="55" cy="108" rx="9" ry="13"/><ellipse class="fill" fill="${c.skin}" cx="145" cy="108" rx="9" ry="13"/>
+ <ellipse class="fill" fill="${c.skin}" cx="100" cy="102" rx="45" ry="50"/>
+ <path class="shine" d="M84 64 Q94 58 106 60"/>
+ <path class="fill" fill="${c.hair}" d="M57 104 Q52 76 66 66 Q64 86 70 100Z M143 104 Q148 76 134 66 Q136 86 130 100Z"/>
+ <path class="fill" fill="${c.hair}" d="M70 86 Q82 76 94 84 Q82 82 70 90Z M130 86 Q118 76 106 84 Q118 82 130 90Z"/>
+ <circle class="line" cx="83" cy="102" r="13"/><circle class="line" cx="117" cy="102" r="13"/><path class="line" d="M96 101 Q100 98 104 101"/>
+ <circle class="dark" cx="84" cy="103" r="3.4"/><circle class="dark" cx="116" cy="103" r="3.4"/>
+ <path class="fill" fill="${c.skin}" d="M100 106 Q88 124 98 128 Q104 130 108 126 Q110 118 100 106Z"/>
+ <circle class="blush" cx="72" cy="124" r="8"/><circle class="blush" cx="128" cy="124" r="8"/>
+ <path class="line" d="M82 136 Q100 150 118 136"/>
+ <path class="line" d="M84 152 Q100 160 116 152"/>
+ <path class="fill" fill="${c.acc}" d="M136 186 L168 182 L172 222 L140 226Z"/>
+ <circle cx="155" cy="203" r="7" fill="#f2cf63" stroke="none"/>`}
+
+function aina(c){return `
+ <path class="fill" fill="${c.c1}" d="M28 232 Q34 172 100 164 Q166 172 172 232Z"/>
+ <path class="fill" fill="${c.c2}" d="M52 122 Q48 58 100 44 Q152 58 148 122 Q150 162 100 178 Q50 162 52 122Z"/>
+ <ellipse class="fill" fill="${c.skin}" cx="100" cy="114" rx="34" ry="39"/>
+ <path class="line" d="M68 92 Q100 70 132 92"/>
+ <path class="line" d="M80 100 Q87 95 94 99 M106 99 Q113 95 120 100"/>
+ <ellipse class="dark" cx="87" cy="110" rx="4.2" ry="5.2"/><ellipse class="dark" cx="113" cy="110" rx="4.2" ry="5.2"/>
+ <circle cx="88.5" cy="108" r="1.5" fill="#fff"/><circle cx="114.5" cy="108" r="1.5" fill="#fff"/>
+ <circle class="blush" cx="78" cy="126" r="7"/><circle class="blush" cx="122" cy="126" r="7"/>
+ <path class="line" d="M100 114 Q96 122 101 124"/>
+ <path class="fill" fill="#8a2a2a" d="M88 133 Q100 148 112 133Z"/>
+ <path class="line" d="M78 170 L100 206 L122 170"/>
+ <rect class="fill" fill="#fff" x="90" y="204" width="20" height="24" rx="3"/>
+ <rect class="fill" fill="#2a2a2a" x="140" y="168" width="24" height="40" rx="5"/>
+ <path class="fill" fill="#4fb36b" d="M150 140 h34 a8 8 0 0 1 8 8 v12 a8 8 0 0 1 -8 8 h-20 l-8 7 v-7 h-6 a8 8 0 0 1 -8 -8 v-12 a8 8 0 0 1 8 -8Z"/>
+ <circle cx="158" cy="154" r="2.6" fill="#fff"/><circle cx="167" cy="154" r="2.6" fill="#fff"/><circle cx="176" cy="154" r="2.6" fill="#fff"/>`}
+
+
+const CHARS=[{f:ros,n:'Kak Ros',r:'Cleaner'},{f:lim,n:'Uncle Lim',r:'Investor'},{f:aina,n:'Aina',r:'Admin executive'}];
+const tileDefs=`<pattern id="tile" width="44" height="44" patternUnits="userSpaceOnUse"><rect width="44" height="44" fill="#1f7a6b"/><circle cx="22" cy="22" r="13" fill="#f4e7cc"/><path d="M22 11 Q27 22 22 33 Q17 22 22 11Z M11 22 Q22 17 33 22 Q22 27 11 22Z" fill="#c8382f"/><circle cx="22" cy="22" r="3.2" fill="#e0a530"/></pattern>`;
+const S=[
+ {id:'cartoon',name:'1. Newspaper cartoon',best:'Workshops, humour',feel:'Warm, funny, local paper',pick:'Your pick',
+  pal:[{skin:'#d9a07a',c1:'#9cc9a2',c2:'#e9a7bf',acc:'#a0703f'},{skin:'#f0caa3',c1:'#7ea6d8',c2:'#5b86bd',hair:'#a9a39b',acc:'#d8423a'},{skin:'#e3b089',c1:'#f2c46b',c2:'#3f4f86',acc:'#d8423a'}],
+  css:`.fill{stroke:#2a211b;stroke-width:2.6;stroke-linejoin:round}.line{fill:none;stroke:#2a211b;stroke-width:2.6;stroke-linecap:round}.blush{fill:#e98a7a;opacity:.45}.shine{fill:none;stroke:#fff;stroke-width:3}.dark{fill:#2a211b}`,
+  defs:`<filter id="r_cartoon"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="3"/><feDisplacementMap in="SourceGraphic" scale="3.2"/></filter>`,
+  bg:c=>`<rect width="200" height="232" fill="#fbf4e6"/><circle cx="100" cy="112" r="86" fill="${c.c2}" opacity=".18"/>`, g:'filter="url(#r_cartoon)"', font:"'Kalam',cursive"},
+ {id:'retro',name:'2. Kopitiam & Peranakan retro',best:'Steam, marketing',feel:'Stylish, nostalgic',pick:'Your pick',
+  pal:[{skin:'#d69a6e',c1:'#1f7a6b',c2:'#e7a1a8',acc:'#8a5a2b'},{skin:'#efc49b',c1:'#c8382f',c2:'#8f241d',hair:'#b9b2a7',acc:'#e0a530'},{skin:'#dfa67c',c1:'#e0a530',c2:'#1d2b3a',acc:'#c8382f'}],
+  css:`.fill{stroke:#1d2b3a;stroke-width:1.6;stroke-linejoin:round}.line{fill:none;stroke:#1d2b3a;stroke-width:2.2;stroke-linecap:round}.blush{fill:#d9573f;opacity:.35}.shine{fill:none;stroke:#fff8e6;stroke-width:3}.dark{fill:#1d2b3a}`,
+  defs:tileDefs, bg:c=>`<rect width="200" height="232" fill="url(#tile)"/><rect x="14" y="14" width="172" height="232" rx="86" fill="#f4e7cc" stroke="#e0a530" stroke-width="4"/>`, g:'', font:"'Abril Fatface',serif"},
+ {id:'batik',name:'3. Batik frame',best:'Corporate clients, HR decks',feel:'Clean, elegant, unmistakably Malaysian',
+  pal:[{skin:'#cf9a74',c1:'#7fb3a6',c2:'#d98fa0',acc:'#9b6b43'},{skin:'#eec29c',c1:'#4f7fb8',c2:'#2f5d92',hair:'#b5ada2',acc:'#c9483c'},{skin:'#d9a37c',c1:'#e2b25b',c2:'#4a3f7a',acc:'#c9483c'}],
+  css:`.fill{stroke:none}.line{fill:none;stroke:#5a3b2a;stroke-width:2;stroke-linecap:round}.blush{fill:#e07f6a;opacity:.35}.shine{fill:none;stroke:#fff;stroke-width:3}.dark{fill:#3b2a20}`,
+  defs:`<pattern id="batik" width="40" height="40" patternUnits="userSpaceOnUse"><rect width="40" height="40" fill="#7a2f3b"/><g fill="#e9c27a"><circle cx="20" cy="20" r="3"/><ellipse cx="20" cy="12" rx="3.2" ry="6"/><ellipse cx="20" cy="28" rx="3.2" ry="6"/><ellipse cx="12" cy="20" rx="6" ry="3.2"/><ellipse cx="28" cy="20" rx="6" ry="3.2"/></g><g fill="#f3e6cf" opacity=".7"><circle cx="0" cy="0" r="2.5"/><circle cx="40" cy="0" r="2.5"/><circle cx="0" cy="40" r="2.5"/><circle cx="40" cy="40" r="2.5"/></g></pattern>`,
+  bg:c=>`<rect width="200" height="232" fill="url(#batik)"/><rect x="12" y="12" width="176" height="232" rx="10" fill="#f6eedd"/><rect x="18" y="18" width="164" height="232" rx="6" fill="none" stroke="#c9a15a" stroke-width="1.5"/>`, g:'', font:"'Cormorant Garamond',serif"},
+ {id:'pop',name:'4. Comic pop-art',best:'Social media, young audience',feel:'Loud, punchy, comic-magazine energy',
+  pal:[{skin:'#f2b38a',c1:'#22b5a5',c2:'#ff5fa2',acc:'#8d5524'},{skin:'#ffd2a6',c1:'#2a7fff',c2:'#ffd400',hair:'#cfcfcf',acc:'#ff2d2d'},{skin:'#f0b98e',c1:'#ffd400',c2:'#3a2fd6',acc:'#ff2d2d'}],
+  css:`.fill{stroke:#000;stroke-width:4.5;stroke-linejoin:round}.line{fill:none;stroke:#000;stroke-width:4;stroke-linecap:round}.blush{fill:url(#dots);opacity:.9}.shine{fill:none;stroke:#fff;stroke-width:4}.dark{fill:#000}`,
+  defs:`<pattern id="dots" width="6" height="6" patternUnits="userSpaceOnUse"><circle cx="3" cy="3" r="1.6" fill="#ff2d6f"/></pattern><pattern id="half" width="10" height="10" patternUnits="userSpaceOnUse"><rect width="10" height="10" fill="#ffe14d"/><circle cx="5" cy="5" r="2.6" fill="#ffb300"/></pattern>`,
+  bg:c=>`<rect width="200" height="232" fill="url(#half)"/><path d="M100 18 L118 52 L156 40 L142 76 L184 92 L146 110 L170 146 L128 140 L118 182 L100 150 L82 182 L72 140 L30 146 L54 110 L16 92 L58 76 L44 40 L82 52Z" fill="#fff" stroke="#000" stroke-width="3"/>`, g:'', font:"'Bangers',cursive"},
+ {id:'wayang',name:'5. Wayang kulit shadow',best:'Title screens, festive events',feel:'Artistic, dramatic, heritage',
+  pal:[{skin:'#1a120c',c1:'#1a120c',c2:'#1a120c',acc:'#1a120c'},{skin:'#1a120c',c1:'#1a120c',c2:'#1a120c',hair:'#1a120c',acc:'#1a120c'},{skin:'#1a120c',c1:'#1a120c',c2:'#1a120c',acc:'#1a120c'}],
+  css:`.fill{stroke:#d9a441;stroke-width:1.2}.line{fill:none;stroke:#d9a441;stroke-width:1.8;stroke-linecap:round}.blush{fill:none}.shine{fill:none;stroke:#d9a441;stroke-width:1.5}.dark{fill:#d9a441}`,
+  defs:`<radialGradient id="lamp" cx="50%" cy="45%" r="65%"><stop offset="0%" stop-color="#ffd27a"/><stop offset="100%" stop-color="#8a3b12"/></radialGradient>`,
+  bg:c=>`<rect width="200" height="232" fill="url(#lamp)"/>`, g:'', dark:true, font:"'Cormorant Garamond',serif"},
+ {id:'pixel',name:'6. Pixel art',best:'Steam indie market, retro gamers',feel:'Nostalgic, game-y, cheap to animate',
+  pal:[{skin:'#d69a6e',c1:'#3fa37a',c2:'#f08fb0',acc:'#8a5a2b'},{skin:'#f1c49b',c1:'#4b7bd8',c2:'#2d4f9a',hair:'#c8c1b6',acc:'#e04a3a'},{skin:'#dfa67c',c1:'#f0b43c',c2:'#2a2f6a',acc:'#e04a3a'}],
+  css:`.fill{stroke:#1b1b2a;stroke-width:3.4}.line{fill:none;stroke:#1b1b2a;stroke-width:4}.blush{fill:#e86a5a;opacity:.6}.shine{fill:none;stroke:#fff;stroke-width:4}.dark{fill:#1b1b2a}`,
+  defs:'', bg:c=>`<rect width="200" height="232" fill="#8fd3e8"/><rect y="170" width="200" height="62" fill="#5aa35a"/>`, g:'', pixel:52, font:"'Press Start 2P',monospace"},
+ {id:'lino',name:'7. Linocut print',best:'Premium print, posters, merchandise',feel:'Crafty, bold, handmade',
+  pal:[{skin:'#f3e9d6',c1:'#c8382f',c2:'#f3e9d6',acc:'#1b1712'},{skin:'#f3e9d6',c1:'#c8382f',c2:'#f3e9d6',hair:'#1b1712',acc:'#c8382f'},{skin:'#f3e9d6',c1:'#c8382f',c2:'#1b1712',acc:'#1b1712'}],
+  css:`.fill{stroke:#1b1712;stroke-width:4.5;stroke-linejoin:round}.line{fill:none;stroke:#1b1712;stroke-width:4.2;stroke-linecap:round}.blush{fill:none}.shine{fill:none;stroke:#1b1712;stroke-width:2}.dark{fill:#1b1712}`,
+  defs:`<filter id="r_lino"><feTurbulence type="turbulence" baseFrequency="0.06" numOctaves="2" seed="9"/><feDisplacementMap in="SourceGraphic" scale="5"/></filter><pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><rect width="8" height="8" fill="#f3e9d6"/><rect width="2.2" height="8" fill="#1b1712" opacity=".85"/></pattern>`,
+  bg:c=>`<rect width="200" height="232" fill="url(#hatch)"/><circle cx="100" cy="112" r="80" fill="#f3e9d6"/>`, g:'filter="url(#r_lino)"', font:"'Abril Fatface',serif"},
+];
+const out=document.getElementById('out');
+S.forEach(st=>{
+  const sec=document.createElement('div');sec.className='sec';
+  sec.innerHTML=`<h2>${st.name} ${st.pick?`<span class="pick">${st.pick}</span>`:''}</h2><div class="meta"><span><b>Feels:</b> ${st.feel}</span><span><b>Best for:</b> ${st.best}</span></div><div class="row"></div>`;
+  const row=sec.querySelector('.row');
+  CHARS.forEach((ch,i)=>{
+    const c=Object.assign({hair:'#555'},st.pal[i]);
+    const css=st.css.replace(/(^|\})\./g,'$1.'+st.id+' .')+(st.dark?`.${st.id} path:not(.line):not(.shine),.${st.id} circle:not(.line),.${st.id} rect,.${st.id} ellipse{fill:#1a120c}`:'');
+    const svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 232"><defs>${st.defs}<style>${css}</style></defs>${st.bg(c)}<g class="${st.id}" ${st.g}>${ch.f(c)}</g></svg>`;
+    const card=document.createElement('div');card.className='card';
+    if(st.dark)card.style.background='#2a1a10',card.style.color='#ffd27a';
+    const nm=`<div class="nm" style="font-family:${st.font};${st.pixel?'font-size:12px;line-height:1.6':''}">${ch.n}<small style="font-family:'Bricolage Grotesque'">${ch.r}</small></div>`;
+    if(st.pixel){
+      const cv=document.createElement('canvas');cv.width=200*2;cv.height=232*2;const img=new Image();
+      img.onload=()=>{const sm=document.createElement('canvas'),w=st.pixel,h=Math.round(w*232/200);sm.width=w;sm.height=h;
+        const x=sm.getContext('2d');x.drawImage(img,0,0,w,h);const ctx=cv.getContext('2d');ctx.imageSmoothingEnabled=false;ctx.drawImage(sm,0,0,cv.width,cv.height)};
+      img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
+      cv.style.imageRendering='pixelated';card.appendChild(cv);card.insertAdjacentHTML('beforeend',nm);
+    } else card.innerHTML=svg+nm;
+    row.appendChild(card);
+  });
+  out.appendChild(sec);
+});
+</script>
+</body>
+</html>

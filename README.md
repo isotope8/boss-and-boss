@@ -34,11 +34,19 @@ Result codes are the result as JSON in base64. Paste one into any base64 decoder
 | `fonts/` | Fonts, bundled so nothing loads from the internet |
 | `art/` | Character pictures, one file per character, named by id (see `art/README.md`) |
 | `art-styles/` | Other art styles you can copy into `art/` |
+| `docs/` | Design document, modder notes, developer guide |
+| `tools/`, `tests/` | Art list builder, automatic play-test |
 
 ## Add an expansion pack
 1. Copy `packs/_template.js` to `packs/your-pack.js` and fill it in.
 2. Add `<script src="packs/your-pack.js"></script>` next to the other packs in `index.html`.
 3. Add `'packs/your-pack.js',` to the list in `sw.js` and change `VERSION` so installed copies update.
+
+## Documentation
+- `docs/GDD.md`: game design document
+- `docs/MODDING.md`: make packs, art and translations
+- `docs/DEVELOPER.md`: how the code works, testing, releases
+- `docs/art-styles.html`: art style exploration (open in a browser)
 
 ## Change the art
 Drop `art/<id>.svg` or `art/<id>.png` into the `art/` folder. The file name is the only link: no code changes. `art/README.md` lists every character id. A character with no file shows its emoji.
