@@ -28,7 +28,7 @@ Portrait shape: **200 × 232** (width × height), the face in the upper half. Sq
 | `nephew` | Kevin | Your cousin, "Manager" | Base game |  |
 | `jess` | Jess | Junior designer | Base game |  |
 | `staff` | The team | All 12 of them | Base game |  |
-| `sys` | You | Boss, and HR | Base game |  |
+| `sys` | You | Boss, and HR | Base game | yes |
 | `bk_jason` | Datuk Jason | VP of Synergy | Bank HQ, KL Sentral |  |
 | `bk_zarina` | Puan Zarina | Head of Compliance | Bank HQ, KL Sentral |  |
 | `bk_huimin` | Hui Min | Graduate trainee | Bank HQ, KL Sentral |  |

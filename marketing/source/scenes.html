@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:B;font-weight:400;src:url(fonts/bricolage-grotesque-latin-400-normal.woff2)}
+@font-face{font-family:B;font-weight:800;src:url(fonts/bricolage-grotesque-latin-800-normal.woff2)}
+@font-face{font-family:K;font-weight:700;src:url(fonts/kalam-latin-700-normal.woff2)}
+@font-face{font-family:T;font-weight:600;src:url(fonts/noto-sans-tamil-tamil-600-normal.woff2)}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#0f3d3e}
+body{font-family:B,'Noto Sans CJK SC',T,sans-serif;color:#fbf4e6}
+#stage{position:absolute;inset:0;background:#0f3d3e;background-image:radial-gradient(circle at 2px 2px,rgba(255,255,255,.07) 2px,transparent 0);background-size:54px 54px;overflow:hidden}
+.scene{position:absolute;inset:0;display:none}
+.a{position:absolute}
+.big{font-weight:800;font-size:96px;line-height:1.02;letter-spacing:-.02em}
+.mid{font-weight:800;font-size:76px;line-height:1.08}
+.amb{color:#e8a33d}
+.card{background:#fbf4e6;color:#1d1a16;border-radius:44px;box-shadow:0 30px 70px rgba(0,0,0,.4);overflow:hidden}
+.q{font-family:K;font-weight:700;color:#1d1a16}
+.art{display:block}
+.gauge{width:150px;height:190px;border-radius:34px;background:rgba(255,255,255,.1);border:4px solid rgba(255,255,255,.25);position:relative;overflow:hidden}
+.gauge .f{position:absolute;left:0;right:0;bottom:0;background:#e8a33d}
+.gauge span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:80px}
+.ml{font-size:32px;letter-spacing:.08em;text-align:center;margin-top:12px;opacity:.85}
+.stamp{font-weight:800;font-size:70px;border:10px solid;border-radius:28px;padding:24px 30px;white-space:nowrap;text-align:center;line-height:1}
+.tile{width:290px;height:250px;border-radius:34px;background:rgba(255,255,255,.08);border:4px solid rgba(255,255,255,.18);padding:26px;font-size:40px;font-weight:800;line-height:1.1}
+.tile i{font-style:normal;display:block;font-size:84px;margin-bottom:12px}
+.toast{background:#e8a33d;color:#1d1a16;font-weight:800;font-size:46px;padding:26px 40px;border-radius:26px}
+.btn{background:#e8a33d;color:#1d1a16;font-weight:800;font-size:60px;border-radius:40px;padding:34px 70px;text-align:center}
+</style></head>
+<body><div id="stage">
+
+<!-- S1 hook -->
+<div class="scene" id="s1">
+ <div class="a big" id="s1a" style="left:90px;top:300px;width:920px">Your HR manager<br>just quit.</div>
+ <div class="a big" id="s1b" style="left:90px;top:560px;width:920px">So now you're<br>the boss<br><span class="amb">AND the HR.</span></div>
+ <img class="a art" id="s1c" src="sys.svg" style="left:240px;top:1080px;width:600px;border-radius:48px">
+</div>
+
+<!-- S2 problems -->
+<div class="scene" id="s2">
+ <div class="a mid" id="s2h" style="left:80px;top:150px;width:920px">Every week, someone walks in with a problem…</div>
+ <div class="a card" id="s2c1" style="left:80px;top:480px;width:920px;height:400px;display:flex;align-items:center"><img class="art" src="uncle.svg" style="width:300px"><div class="q" style="font-size:54px;padding:0 40px 0 10px">"Make my son a manager lah. He's family."</div></div>
+ <div class="a card" id="s2c2" style="left:80px;top:920px;width:920px;height:400px;display:flex;align-items:center"><img class="art" src="aina.svg" style="width:300px"><div class="q" style="font-size:54px;padding:0 40px 0 10px">"Boss, I'm pregnant! 🎉 Can we plan my leave?"</div></div>
+ <div class="a card" id="s2c3" style="left:80px;top:1360px;width:920px;height:400px;display:flex;align-items:center"><img class="art" src="ros.svg" style="width:300px"><div class="q" style="font-size:54px;padding:0 40px 0 10px">"Minimum wage is RM1,700 now, boss…"</div></div>
+</div>
+
+<!-- S3 gameplay -->
+<div class="scene" id="s3">
+ <div class="a" style="left:0;right:0;top:110px;display:flex;justify-content:center;gap:56px" id="s3m">
+  <div><div class="gauge"><div class="f" id="g0"></div><span>💰</span></div><div class="ml">CASH</div></div>
+  <div><div class="gauge"><div class="f" id="g1"></div><span>🙂</span></div><div class="ml">MORALE</div></div>
+  <div><div class="gauge"><div class="f" id="g2"></div><span>⚖️</span></div><div class="ml">LAW</div></div>
+  <div><div class="gauge"><div class="f" id="g3"></div><span>📣</span></div><div class="ml">IMAGE</div></div>
+ </div>
+ <div class="a card" id="s3k1" style="left:120px;top:440px;width:840px;height:1080px">
+  <div style="font-weight:800;font-size:58px;line-height:1.25;padding:60px 60px 0">School holidays, no one to watch my grandson. Can I bring him to work this week?</div>
+  <img class="art" src="ros.svg" style="width:440px;margin:40px auto 0">
+  <div style="font-weight:800;font-size:56px;padding:0 60px">Kak Ros</div>
+  <div class="a" id="s3l1" style="right:40px;top:40px;background:#1d1a16;color:#fbf4e6;font-size:44px;font-weight:800;padding:20px 30px;border-radius:24px">Yes, just this week</div>
+ </div>
+ <div class="a card" id="s3k2" style="left:120px;top:440px;width:840px;height:1080px">
+  <div style="font-weight:800;font-size:58px;line-height:1.25;padding:60px 60px 0">You spend too much on staff. When do I see my returns?</div>
+  <img class="art" src="uncle.svg" style="width:440px;margin:40px auto 0">
+  <div style="font-weight:800;font-size:56px;padding:0 60px">Uncle Lim</div>
+  <div class="a" id="s3l2" style="left:40px;top:40px;background:#1d1a16;color:#fbf4e6;font-size:44px;font-weight:800;padding:20px 30px;border-radius:24px">Pay him a dividend</div>
+ </div>
+ <div class="a card" id="s3k3" style="left:120px;top:440px;width:840px;height:1080px">
+  <div style="font-weight:800;font-size:58px;line-height:1.25;padding:60px 60px 0">Boss, the aircond broke. It's 34°C in here. We're melting.</div>
+  <img class="art" src="aina.svg" style="width:440px;margin:40px auto 0">
+  <div style="font-weight:800;font-size:56px;padding:0 60px">Aina</div>
+ </div>
+ <div class="a" id="s3hand" style="font-size:150px">👆</div>
+ <div class="a toast" id="s3t" style="left:140px;top:1620px">⚠️ Cash is running dangerously low</div>
+ <div class="a mid" id="s3cap" style="left:80px;top:1600px;width:920px;font-size:62px;text-align:center">Swipe left or right.<br><span class="amb">Every choice moves 4 bars.</span></div>
+</div>
+
+<!-- S4 endings -->
+<div class="scene" id="s4">
+ <div class="a mid" id="s4h" style="left:80px;top:180px;width:920px;text-align:center">Too low? <span class="amb">Game over.</span><br>Too high? <span class="amb">ALSO game over.</span></div>
+ <div class="a stamp" id="e0" style="left:110px;top:620px;width:860px;color:#ff7a5c;border-color:#ff7a5c">🏚️ BANKRUPT</div>
+ <div class="a stamp" id="e1" style="left:110px;top:820px;width:860px;color:#e8a33d;border-color:#e8a33d">🗳️ STAFF TAKEOVER</div>
+ <div class="a stamp" id="e2" style="left:110px;top:1020px;width:860px;color:#9fd4ff;border-color:#9fd4ff">🚫 SHUT DOWN</div>
+ <div class="a stamp" id="e3" style="left:110px;top:1220px;width:860px;color:#f6b3d1;border-color:#f6b3d1">🎤 LINKEDIN GURU</div>
+ <div class="a mid" id="s4f" style="left:80px;top:1560px;width:920px;text-align:center">Keep all four in balance<br><span class="amb">for 3 years.</span></div>
+</div>
+
+<!-- S5 industries -->
+<div class="scene" id="s5">
+ <div class="a mid" id="s5h" style="left:80px;top:140px;width:920px;text-align:center">10 Malaysian industries</div>
+ <div class="a" id="s5g" style="left:75px;top:330px;width:930px;display:flex;flex-wrap:wrap;gap:30px"></div>
+ <div class="a mid" id="s5l" style="left:40px;top:1720px;width:1000px;text-align:center;font-size:64px">EN · BM · 华文 · தமிழ்</div>
+</div>
+
+<!-- S6 end card -->
+<div class="scene" id="s6">
+ <div class="a" id="s6t" style="left:0;right:0;top:300px;text-align:center"><div style="font-weight:800;font-size:200px;line-height:.92">Boss<br><span class="amb">&amp;</span> Boss</div></div>
+ <div class="a" id="s6s" style="left:90px;top:780px;width:900px;text-align:center;font-size:58px;line-height:1.3">Run the company. Be the HR.<br>Try not to get shut down.</div>
+ <div class="a" id="s6c" style="left:0;right:0;top:1080px;display:flex;justify-content:center;gap:18px">
+  <img class="art" src="ros.svg" style="width:240px;border-radius:30px"><img class="art" src="sys.svg" style="width:240px;border-radius:30px"><img class="art" src="uncle.svg" style="width:240px;border-radius:30px"><img class="art" src="aina.svg" style="width:240px;border-radius:30px">
+ </div>
+ <div class="a" id="s6b" style="left:0;right:0;top:1460px;display:flex;justify-content:center"><div class="btn">Play free</div></div>
+ <div class="a" id="s6f" style="left:60px;top:1680px;width:960px;text-align:center;font-size:42px;opacity:.85">Phone · PC · Mac · Works offline<br>Workshop mode for trainers</div>
+</div>
+
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const clamp=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
+const eo=x=>1-Math.pow(1-clamp(x),3);
+const back=x=>{x=clamp(x);const c=1.7;return 1+(c+1)*Math.pow(x-1,3)+c*Math.pow(x-1,2)};
+function pop(el,t,t0,d=.45){const p=clamp((t-t0)/d);el.style.opacity=p>0?Math.min(1,p*3):0;el.style.transform=`scale(${.6+.4*back(p)})`}
+function rise(el,t,t0,d=.5,dist=80){const p=eo((t-t0)/d);el.style.opacity=p;el.style.transform=`translateY(${(1-p)*dist}px)`}
+function slideX(el,t,t0,d=.5,dist=1100){const p=eo((t-t0)/d);el.style.opacity=clamp((t-t0)/d*2);el.style.transform=`translateX(${(1-p)*dist}px)`}
+function fadeOut(el,t,t0,d=.3){if(t>t0)el.style.opacity=Math.min(+el.style.opacity||1,1-clamp((t-t0)/d))}
+const lerp=(a,b,p)=>a+(b-a)*p;
+
+const PACKS=[['🔌','E&E Penang'],['🌴','Oil palm Sabah'],['🛢️','Oil & Gas'],['🍛','Mamak chain'],['🏝️','Resort Langkawi'],['🏗️','Construction'],['🚛','Port Klang'],['🏦','Bank HQ'],['🏥','Hospital JB'],['💻','Tech startup']];
+$('s5g').innerHTML=PACKS.map(p=>`<div class="tile"><i>${p[0]}</i>${p[1]}</div>`).join('');
+
+const SC={
+ s1:{dur:3.6,r(t){rise($('s1a'),t,.15);rise($('s1b'),t,1.2);
+   const p=eo((t-2.1)/.6);$('s1c').style.transform=`translateY(${(1-p)*700}px) rotate(${(1-p)*-8}deg)`;
+   ['s1a','s1b','s1c'].forEach(i=>fadeOut($(i),t,3.3))}},
+ s2:{dur:5,r(t){rise($('s2h'),t,.1);slideX($('s2c1'),t,.6);slideX($('s2c2'),t,1.4,.5,-1100);slideX($('s2c3'),t,2.2);
+   ['s2h','s2c1','s2c2','s2c3'].forEach(i=>fadeOut($(i),t,4.7))}},
+ s3:{dur:8,r(t){
+   // meters: [cash, morale, law, image]
+   const k=[[50,50,50,50],[50,62,44,55],[24,58,44,55]];
+   const a=clamp((t-2.0)/.5),b=clamp((t-5.0)/.5);
+   const v=k[0].map((x,i)=>lerp(lerp(x,k[1][i],a),k[2][i],b));
+   v.forEach((x,i)=>{const g=$('g'+i);g.style.height=x+'%';g.style.background=x<=25?'#d6533c':'#e8a33d'});
+   rise($('s3m'),t,0,.4,-60);
+   // card 1: enter, drag right, fly
+   const c1=$('s3k1'),h=$('s3hand');
+   const enter=eo(t/.5),drag=eo(clamp((t-0.9)/1.0)),fly=eo(clamp((t-1.9)/.4));
+   const x1=drag*230+fly*900,r1=(drag*230+fly*900)/18;
+   c1.style.opacity=t<2.3?enter:0;c1.style.transform=`translateY(${(1-enter)*80}px) translateX(${x1}px) rotate(${r1}deg)`;
+   $('s3l1').style.opacity=drag>.3?1:0;
+   // card 2
+   const c2=$('s3k2'),e2=eo((t-2.4)/.5),d2=eo(clamp((t-3.6)/1.0)),f2=eo(clamp((t-4.6)/.4));
+   const x2=-(d2*230+f2*900);c2.style.opacity=t>2.4&&t<5.0?e2:0;c2.style.transform=`translateY(${(1-e2)*80}px) translateX(${x2}px) rotate(${x2/18}deg)`;
+   $('s3l2').style.opacity=d2>.3?1:0;
+   const e3=eo((t-5.0)/.5);$('s3k3').style.opacity=t>5.0?e3:0;$('s3k3').style.transform=`translateY(${(1-e3)*80}px)`;fadeOut($('s3k3'),t,7.7);
+   // hand follows the drags
+   let hx=600,hy=1100,ho=0;
+   if(t>0.7&&t<2.0){ho=1;hx=600+drag*230;}
+   if(t>3.4&&t<4.7){ho=1;hx=500-d2*230;}
+   h.style.opacity=ho;h.style.left=hx+'px';h.style.top=hy+'px';
+   // warning toast then caption
+   const tw=clamp((t-5.2)/.3)*(1-clamp((t-6.4)/.3));$('s3t').style.opacity=tw;$('s3t').style.transform=`translateY(${(1-clamp((t-5.2)/.3))*40}px)`;
+   rise($('s3cap'),t,6.3,.5);
+   ['s3m','s3cap'].forEach(i=>fadeOut($(i),t,7.7))}},
+ s4:{dur:4.6,r(t){rise($('s4h'),t,.1);['e0','e1','e2','e3'].forEach((id,i)=>{const p=clamp((t-.8-i*.45)/.25);const el=$(id);
+     el.style.opacity=p>0?1:0;el.style.transform=`scale(${lerp(1.8,1,eo(p))}) rotate(${[-4,3,-2,4][i]}deg)`});
+   rise($('s4f'),t,2.9);['s4h','e0','e1','e2','e3','s4f'].forEach(i=>fadeOut($(i),t,4.3))}},
+ s5:{dur:4.4,r(t){rise($('s5h'),t,.05);[...$('s5g').children].forEach((el,i)=>pop(el,t,.4+i*.12,.35));rise($('s5l'),t,2.0);
+   ['s5h','s5g','s5l'].forEach(i=>fadeOut($(i),t,4.1))}},
+ s6:{dur:4.4,r(t){pop($('s6t'),t,.05,.6);rise($('s6s'),t,.6);[...$('s6c').children].forEach((el,i)=>rise(el,t,1.0+i*.12,.45,120));
+   pop($('s6b'),t,1.8,.45);rise($('s6f'),t,2.2)}},
+};
+let cur=null;
+window.show=id=>{document.querySelectorAll('.scene').forEach(s=>s.style.display='none');$(id).style.display='block';cur=SC[id]};
+window.render=t=>cur.r(t);
+window.DUR=Object.fromEntries(Object.entries(SC).map(([k,v])=>[k,v.dur]));
+</script></body></html>

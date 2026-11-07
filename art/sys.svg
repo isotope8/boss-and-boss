@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 232"><defs><filter id="rough"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="3"/><feDisplacementMap in="SourceGraphic" scale="3.2"/></filter>
+<filter id="paper"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" seed="7"/><feColorMatrix values="0 0 0 0 0.45 0 0 0 0 0.36 0 0 0 0 0.25 0 0 0 0.10 0"/></filter><style>.fill{stroke:#2a211b;stroke-width:2.6;stroke-linejoin:round;stroke-linecap:round}.line{fill:none;stroke:#2a211b;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}.blush{fill:#e98a7a;opacity:.45;stroke:none}.shine{fill:none;stroke:#fff;stroke-width:3;opacity:.8}.dark{fill:#2a211b}</style></defs><rect width="200" height="232" fill="#fbf4e6"/><circle cx="100" cy="112" r="86" fill="#7ea6d8" opacity=".18"/><rect width="200" height="232" filter="url(#paper)"/>
+<g filter="url(#rough)" opacity=".95">
+ <path class="fill" fill="#f5f1e8" d="M24 232 Q30 166 100 158 Q170 166 176 232Z"/>
+ <path class="fill" fill="#c8382f" d="M94 162 L106 162 L111 206 L100 220 L89 206Z"/>
+ <path class="line" d="M78 160 L94 176 M122 160 L106 176"/>
+ <ellipse class="fill" fill="#e8b48b" cx="58" cy="108" rx="8" ry="12"/><ellipse class="fill" fill="#e8b48b" cx="142" cy="108" rx="8" ry="12"/>
+ <path class="fill" fill="#e8b48b" d="M60 96 Q60 48 100 46 Q140 48 140 96 L140 120 Q136 152 100 156 Q64 152 60 120Z"/>
+ <path class="fill" fill="#2a211b" d="M58 98 Q52 40 100 38 Q150 38 142 96 Q132 70 112 64 Q96 74 70 72 Q62 80 58 98Z"/>
+ <path class="line" d="M78 94 Q86 89 94 93 M106 93 Q114 89 122 94"/>
+ <circle class="dark" cx="86" cy="104" r="4"/><circle class="dark" cx="114" cy="104" r="4"/>
+ <path class="line" d="M74 98 Q70 96 66 98 M126 98 Q130 96 134 98"/>
+ <path class="line" d="M100 106 Q94 120 102 122"/>
+ <circle class="blush" cx="76" cy="122" r="7"/><circle class="blush" cx="124" cy="122" r="7"/>
+ <path class="line" d="M86 133 Q100 141 114 131"/>
+ <path class="fill" fill="#fbf4e6" d="M138 182 h26 v30 a8 8 0 0 1 -8 8 h-10 a8 8 0 0 1 -8 -8Z"/>
+ <path class="line" d="M164 188 q10 2 8 12 q-2 8 -8 8"/>
+ <path class="line" d="M146 174 q-4 -8 2 -14 M156 174 q-4 -8 2 -14"/>
+</g></svg>
