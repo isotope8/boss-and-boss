@@ -1,0 +1,32 @@
+// Expansion pack: Island resort, Langkawi
+registerPack({
+ id:'resort',icon:'🏝️',name:'Island Resort, Langkawi',tagline:'Five stars, monsoon season and very particular guests',
+ i18n:{ms:{name:'Resort Pulau, Langkawi',tagline:'Lima bintang, musim tengkujuh dan tetamu yang sangat cerewet',note:'Kad dalam Bahasa Inggeris buat masa ini'},zh:{name:"海岛度假村，浮罗交怡",tagline:"五星级、季候风季节，还有很挑剔的客人",note:'卡片内容暂为英文'},ta:{name:"தீவு ரிசார்ட், லங்காவி",tagline:"ஐந்து நட்சத்திரம், பருவமழைக் காலம், மிகக் கவனமான விருந்தினர்கள்",note:'அட்டைகள் தற்போது ஆங்கிலத்தில்'}},
+ people:{
+  rs_jun:{n:'Jun',r:'Front desk',e:'🧑🏻‍💼',c:'#d5ecf0',bio:'Smiles through everything. Screams into a pillow at 11pm.'},
+  rs_puansri:{n:'Puan Sri Fazilah',r:'VIP guest',e:'💅',c:'#f6d6e6',bio:'Complains in four languages. Tips generously in one.'},
+  rs_marco:{n:'Chef Marco',r:'Executive chef',e:'👨‍🍳',c:'#f3e3c3',bio:'Says "mamma mia" at Malaysian chilli levels.'},
+  rs_karim:{n:'Mr. Karim',r:'General manager',e:'🧔🏽',c:'#dfe6d6',bio:'Measures everything in review stars.'},
+ },
+ introCard:{id:'rs_intro',p:'rs_jun',once:1,t:'Welcome to paradise, boss! 92% occupancy, monsoon in three weeks, and a VIP checking in at 2pm.',
+  L:{l:'Which VIP?',e:[0,0,0,0]},R:{l:'Coconut first, then briefing',e:[0,0,0,0]}},
+ cards:[
+  {id:'rs_monsoon',p:'rs_karim',t:'Monsoon season: occupancy drops to 30%. Let the seasonal staff go?',
+   L:{l:'Let them go',e:[15,-15,0,-5]},R:{l:'Cross-train them, sell monsoon packages',e:[-10,10,0,10]}},
+  {id:'rs_service',p:'rs_jun',once:1,t:'We collected RM400,000 in service charge this year. Staff are asking where it went.',
+   L:{l:'It covers operations',e:[10,-15,-20,-10],law:'Under the Employment Act, at least 80% of service charge collected must be paid out to employees, using a set formula.'},
+   R:{l:'Distribute it properly, show the formula',e:[-10,15,10,5]}},
+  {id:'rs_vip',p:'rs_puansri',t:'Your housekeeper looked at me funny. I want her fired. Now.',
+   L:{l:'Of course, Puan Sri',e:[5,-20,-10,0]},R:{l:'Investigate first, offer an upgrade',e:[-5,10,5,5]}},
+  {id:'rs_menu',p:'rs_marco',once:1,t:'Local staff want ikan bakar for staff meals. I say only pasta! It is MY kitchen!',
+   L:{l:'Chef\'s kitchen, chef\'s rules',e:[0,-10,0,0]},R:{l:'Staff choose the staff menu',e:[0,10,0,0]}},
+  {id:'rs_viral',p:'rs_karim',once:1,t:'A guest\'s video of our infinity pool went viral. 2 million views. Bookings exploding.',
+   L:{l:'Raise prices 50%',e:[20,-5,0,-10]},R:{l:'Hire extra staff for the rush',e:[-5,10,0,10]}},
+  {id:'rs_quarters',p:'rs_jun',t:'Staff quarters have no hot water and the aircond died. Guest rooms have two aircons each.',
+   L:{l:'Guests come first',e:[5,-15,-5,0]},R:{l:'Fix staff quarters this week',e:[-10,15,0,0]}},
+  {id:'rs_interns',p:'rs_karim',t:'20 tourism college interns arriving. Use them to cover full shifts?',
+   L:{l:'Free labour, why not',e:[10,-5,-10,-5]},R:{l:'Proper training rotation + allowance',e:[-5,5,5,5]}},
+  {id:'rs_pool',p:'rs_jun',once:1,t:'A guest nearly drowned. The lifeguard was also on towel duty.',
+   L:{l:'It was close, but fine',e:[0,-5,-15,-15],law:'OSHA 1994 also covers the safety of non-employees affected by your work. A lifeguard who multitasks isn\'t a safe system.'},
+   R:{l:'Dedicated lifeguards, no multitasking',e:[-10,5,10,10]}},
+ ]});

@@ -1,0 +1,32 @@
+// Expansion pack: Oil Palm Estate, Sabah
+registerPack({
+ id:'palmoil',icon:'🌴',name:'Oil Palm Estate, Sabah',tagline:'Harvesters, elephants and sustainability audits',
+ i18n:{ms:{name:'Ladang Sawit, Sabah',tagline:'Penuai, gajah dan audit kelestarian',note:'Kad dalam Bahasa Inggeris buat masa ini'},zh:{name:"油棕园，沙巴",tagline:"收割工人、大象和可持续认证审核",note:'卡片内容暂为英文'},ta:{name:"செம்பனைத் தோட்டம், சபா",tagline:"அறுவடையாளர்கள், யானைகள், நிலைத்தன்மைத் தணிக்கைகள்",note:'அட்டைகள் தற்போது ஆங்கிலத்தில்'}},
+ people:{
+  po_haji:{n:'Tuan Haji Rahman',r:'Estate manager',e:'👨🏽‍🌾',c:'#d9e8c4',bio:'Has walked every hectare. Twice. In the rain.'},
+  po_siva:{n:'Mandur Siva',r:'Field supervisor',e:'🧔🏾',c:'#f2dcc0',bio:'Knows which palm will fruit next week, and which worker is homesick.'},
+  po_lena:{n:'Ms. Lena',r:'MSPO & RSPO auditor',e:'📋',c:'#e2e2f2',bio:'Smiles warmly while noticing your grievance box is empty.'},
+  po_jumbo:{n:'The herd',r:'Bornean pygmy elephants',e:'🐘',c:'#d8d8d0',bio:'Walked here before your estate existed. Will walk here after.'},
+ },
+ introCard:{id:'po_intro',p:'po_haji',once:1,t:'Selamat datang to the estate, boss. 4,000 hectares, 300 workers, and one road that floods. Shall we?',
+  L:{l:'Show me the fields',e:[0,0,0,0]},R:{l:'Show me the workers\' quarters first',e:[0,0,0,0]}},
+ cards:[
+  {id:'po_heat',p:'po_siva',t:'Harvesters are collapsing in the afternoon heat. Target still the same, boss?',
+   L:{l:'Targets are targets',e:[10,-15,-15,-5],law:'OSHA 1994 requires a safe system of work. Managing heat stress means rest, shade and water.'},
+   R:{l:'Start at 6am, rest from 1 to 3pm',e:[-5,10,10,0]}},
+  {id:'po_jumbo',p:'po_jumbo',once:1,t:'*A herd of elephants is eating the young palms in Block C. They look very relaxed.*',
+   L:{l:'Electric fences, quickly',e:[-10,0,0,-10]},R:{l:'Call the Wildlife Department, plan a corridor',e:[-15,5,5,15]}},
+  {id:'po_kids',p:'po_lena',once:1,t:'Workers\' children are helping their parents collect loose fruits after school.',
+   L:{l:'It\'s family tradition lah',e:[5,0,-25,-20],law:'Employing children is restricted under the Children and Young Persons (Employment) Act 1966, and child labour fails MSPO and RSPO certification.'},
+   R:{l:'Open a learning centre for them',e:[-15,10,15,15]}},
+  {id:'po_grievance',p:'po_lena',once:1,t:'Your grievance box has had zero complaints in three years. That is... suspicious.',
+   L:{l:'We\'re just that good',e:[0,-5,-10,-5]},R:{l:'Anonymous hotline in four languages',e:[-5,10,10,5]}},
+  {id:'po_road',p:'po_haji',t:'Monsoon flooded the estate road. Lorries can\'t reach the mill.',
+   L:{l:'Workers carry the bunches out',e:[5,-15,-5,0]},R:{l:'Pause harvest, pay attendance allowance',e:[-15,10,0,0]}},
+  {id:'po_cpo',p:'po_siva',t:'CPO price just jumped 20%! The workers are asking for a share.',
+   L:{l:'Prices go up, prices go down',e:[15,-10,0,0]},R:{l:'Harvest bonus for everyone',e:[-5,15,0,5]}},
+  {id:'po_wifi',p:'po_siva',once:1,t:'Young workers say they\'ll quit unless the quarters get Wi-Fi. "Cannot even TikTok, boss."',
+   L:{l:'In my day, we had radio',e:[0,-10,0,0]},R:{l:'Install Wi-Fi in the quarters',e:[-10,15,0,5]}},
+  {id:'po_haze',p:'po_haji',t:'Haze season. The air pollution index hit 180. Field work as usual?',
+   L:{l:'Masks on, carry on',e:[5,-10,-10,0]},R:{l:'Stop outdoor work until it clears',e:[-15,5,10,0]}},
+ ]});

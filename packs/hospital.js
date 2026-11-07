@@ -1,0 +1,31 @@
+// Expansion pack: Private hospital, Johor Bahru
+registerPack({
+ id:'hospital',icon:'🏥',name:'Private Hospital, Johor Bahru',tagline:'Medical tourists, night shifts and Singapore 30 minutes away',
+ i18n:{ms:{name:'Hospital Swasta, Johor Bahru',tagline:'Pelancong perubatan, syif malam dan Singapura 30 minit jauhnya',note:'Kad dalam Bahasa Inggeris buat masa ini'},zh:{name:"私人医院，新山",tagline:"医疗游客、夜班，还有30分钟外的新加坡",note:'卡片内容暂为英文'},ta:{name:"தனியார் மருத்துவமனை, ஜொகூர் பாரு",tagline:"மருத்துவச் சுற்றுலாப் பயணிகள், இரவு ஷிஃப்ட், 30 நிமிடத்தில் சிங்கப்பூர்",note:'அட்டைகள் தற்போது ஆங்கிலத்தில்'}},
+ people:{
+  hp_mary:{n:'Sister Mary',r:'Ward manager',e:'👩🏽‍⚕️',c:'#d8ecf2',bio:'Thirty years of night shifts. Silences a ward with one look.'},
+  hp_wong:{n:'Dr. Wong',r:'Consultant surgeon',e:'👨🏻‍⚕️',c:'#e2e6f3',bio:'Brilliant hands. Terrible handwriting. Worse temper.'},
+  hp_thivya:{n:'Thivya',r:'Staff nurse',e:'👩🏾‍⚕️',c:'#f3dbe6',bio:'Has four job offers from Singapore in her inbox.'},
+  hp_budi:{n:'Pak Budi',r:'Medical tourist from Jakarta',e:'🧓🏽',c:'#efe3c6',bio:'Came for a new knee. Staying for the nasi kandar.'},
+ },
+ introCard:{id:'hp_intro',p:'hp_mary',once:1,t:'Welcome, boss. 300 beds, 12 empty nursing posts, and Singapore is just across the Causeway.',
+  L:{l:'Only 12?',e:[0,0,0,0]},R:{l:'Show me the wards',e:[0,0,0,0]}},
+ cards:[
+  {id:'hp_sg',p:'hp_thivya',t:'Singapore offers me three times the salary. JB to Woodlands is 30 minutes. Convince me to stay.',
+   L:{l:'Good luck then',e:[5,-10,0,-5]},R:{l:'Career ladder + housing allowance',e:[-15,15,0,5]}},
+  {id:'hp_wong',p:'hp_mary',once:1,t:'Dr. Wong shouts at nurses during surgery. Three have asked for transfers.',
+   L:{l:'He brings in the revenue',e:[10,-20,-5,-5]},R:{l:'Formal process, coaching for him',e:[-10,15,5,5]}},
+  {id:'hp_ratio',p:'hp_mary',t:'One nurse to 15 patients on night shift. Something will go wrong.',
+   L:{l:'Budget is tight',e:[10,-15,-10,-10]},R:{l:'Bring in agency nurses now',e:[-15,10,10,5]}},
+  {id:'hp_lang',p:'hp_budi',once:1,t:'Your hospital is the best! But billing only speaks English. My mother is crying.',
+   L:{l:'Use Google Translate',e:[0,0,0,-5]},R:{l:'Hire Bahasa Indonesia patient liaisons',e:[-5,5,0,15]}},
+  {id:'hp_hours',p:'hp_thivya',t:'Some junior doctors here work 36 hours straight.',
+   L:{l:'That\'s medicine',e:[5,-15,-10,-10]},R:{l:'Cap shifts, hire locums',e:[-15,10,10,5]}},
+  {id:'hp_parking',p:'hp_budi',t:'My review: "Doctor very good. Parking RM25 a day, very bad."',
+   L:{l:'Parking is profit',e:[5,0,0,-10]},R:{l:'Free parking for patients',e:[-10,0,0,10]}},
+  {id:'hp_insta',p:'hp_mary',once:1,t:'A nurse posted a selfie with a celebrity patient on Instagram.',
+   L:{l:'Free publicity',e:[0,5,-20,-10],law:'Patient information is confidential under the Private Healthcare Facilities and Services Act 1998 and the PDPA 2010.'},
+   R:{l:'Take it down, disciplinary process',e:[0,-5,15,5]}},
+  {id:'hp_mc',p:'hp_wong',once:1,t:'Funny, the nurses keep getting sick. I don\'t believe their MCs.',
+   L:{l:'Demand proof for every MC',e:[0,-10,-5,0]},R:{l:'Look at workload, not MCs',e:[-5,10,0,0]}},
+ ]});

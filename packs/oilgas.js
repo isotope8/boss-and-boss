@@ -1,0 +1,31 @@
+// Expansion pack: Oil & Gas, offshore Terengganu
+registerPack({
+ id:'oilgas',icon:'🛢️',name:'Oil & Gas, Offshore Terengganu',tagline:'28 days on, 28 off, and a helicopter in between',
+ i18n:{ms:{name:'Minyak & Gas, Luar Pesisir Terengganu',tagline:'28 hari kerja, 28 hari cuti, dan helikopter di antaranya',note:'Kad dalam Bahasa Inggeris buat masa ini'},zh:{name:"石油与天然气，登嘉楼外海",tagline:"做28天，休28天，中间坐直升机",note:'卡片内容暂为英文'},ta:{name:"எண்ணெய் & எரிவாயு, திரங்கானு கடல்",tagline:"28 நாள் வேலை, 28 நாள் ஓய்வு, இடையில் ஹெலிகாப்டர்",note:'அட்டைகள் தற்போது ஆங்கிலத்தில்'}},
+ people:{
+  og_azman:{n:'Captain Azman',r:'Offshore installation manager',e:'👨🏽‍✈️',c:'#c9dbe8',bio:'Has survived every storm in the South China Sea. Fears only HR forms.'},
+  og_danny:{n:'Danny',r:'Driller, from Sarawak',e:'👷🏽',c:'#f0d7b8',bio:'Strongest man on the platform. Cries at every Gawai video call.'},
+  og_imran:{n:'Encik Imran',r:'HQ, KLCC',e:'🏙️',c:'#dfe3ea',bio:'Has never been offshore. Has many opinions about offshore.'},
+ },
+ introCard:{id:'og_intro',p:'og_azman',once:1,t:'Welcome aboard, boss. 120 crew, 28 days on. And please, don\'t touch the red button.',
+  L:{l:'Which red button?',e:[0,0,0,0]},R:{l:'Safety briefing first',e:[0,0,0,0]}},
+ cards:[
+  {id:'og_crash',p:'og_imran',t:'Oil price crashed below USD50. HQ wants a 20% headcount cut by Friday.',
+   L:{l:'Cut 20%, pick whoever you like',e:[20,-20,-10,-10],law:'Retrenchment needs fair, objective selection criteria (Code of Conduct for Industrial Harmony), proper notice, termination benefits and notification to the Labour Department.'},
+   R:{l:'Pay cuts at the top first, hiring freeze',e:[5,10,0,5]}},
+  {id:'og_rotation',p:'og_danny',once:1,t:'Can we switch to a 14/14 rotation? My kids forgot what I look like.',
+   L:{l:'28/28 is industry standard',e:[5,-10,0,0]},R:{l:'Trial 14/14 for volunteers',e:[-10,15,0,0]}},
+  {id:'og_wifi',p:'og_danny',t:'Offshore Wi-Fi so slow, my wife thinks I\'m ignoring her. Marriage in danger, boss.',
+   L:{l:'Focus on drilling',e:[0,-10,0,0]},R:{l:'Upgrade the satellite internet',e:[-10,15,0,0]}},
+  {id:'og_stopwork',p:'og_azman',t:'A junior technician used his Stop Work Authority. Production paused 6 hours. False alarm.',
+   L:{l:'Reprimand him, time is money',e:[5,-10,-15,0],law:'Punishing workers who stop unsafe work undermines your safety duty under OSHA 1994. Strong safety cultures reward people who speak up.'},
+   R:{l:'Thank him publicly',e:[-5,10,10,5]}},
+  {id:'og_storm',p:'og_azman',t:'Typhoon coming. Evacuating the platform will cost RM2 million.',
+   L:{l:'Ride it out',e:[10,-15,-15,-10]},R:{l:'Evacuate everyone',e:[-20,10,10,5]}},
+  {id:'og_local',p:'og_imran',once:1,t:'The client wants more local content. Your senior engineers are all expats.',
+   L:{l:'Expats are proven',e:[0,-5,-10,-5]},R:{l:'Fast-track local engineers with mentors',e:[-10,10,5,10]}},
+  {id:'og_fatigue',p:'og_danny',t:'The crew did three double shifts to fix the compressor. Some are nodding off at the controls.',
+   L:{l:'Push through, almost done',e:[10,-10,-15,0]},R:{l:'Fly in a relief crew',e:[-15,10,10,0]}},
+  {id:'og_sahur',p:'og_azman',t:'Ramadan offshore. Can the galley serve sahur at 4am?',
+   L:{l:'Galley hours are fixed',e:[0,-10,0,0]},R:{l:'Of course, and buka puasa together',e:[-5,15,0,5]}},
+ ]});

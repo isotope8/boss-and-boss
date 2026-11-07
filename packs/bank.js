@@ -1,0 +1,31 @@
+// Expansion pack: Bank HQ, KL Sentral
+registerPack({
+ id:'bank',icon:'🏦',name:'Bank HQ, KL Sentral',tagline:'KPIs, compliance and very long PowerPoints',
+ i18n:{ms:{name:'Ibu Pejabat Bank, KL Sentral',tagline:'KPI, pematuhan dan PowerPoint yang sangat panjang',note:'Kad dalam Bahasa Inggeris buat masa ini'},zh:{name:"银行总部，吉隆坡中环",tagline:"KPI、合规，还有超长的PowerPoint",note:'卡片内容暂为英文'},ta:{name:"வங்கித் தலைமையகம், KL சென்ட்ரல்",tagline:"KPI, இணக்கம், மிக நீண்ட PowerPoint-கள்",note:'அட்டைகள் தற்போது ஆங்கிலத்தில்'}},
+ people:{
+  bk_jason:{n:'Datuk Jason',r:'VP of Synergy',e:'🕴️',c:'#dfe2ec',bio:'Has never finished a sentence without "leverage".'},
+  bk_zarina:{n:'Puan Zarina',r:'Head of Compliance',e:'👩🏽‍💼',c:'#e6dcef',bio:'Reads every regulation, including the footnotes. Especially the footnotes.'},
+  bk_huimin:{n:'Hui Min',r:'Graduate trainee',e:'👩🏻‍🎓',c:'#f6dccf',bio:'First-class honours. First job. First panic attack before town hall.'},
+ },
+ introCard:{id:'bk_intro',p:'bk_jason',once:1,t:'Welcome to the bank! Let\'s leverage our synergies to empower people outcomes. Questions? No? Great.',
+  L:{l:'...what?',e:[0,0,0,0]},R:{l:'Absolutely, let\'s align',e:[0,0,0,0]}},
+ cards:[
+  {id:'bk_ai',p:'bk_jason',once:1,t:'Roll out AI Copilot to 3,000 staff by Friday. Training? They\'ll figure it out.',
+   L:{l:'Roll out by Friday',e:[5,-10,-10,0]},R:{l:'Phase it in with prompt training',e:[-10,10,5,5]}},
+  {id:'bk_aml',p:'bk_zarina',once:1,t:'Bank Negara audit next month. 40% of staff haven\'t done their AML training.',
+   L:{l:'Backdate the attendance',e:[0,0,-25,-15],law:'Falsifying training records is serious misconduct, and AML/CFT training gaps are a regulatory finding under the AMLA 2001 and Bank Negara\'s requirements.'},
+   R:{l:'Mandatory sessions this week',e:[-10,-5,15,0]}},
+  {id:'bk_kpi',p:'bk_huimin',once:1,t:'My manager says I must sell 20 credit cards a month, even to aunties who don\'t need them.',
+   L:{l:'Targets are targets',e:[15,-10,-15,-10]},R:{l:'Change KPIs to customer outcomes',e:[-10,10,10,10]}},
+  {id:'bk_branch',p:'bk_jason',once:1,t:'Let\'s close 15 branches and go digital. 200 staff affected.',
+   L:{l:'Close and retrench',e:[20,-20,0,-10]},R:{l:'Reskill them for digital roles',e:[-10,10,5,10]}},
+  {id:'bk_raya',p:'bk_zarina',t:'Hari Raya open house: budget RM50k or RM5k?',
+   L:{l:'RM5k, kuih from the pantry',e:[5,-5,0,-5]},R:{l:'RM50k, invite the clients',e:[-15,10,0,10]}},
+  {id:'bk_deck',p:'bk_huimin',t:'It\'s 11pm and I\'m still fixing slide 47 of the board deck.',
+   L:{l:'Welcome to banking',e:[5,-15,0,0]},R:{l:'New rule: board decks max 15 slides',e:[0,15,0,0]}},
+  {id:'bk_rto',p:'bk_jason',once:1,t:'Return to office five days a week! Collaboration! Synergy! Also, our lease.',
+   L:{l:'Five days, no exceptions',e:[0,-15,0,0]},R:{l:'Hybrid, three days in office',e:[0,10,0,5]}},
+  {id:'bk_whistle',p:'bk_huimin',once:1,t:'I think my manager is approving loans for his relatives. Who do I tell?',
+   L:{l:'Don\'t rock the boat',e:[0,-10,-20,-10],law:'The Whistleblower Protection Act 2010 and Bank Negara\'s governance rules expect a protected channel for reporting misconduct.'},
+   R:{l:'Protect her, start an investigation',e:[-5,10,15,5]}},
+ ]});

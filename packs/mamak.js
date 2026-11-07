@@ -1,0 +1,32 @@
+// Expansion pack: Mamak restaurant chain
+registerPack({
+ id:'mamak',icon:'🍛',name:'Mamak Restaurant Chain',tagline:'24 hours, 6 outlets, infinite teh tarik',
+ i18n:{ms:{name:'Rangkaian Restoran Mamak',tagline:'24 jam, 6 cawangan, teh tarik tanpa had',note:'Kad dalam Bahasa Inggeris buat masa ini'},zh:{name:"嘛嘛档连锁店",tagline:"24小时，6间分行，无限拉茶",note:'卡片内容暂为英文'},ta:{name:"மாமாக் உணவக சங்கிலி",tagline:"24 மணி நேரம், 6 கிளைகள், முடிவில்லா தே தாரிக்",note:'அட்டைகள் தற்போது ஆங்கிலத்தில்'}},
+ people:{
+  mk_ravi:{n:'Ravi',r:'Head cook',e:'👨🏾‍🍳',c:'#f6d3a8',bio:'Guards the curry recipe like a state secret.'},
+  mk_chong:{n:'Ah Chong',r:'Night-shift captain',e:'🧑🏻',c:'#d3e3f3',bio:'Has seen everything that happens at 3am. Twice.'},
+  mk_amir:{n:'Amir',r:'Food delivery rider',e:'🛵',c:'#d7f0d0',bio:'Knows your kitchen speed better than you do.'},
+  mk_nora:{n:'Puan Nora',r:'Halal & hygiene auditor',e:'🧕🏻',c:'#e8e0f4',bio:'Inspects sauce bottles with forensic care.'},
+ },
+ introCard:{id:'mk_intro',p:'mk_ravi',once:1,t:'Boss, welcome to the family business! Six outlets, open 24 hours, and the roti dough waits for nobody.',
+  L:{l:'Teh tarik kurang manis, please',e:[0,0,0,0]},R:{l:'Show me the kitchen',e:[0,0,0,0]}},
+ cards:[
+  {id:'mk_recipe',p:'mk_ravi',once:1,t:'The restaurant across the road offered me double. They want my curry recipe.',
+   L:{l:'Everyone is replaceable',e:[5,-10,0,-10]},R:{l:'Make him partner in the new outlet',e:[-15,15,0,5]}},
+  {id:'mk_night',p:'mk_chong',t:'Night shift wants a night allowance. 11pm to 7am is not easy, boss.',
+   L:{l:'The job is the job',e:[5,-10,0,0]},R:{l:'Add a night allowance',e:[-10,10,5,0]}},
+  {id:'mk_tips',p:'mk_chong',once:1,t:'Customers leave tips in the jar. Some supervisors have been taking a cut.',
+   L:{l:'Supervisors work hard too',e:[5,-15,-5,0]},R:{l:'Split tips equally, post the amounts',e:[0,10,5,5]}},
+  {id:'mk_halal',p:'mk_nora',once:1,t:'Your soy sauce supplier\'s halal certificate expired last month.',
+   L:{l:'Customers won\'t notice',e:[5,0,-20,-20],law:'Claiming halal status without valid certification is an offence under the Trade Descriptions (Definition of Halal) Order 2011.'},
+   R:{l:'Switch suppliers today',e:[-10,0,15,5]}},
+  {id:'mk_rider',p:'mk_amir',t:'Riders wait 30 minutes for your orders. Ratings dropping, bro. Can we get a rider counter?',
+   L:{l:'Riders can wait',e:[0,0,0,-10]},R:{l:'Separate rider counter',e:[-5,5,0,10]}},
+  {id:'mk_worldcup',p:'mk_chong',once:1,t:'World Cup final at 3am! Big screen? Customers will stay all night.',
+   L:{l:'Just a normal night',e:[0,-5,0,-5]},R:{l:'Big screen + teh tarik promo',e:[15,-5,0,10]}},
+  {id:'mk_typhoid',p:'mk_nora',once:1,t:'Health inspection tomorrow. Two staff haven\'t had their typhoid jabs.',
+   L:{l:'Next month lah',e:[0,0,-15,-10],law:'Food handlers must have typhoid vaccination and attend a food-handler course under the Food Hygiene Regulations 2009. Inspectors can close the premises.'},
+   R:{l:'Clinic visit today, paid',e:[-5,5,10,0]}},
+  {id:'mk_roti',p:'mk_ravi',t:'Roti canai went up 20 sen. A customer posted a "Justice for roti" video.',
+   L:{l:'Inflation, bro',e:[10,0,0,-10]},R:{l:'Absorb the cost for now',e:[-10,5,0,10]}},
+ ]});

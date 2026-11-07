@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boss &amp; Boss</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Noto+Sans+Tamil:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0f3d3e; --bg2:#0b2e2f; --ink:#1d1a16; --paper:#fbf4e6; --paper2:#f1e6cf;
+  --accent:#e8a33d; --red:#d6533c; --green:#4f9d69; --muted:#8a8172;
+  --font:'Bricolage Grotesque','Noto Sans Tamil','PingFang SC','Microsoft YaHei','Noto Sans SC',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:var(--font);background:var(--bg);color:var(--paper);overflow:hidden;
+  background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,.06) 1px,transparent 0);
+  background-size:22px 22px;-webkit-user-select:none;user-select:none;touch-action:manipulation}
+#app{max-width:440px;height:100%;margin:0 auto;display:flex;flex-direction:column;padding:14px 16px 18px}
+/* meters */
+.meters{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:6px 0 10px}
+.meter{display:flex;flex-direction:column;align-items:center;gap:5px;position:relative}
+.dot{height:10px;display:flex;align-items:center;justify-content:center}
+.dot i{display:block;border-radius:50%;background:var(--paper);transition:all .15s;width:0;height:0}
+.dot i.s{width:6px;height:6px}.dot i.m{width:9px;height:9px}.dot i.l{width:12px;height:12px}
+.gauge{width:42px;height:54px;border-radius:12px;background:rgba(255,255,255,.08);position:relative;overflow:hidden;border:1.5px solid rgba(255,255,255,.18)}
+.fill{position:absolute;left:0;right:0;bottom:0;background:var(--accent);transition:height .45s cubic-bezier(.2,.8,.2,1),background .3s}
+.fill.warn{background:var(--red)}
+.gauge span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:22px;z-index:1}
+.gauge.flash-up{animation:fu .6s}.gauge.flash-down{animation:fd .6s}
+@keyframes fu{30%{box-shadow:0 0 0 3px var(--green)}}
+@keyframes fd{30%{box-shadow:0 0 0 3px var(--red)}}
+.mlabel{font-size:11px;letter-spacing:.06em;text-transform:uppercase;opacity:.75}
+/* stage */
+.stage{flex:1;position:relative;display:flex;align-items:center;justify-content:center;min-height:0}
+.card{position:absolute;width:100%;max-width:360px;aspect-ratio:3/4;max-height:100%;background:var(--paper);color:var(--ink);
+  border-radius:22px;box-shadow:0 18px 40px rgba(0,0,0,.35);display:flex;flex-direction:column;overflow:hidden;
+  cursor:grab;will-change:transform;transition:transform .35s cubic-bezier(.2,.8,.2,1),opacity .35s}
+.card.dragging{transition:none;cursor:grabbing}
+.card.back{transform:scale(.94) translateY(14px);background:var(--paper2);box-shadow:0 8px 20px rgba(0,0,0,.25);cursor:default}
+.ctext{padding:22px 22px 12px;font-size:18px;line-height:1.38;font-weight:600;min-height:7.2em}
+.portrait{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;position:relative;min-height:0;padding:0 22px}
+.bio{font-size:13px;font-style:italic;color:var(--muted);text-align:center;line-height:1.35;max-width:260px}
+.avatar{width:min(130px,34vw);aspect-ratio:1;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:min(76px,19vw);
+  box-shadow:inset 0 -8px 0 rgba(0,0,0,.08)}
+.who{padding:10px 22px 18px;display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.who b{font-size:19px;font-weight:800}.who small{color:var(--muted);font-size:13px;text-align:right}
+.choice{position:absolute;top:14px;max-width:62%;padding:9px 12px;border-radius:12px;background:var(--ink);color:var(--paper);
+  font-size:15px;font-weight:600;line-height:1.25;opacity:0;transition:opacity .12s;pointer-events:none}
+.choice.l{left:14px}.choice.r{right:14px;text-align:right}
+/* footer */
+.foot{display:flex;flex-direction:column;align-items:center;gap:10px;padding-top:12px}
+.time{font-size:15px;opacity:.9}.time b{font-weight:800;color:var(--accent)}
+.btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;max-width:360px}
+.btn{font:inherit;font-size:14px;font-weight:600;padding:11px 10px;border-radius:12px;border:1.5px solid rgba(255,255,255,.25);
+  background:rgba(255,255,255,.06);color:var(--paper);cursor:pointer;line-height:1.2;min-height:46px}
+.btn:hover,.btn:focus-visible{background:rgba(255,255,255,.14);outline:none}
+.btn.primary{background:var(--accent);color:var(--ink);border-color:var(--accent);font-weight:800}
+.hint{font-size:12px;opacity:.55}
+.top{display:flex;justify-content:space-between;align-items:center;font-size:13px;opacity:.85}
+.top .ttl{font-weight:800;letter-spacing:.02em}.top .ttl em{font-style:normal;color:var(--accent)}
+.icon{font:inherit;background:none;border:0;color:var(--paper);font-size:18px;cursor:pointer;padding:4px 6px;border-radius:8px;opacity:.85}
+.icon:hover{background:rgba(255,255,255,.1)}
+.card.hint-wiggle{animation:wig 1.6s ease-in-out .6s 2}
+@keyframes wig{0%,100%{transform:none}25%{transform:translateX(-26px) rotate(-3deg)}75%{transform:translateX(26px) rotate(3deg)}}
+.menu{position:fixed;inset:0;background:rgba(5,25,26,.82);display:none;align-items:center;justify-content:center;z-index:15}
+.menu.on{display:flex}.menu .stack{width:min(320px,86vw)}
+.trow{display:grid;grid-template-columns:1fr auto;gap:6px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.1);font-size:14px}
+.trow small{opacity:.65;display:block}
+.split{background:rgba(255,255,255,.06);border-radius:10px;padding:10px 12px;margin-bottom:8px;font-size:14px;line-height:1.4}
+.split .sb{display:flex;height:22px;border-radius:6px;overflow:hidden;margin:8px 0 4px;font-size:12px;font-weight:700}
+.split .sb i{display:flex;align-items:center;padding:0 6px;font-style:normal;white-space:nowrap;overflow:hidden}
+.split .sl{background:#c9785e;color:#fff}.split .sr{background:var(--accent);color:var(--ink)}
+.split .lbls{display:flex;justify-content:space-between;gap:10px;font-size:12px;opacity:.8}
+.sync{font-size:13px;opacity:.75;margin-top:8px}
+.lang{display:flex;gap:6px;margin-bottom:18px}
+.lang button{font:inherit;font-size:13px;padding:6px 12px;border-radius:20px;border:1.5px solid rgba(255,255,255,.25);background:none;color:var(--paper);cursor:pointer;opacity:.7}
+.lang button.on{background:var(--paper);color:var(--ink);opacity:1;border-color:var(--paper)}
+.packs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
+.pk{font:inherit;text-align:left;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.15);color:var(--paper);border-radius:12px;padding:10px;cursor:pointer;line-height:1.25}
+.pk b{display:block;font-size:14px}.pk small{display:block;font-size:12px;opacity:.7;margin-top:3px}.pk .ic{font-size:22px;display:block;margin-bottom:4px}
+.pk.on{border-color:var(--accent);background:rgba(232,163,61,.16)}
+.pk.base{grid-column:1/-1}
+.cast{margin-top:22px}.cast summary{cursor:pointer;font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.cm{display:grid;grid-template-columns:40px 1fr;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.08);font-size:14px;line-height:1.3}
+.cm .av{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px}
+.cm small{display:block;opacity:.7}.cm i{display:block;opacity:.85;font-size:13px}
+.found{font-size:13px;opacity:.7;margin-left:6px}
+/* overlays */
+.overlay{position:fixed;inset:0;background:var(--bg2);display:none;overflow:auto;z-index:10}
+.overlay.on{display:block}
+.panel{max-width:460px;margin:0 auto;padding:28px 20px 40px}
+h1{font-size:46px;font-weight:800;line-height:.95;letter-spacing:-.02em}
+h1 em{font-style:normal;color:var(--accent)}
+h2{font-size:28px;font-weight:800;line-height:1.05;margin-bottom:10px}
+h3{font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:22px 0 8px}
+p{line-height:1.5;opacity:.92}
+.lead{font-size:17px;margin:14px 0 18px}
+.legend{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0 20px}
+.legend div{background:rgba(255,255,255,.06);border-radius:12px;padding:10px;font-size:13px;line-height:1.35}
+.legend b{display:block;font-size:15px}
+.stack{display:flex;flex-direction:column;gap:10px;margin-top:20px}
+.stat{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.1);font-size:15px}
+.bar{height:10px;border-radius:6px;background:rgba(255,255,255,.12);overflow:hidden;margin:6px 0 2px}
+.bar i{display:block;height:100%;background:var(--accent)}
+.barlbl{display:flex;justify-content:space-between;font-size:12px;opacity:.75}
+.lesson{background:rgba(255,255,255,.06);border-left:3px solid var(--red);border-radius:8px;padding:10px 12px;margin-bottom:8px;font-size:14px;line-height:1.45}
+.lesson b{display:block;margin-bottom:3px}
+.ending-art{font-size:64px;margin:6px 0 10px}
+.endings{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.endings span{width:34px;height:34px;border-radius:9px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:18px}
+.endings span.no{filter:grayscale(1);opacity:.25}
+.small{font-size:12px;opacity:.6;margin-top:16px;line-height:1.45}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--accent);color:var(--ink);padding:10px 16px;border-radius:10px;font-weight:700;opacity:0;transition:opacity .2s;z-index:20;pointer-events:none}
+.toast.on{opacity:1}
+#code{width:100%;margin-top:8px;font:inherit;font-size:16px;padding:11px 12px;border-radius:12px;border:1.5px solid rgba(255,255,255,.25);background:rgba(255,255,255,.06);color:var(--paper);text-transform:uppercase;letter-spacing:.08em}
+#code::placeholder{text-transform:none;letter-spacing:0;opacity:.5}
+textarea{width:100%;height:160px;margin-top:8px;border-radius:10px;padding:10px;font:12px/1.4 ui-monospace,monospace;background:#062223;color:var(--paper);border:1px solid rgba(255,255,255,.2)}
+@media (max-height:640px){.ctext{font-size:16px;padding:16px 18px 8px}.gauge{height:44px}.who{padding-bottom:12px}}
+</style>
+<script>
+window.LANGS={};window.PACKS=[];
+function registerLang(code,name,data){data.name=name;LANGS[code]=data}
+function registerPack(p){PACKS.push(p)}
+</script>
+<script src="lang/ms.js"></script>
+<script src="lang/zh.js"></script>
+<script src="lang/ta.js"></script>
+<!-- EXPANSION PACKS: add a file to packs/ and a line here -->
+<script src="packs/electronics.js"></script>
+<script src="packs/palmoil.js"></script>
+<script src="packs/oilgas.js"></script>
+<script src="packs/mamak.js"></script>
+<script src="packs/resort.js"></script>
+<script src="packs/construction.js"></script>
+<script src="packs/logistics.js"></script>
+<script src="packs/bank.js"></script>
+<script src="packs/hospital.js"></script>
+<script src="packs/tech.js"></script>
+</head>
+<body>
+<div id="app">
+  <div class="top"><span class="ttl">Boss <em>&amp;</em> Boss</span><span><button class="icon" id="snd" aria-label="Sound">🔊</button><button class="icon" id="menuBtn" aria-label="Menu">☰</button></span></div>
+  <div class="meters" id="meters"></div>
+  <div class="stage" id="stage"></div>
+  <div class="foot">
+    <div class="time" id="time"></div>
+    <div class="btns"><button class="btn" id="bL"></button><button class="btn" id="bR"></button></div>
+    <div class="hint">Swipe the card, tap a button, or use ← →</div>
+  </div>
+</div>
+
+<div class="overlay on" id="intro"><div class="panel">
+  <div class="lang"><button data-l="en">English</button><button data-l="ms">Bahasa Melayu</button></div>
+  <h1>Boss<br><em>&amp;</em> Boss</h1>
+  <p class="lead" data-i="lead">You own a 12-person company in Shah Alam. You also <b>are</b> the HR department. Every week, someone walks in with a problem. Swipe left or right to decide.</p>
+  <div class="legend">
+    <div data-i="cash"><b>💰 Cash</b>Run out and the bank takes the keys. Too much and you get bought out.</div>
+    <div data-i="morale"><b>🙂 Morale</b>Too low: everyone quits. Too high: they run the place without you.</div>
+    <div data-i="comp"><b>⚖️ Compliance</b>Too low: the Labour Department shuts you down. Too high: buried in paperwork.</div>
+    <div data-i="rep"><b>📣 Reputation</b>Too low: nobody applies. Too high: you become a LinkedIn guru and neglect the business.</div>
+  </div>
+  <p data-i="goal"><b>Goal: keep the company alive for 3 years.</b> Keep all four in balance. A dot above a meter shows it will change. Bigger dot, bigger change. It doesn't say which way.</p>
+  <h3 data-i="pickInd">Choose your industry</h3>
+  <div class="packs" id="packs"></div>
+  <div class="stack"><button class="btn primary" id="start">Open the office</button></div>
+  <h3 data-i="ws">Workshop mode</h3>
+  <p style="font-size:14px" data-i="wsText">Running this in a training session? Give everyone the same code so they face the same situations, then compare decisions in the debrief. Share this page with participants as Contributors and their results appear on your live Trainer view.</p>
+  <input id="code" maxlength="12" placeholder="Code (optional), e.g. HR2026" autocomplete="off">
+  <div class="stack" id="trainerWrap" style="display:none"><button class="btn" id="trainerBtn">📊 Trainer view</button></div>
+  <details class="cast"><summary data-i="meet">Meet the cast</summary><div id="cast"></div></details>
+  <h3><span id="efLbl">Endings found</span> <span class="found" id="foundN"></span></h3><div class="endings" id="endIntro"></div><p id="bestIntro" style="font-size:14px;margin-top:10px"></p>
+  <p class="small" data-i="disc">Employment rules are simplified for gameplay, based on Malaysian law as of 2025. Not legal advice.</p>
+</div></div>
+
+<div class="overlay" id="trainer"><div class="panel">
+  <h2>Trainer view</h2>
+  <p style="font-size:14px">Enter your workshop code to see everyone's results live as they finish a company.</p>
+  <input id="tcode" maxlength="12" placeholder="Workshop code" autocomplete="off" style="width:100%;margin-top:10px;font:inherit;font-size:16px;padding:11px 12px;border-radius:12px;border:1.5px solid rgba(255,255,255,.25);background:rgba(255,255,255,.06);color:var(--paper);text-transform:uppercase">
+  <div class="stack"><button class="btn primary" id="tGo">Show results</button><button class="btn" id="tBack">Back</button></div>
+  <div id="tOut"></div>
+</div></div>
+<div class="overlay" id="end"><div class="panel" id="endPanel"></div></div>
+<div class="toast" id="toast"></div>
+<div class="menu" id="menu"><div class="stack"><h2 style="text-align:center" id="mPaused">Paused</h2>
+ <div class="lang" style="justify-content:center"><button data-l="en">English</button><button data-l="ms">Bahasa Melayu</button></div>
+ <button class="btn primary" id="mResume">Resume</button><button class="btn" id="mHow">How to play</button><button class="btn" id="mRestart">Quit this company</button></div></div>
+
+<script>
+// ---------- data ----------
+const METERS=[{k:'cash',icon:'💰',name:'Cash'},{k:'morale',icon:'🙂',name:'Morale'},{k:'comp',icon:'⚖️',name:'Compliance'},{k:'rep',icon:'📣',name:'Reputation'}];
+const P={ // people: n name, r role, e emoji, c colour, bio = their personality in one line
+  aina:{n:'Aina',r:'Admin executive',e:'👩🏻‍💼',c:'#f6c9b8',bio:'Runs the office WhatsApp group. And, honestly, the office.'},
+  faizal:{n:'Faizal',r:'Production lead',e:'👷🏽‍♂️',c:'#c8dcc0',bio:'Can fix anything with cable ties and a "bismillah".'},
+  mei:{n:'Mei Ling',r:'Accounts',e:'👩🏻‍💻',c:'#d6d0f0',bio:'Has a pivot table for everything, including her feelings.'},
+  raj:{n:'Raj',r:'Sales',e:'🧑🏾‍💼',c:'#f3dd9b',bio:'Treats every client like a long-lost cousin. It works.'},
+  ros:{n:'Kak Ros',r:'Cleaner, 9 years with you',e:'👵🏽',c:'#f2c6d6',bio:'Knows every secret in the building. Tells only you.'},
+  uncle:{n:'Uncle Lim',r:'Your uncle & investor',e:'👴🏻',c:'#e4d3b8',bio:'Invested RM50k in 2009. Mentions it every Chinese New Year.'},
+  jtk:{n:'Encik Hafiz',r:'Labour Department officer',e:'🧑🏽‍💼',c:'#bcd3e6',bio:'Polite. Thorough. Absolutely terrifying.'},
+  siti:{n:'Siti',r:'Customer service',e:'🧕🏽',c:'#cfe8e0',bio:'Soft voice, steel spine. Has calmed down three Datins.'},
+  bank:{n:'Mr. Tan',r:'Bank manager',e:'🏦',c:'#d9e0e6',bio:'Says "no problem" right before every problem.'},
+  infl:{n:'@KL_Foodie_Bae',r:'Influencer',e:'🤳',c:'#ffd0e0',bio:'80k followers. 79k of them might be real.'},
+  client:{n:'Datin Rosnah',r:'Your biggest client',e:'💎',c:'#e8dcf5',bio:'Pays well. Calls at 11pm. Both are non-negotiable.'},
+  press:{n:'Journalist',r:'Local newspaper',e:'📰',c:'#e6e6e6',bio:'Wants a story. Any story. Preferably yours.'},
+  agent:{n:'"Abang Agent"',r:'Says he can help',e:'🕶️',c:'#cccccc',bio:'Has a solution for everything. None of them legal.'},
+  sales:{n:'Payroll salesman',r:'Very enthusiastic',e:'📦',c:'#f5e2c8',bio:'Says "seamless" eleven times a minute.'},
+  ai:{n:'HireBot 3000',r:'AI recruitment tool',e:'🤖',c:'#cde3f7',bio:'Fast, confident, and quietly biased.'},
+  nephew:{n:'Kevin',r:'Your cousin, "Manager"',e:'😎',c:'#f7e3a1',bio:'Business card says Manager. Nobody knows of what.'},
+  jess:{n:'Jess',r:'Junior designer',e:'👩🏻‍🎨',c:'#f9d5c0',bio:'Gen Z. Replies to emails with a single emoji.'},
+  staff:{n:'The team',r:'All 12 of them',e:'👥',c:'#d8e6cf',bio:'One group chat, twelve opinions.'},
+  sys:{n:'You',r:'Boss, and HR',e:'🧑🏻‍💼',c:'#f0e2c4',bio:'Two jobs, one salary. Classic SME.'},
+};
+// e: [cash, morale, comp, rep]; law: tip shown when this option is the risky one
+const CARDS=[
+ {id:'intro',p:'sys',once:1,t:'Day one. Your HR manager quit last week, so now it\'s you. Ready?',
+  L:{l:'Hire a new HR manager later',e:[0,0,0,0]},R:{l:'I can handle it',e:[0,0,0,0]}},
+ {id:'ot',p:'faizal',t:'We worked 60 hours this week to finish the order. Are we getting overtime pay?',
+  L:{l:'Give them a day off instead',e:[5,-10,-15,0],law:'Overtime is paid at at least 1.5× the hourly rate on normal workdays, and normal hours are capped at 45 a week.'},
+  R:{l:'Pay 1.5× overtime',e:[-10,10,10,0]}},
+ {id:'epf',p:'mei',t:'Boss, EPF contribution is due by the 15th, but cash is tight this month. Delay a week?',
+  L:{l:'Delay it',e:[10,0,-20,-5],law:'Employer EPF contributions must reach KWSP by the 15th of the following month. Late payment brings late charges and possible prosecution.'},
+  R:{l:'Pay on time',e:[-10,0,10,0]}},
+ {id:'uncle',p:'uncle',once:1,t:'My son Kevin just graduated. Make him a manager lah, he\'s family.',
+  L:{l:'He interviews like everyone',e:[-5,5,0,5]},R:{l:'Welcome aboard, Kevin',e:[-10,-10,0,-5],next:['kevin',3]}},
+ {id:'kevin',p:'aina',req:1,once:1,t:'Kevin comes in at 11, takes 2-hour lunches, and tells us what to do. Everyone\'s annoyed.',
+  L:{l:'Let it slide',e:[0,-15,0,-5]},R:{l:'Give him a formal warning',e:[-5,10,5,0],next:['kevin2',3]}},
+ {id:'preg',p:'aina',once:1,t:'I\'m pregnant! 🎉 Can we plan my maternity leave?',
+  L:{l:'Hint she should resign',e:[10,-20,-25,-15],law:'Maternity leave is 98 days, and dismissing a pregnant employee is prohibited except for misconduct or business closure.'},
+  R:{l:'Congrats! Plan for 98 days',e:[-10,15,10,5],next:['cover',4]}},
+ {id:'cover',p:'mei',req:1,once:1,t:'Aina\'s on maternity leave. Who covers her work?',
+  L:{l:'Split it among the team',e:[5,-10,0,0],next:['aina_back',12]},R:{l:'Hire a temp',e:[-10,5,0,0],next:['aina_back',12]}},
+ {id:'flexi',p:'raj',t:'My commute is 2 hours each way. Can I work from home on Fridays?',
+  L:{l:'Office only',e:[0,-10,-5,0],law:'Employees can formally request flexible working arrangements. The employer must reply in writing within 60 days, with reasons if refusing.'},
+  R:{l:'Approve flexi Fridays',e:[0,10,5,0]}},
+ {id:'infl',p:'infl',t:'Hi boss! I can post about your company to my 80k followers. Only RM3,000 😘',
+  L:{l:'No thanks',e:[0,0,0,-5]},R:{l:'Deal',e:[-15,0,0,15]}},
+ {id:'jtk',p:'jtk',t:'Routine inspection. Please show me your attendance and payroll records.',
+  L:{l:'Can we reschedule?',e:[0,0,-10,-5]},
+  R:{l:'Hand everything over',e:s=>s.comp>=50?[0,0,10,5]:[-20,0,10,-5],note:s=>s.comp>=50?'Clean records. He leaves happy.':'Gaps found. You pay a fine.'}},
+ {id:'minwage',p:'ros',t:'Boss, my anak says minimum wage is RM1,700 now. I\'m still getting RM1,500.',
+  L:{l:'Pretend you didn\'t hear',e:[5,-10,-20,-5],law:'The minimum wage is RM1,700 a month for all employers since 2025.'},
+  R:{l:'Fix her pay, with back pay',e:[-10,10,10,5]}},
+ {id:'tiktok',p:'siti',t:'An ex-staff posted a TikTok calling our office "toxic". 200k views already.',
+  L:{l:'Threaten to sue her',e:[-5,-5,0,-15]},R:{l:'Reply calmly & fix what\'s true',e:[-5,10,0,5],next:['viral2',3]}},
+ {id:'rush',p:'client',t:'I need the full order by Monday. Make your team work the weekend, can?',
+  L:{l:'Decline the rush job',e:[-15,5,5,-5]},R:{l:'Accept, weekend shift',e:[20,-15,-5,0],next:['datin2',5]}},
+ {id:'raya',p:'siti',t:'Everyone is balik kampung for Raya. Can we close one extra day?',
+  L:{l:'Open as usual',e:[5,-10,0,0]},R:{l:'Extra day off, selamat hari raya!',e:[-5,15,0,5]}},
+ {id:'angpow',p:'mei',t:'CNY is coming. Are we giving ang pow to the team this year?',
+  L:{l:'Skip it this year',e:[5,-10,0,0]},R:{l:'Ang pow for everyone',e:[-10,10,0,5]}},
+ {id:'deepa',p:'raj',t:'Can we host a Deepavali open house for our clients? Mum will cook.',
+  L:{l:'Too expensive',e:[0,-5,0,-5]},R:{l:'Let\'s do it',e:[-10,10,0,10]}},
+ {id:'hrdc',p:'mei',t:'Our HRD Corp levy balance is still unused this year. Use it for training?',
+  L:{l:'Too busy for training',e:[0,-5,-5,0],law:'Employers pay a monthly HRD Corp levy (1% of wages for 10+ staff). The balance can fund claimable training. Unused, it\'s money left on the table.'},
+  R:{l:'Send the team for training',e:[-5,10,5,5],next:['trained',4]}},
+ {id:'trained',p:'faizal',req:1,once:1,t:'That Excel training saves me 5 hours a week! Can I teach the others?',
+  L:{l:'Just get back to work',e:[5,-5,0,0]},R:{l:'Run a lunch-and-learn',e:[5,10,0,0]}},
+ {id:'harass',p:'siti',once:1,t:'Encik Kamal keeps commenting on my looks. I\'ve asked him to stop. He hasn\'t.',
+  L:{l:'Tell her not to take it seriously',e:[0,-20,-20,-10],law:'Employers must inquire into a sexual harassment complaint. If refusing, they must tell the complainant why in writing within 30 days.'},
+  R:{l:'Start a formal inquiry',e:[-5,10,15,0],next:['harass2',3]}},
+ {id:'harass2',p:'mei',req:1,once:1,t:'The inquiry found Kamal guilty. Problem: he\'s our top salesman.',
+  L:{l:'Keep him, final warning',e:[10,-15,-5,-5]},R:{l:'Dismiss him',e:[-15,15,5,5]}},
+ {id:'hire',p:'mei',t:'Two candidates for the sales role. Pak Ahmad, 52, 25 years\' experience. Jess, 24, asks for less.',
+  L:{l:'Hire Jess',e:[5,0,0,0],bias:'age'},R:{l:'Hire Pak Ahmad',e:[-5,5,0,5]}},
+ {id:'intern',p:'aina',t:'Our interns are asking for an allowance. Other companies pay RM800.',
+  L:{l:'Unpaid is "experience"',e:[5,-5,0,-10]},R:{l:'Pay an allowance',e:[-5,5,0,5]}},
+ {id:'loan',p:'bank',once:1,t:'Good news: you qualify for an expansion loan. Open a second branch?',
+  L:{l:'Stay small',e:[0,-5,0,0]},R:{l:'Expand!',e:[25,-5,0,5],next:['loan2',6]}},
+ {id:'loan2',p:'bank',req:1,once:1,t:'First loan repayment is due. The second branch is still slow.',
+  L:{l:'Cut staff bonuses to pay',e:[5,-15,0,0]},R:{l:'Pay from reserves',e:[-20,0,0,0]}},
+ {id:'machine',p:'faizal',once:1,t:'The safety guard on the cutting machine is broken. Should we keep running it?',
+  L:{l:'Keep running, fix later',e:[5,-5,-15,0],law:'OSHA 1994 requires employers to provide safe machinery and systems of work.',next:['injury',3]},
+  R:{l:'Stop and repair it now',e:[-15,5,10,0]}},
+ {id:'injury',p:'faizal',req:1,once:1,t:'I hurt my hand on that machine. 😣 The clinic says 2 weeks MC.',
+  L:{l:'Settle quietly, no report',e:[-5,-10,-20,-5],law:'Workplace accidents must be reported to DOSH, and SOCSO (PERKESO) covers employment injury. Hiding it is an offence.'},
+  R:{l:'Report to DOSH & PERKESO',e:[-5,0,5,-5]}},
+ {id:'poach',p:'raj',t:'A competitor offered me 30% more. I don\'t really want to go, but...',
+  L:{l:'Let him go',e:[5,-5,0,0]},R:{l:'Counter-offer 15%',e:[-15,5,0,0]}},
+ {id:'leave',p:'mei',t:'Half the team still has annual leave left. Let them carry it forward?',
+  L:{l:'Use it or lose it',e:[5,-10,0,0]},R:{l:'Allow carry-forward',e:[-5,10,0,0]}},
+ {id:'dinner',p:'staff',t:'Year-end dinner! Where are we going this year?',
+  L:{l:'Mamak, my treat',e:[0,0,0,0]},R:{l:'Hotel buffet + lucky draw',e:[-15,15,0,5]}},
+ {id:'pat',p:'raj',once:1,t:'My wife just gave birth! 👶 Can I take my paternity leave?',
+  L:{l:'Take 2 days, we\'re busy',e:[5,-10,-15,0],law:'Eligible married male employees get 7 consecutive days of paid paternity leave.'},
+  R:{l:'Take all 7 days, congrats!',e:[-5,10,5,0]}},
+ {id:'review',p:'siti',t:'New Google review: ⭐ "Boss is a dictator, avoid." Should we respond?',
+  L:{l:'Ignore it',e:[0,0,0,-5]},R:{l:'Hold a staff town hall',e:[-5,10,0,5]}},
+ {id:'agent',p:'agent',once:1,t:'Boss, I can get you 5 workers by Monday. Cheap. No permit, no problem.',
+  L:{l:'Legal hiring only',e:[-10,0,10,0]},
+  R:{l:'Take them',e:[15,0,-25,-5],law:'Employing foreign workers without valid permits is a serious offence under the Immigration Act, with heavy fines per worker.'}},
+ {id:'payroll',p:'sales',once:1,t:'Still doing payroll in Excel? Our system automates EPF, SOCSO, EIS and PCB. RM200 a month!',
+  L:{l:'Excel is fine',e:[5,0,-5,0]},R:{l:'Subscribe',e:[-5,5,10,0]}},
+ {id:'aiscreen',p:'ai',once:1,t:'BEEP. I can screen 500 CVs in 3 seconds. Shall I take over hiring?',
+  L:{l:'I\'ll read them myself',e:[-5,0,0,0]},R:{l:'Let the AI decide',e:[5,0,0,0],next:['aibias',3]}},
+ {id:'aibias',p:'mei',req:1,once:1,t:'Strange: HireBot rejected every candidate from Sabah and Sarawak. And everyone over 40.',
+  L:{l:'Keep using it, it\'s fast',e:[5,0,-10,-15],bias:'origin'},R:{l:'Switch it off, review manually',e:[-5,5,5,5]}},
+ {id:'kid',p:'ros',t:'School holidays, no one to watch my grandson. Can I bring him to work this week?',
+  L:{l:'Sorry, no',e:[0,-5,0,0]},R:{l:'Yes, just this week',e:[0,10,-5,5]}},
+ {id:'union',p:'faizal',once:1,t:'Some of us want to join a union. Is that okay with you?',
+  L:{l:'Discourage it',e:[0,-15,-15,-5],law:'Workers have the right to join a trade union. Interfering with that is prohibited under the Industrial Relations Act 1967.'},
+  R:{l:'It\'s your right',e:[0,10,10,0],next:['union2',4]}},
+ {id:'union2',p:'faizal',req:1,once:1,t:'The union is asking for a 10% pay rise across the board.',
+  L:{l:'Negotiate down to 5%',e:[-10,5,0,0]},R:{l:'Agree to 10%',e:[-20,15,0,5]}},
+ {id:'perf',p:'raj',t:'My sales dropped for 3 months straight. I know. Are you firing me?',
+  L:{l:'Yes, clear your desk',e:[10,-15,-15,0],law:'Dismissal needs just cause and excuse. For poor performance, give warnings and a fair chance to improve first.'},
+  R:{l:'Performance plan, 3 months',e:[0,5,5,0]}},
+ {id:'bonus',p:'mei',t:'Year-end numbers are in. Do we pay bonuses?',
+  L:{l:'No bonus this year',e:[10,-15,0,0]},
+  R:{l:'One month\'s bonus',e:s=>s.cash>=45?[-15,15,0,5]:[-20,10,0,0],note:s=>s.cash>=45?'':'It hurts the bank account.'}},
+ {id:'rude',p:'siti',t:'A customer is shouting at Aina at the counter. She\'s close to tears.',
+  L:{l:'Customer is always right',e:[5,-15,0,0]},R:{l:'Step in and defend her',e:[-5,15,0,0]}},
+ {id:'ac',p:'aina',t:'Aircond broke. It\'s 34°C in the office. We\'re melting.',
+  L:{l:'Open the windows lah',e:[0,-10,0,0]},R:{l:'Fix it today',e:[-10,10,0,0]}},
+ {id:'puasa',p:'siti',t:'It\'s Ramadan. Can those fasting finish at 4:30 and skip lunch?',
+  L:{l:'Same hours for everyone',e:[0,-10,0,0]},R:{l:'Approve it',e:[0,10,0,5]}},
+ {id:'retire',p:'ros',once:1,t:'I turn 60 next month. Do I have to retire, boss?',
+  L:{l:'Retire with a farewell party',e:[5,-5,0,0]},R:{l:'Stay on a new contract',e:[-5,10,0,5]}},
+ {id:'pdpa',p:'aina',t:'Someone left the full salary list on the shared printer. Everyone\'s seen it.',
+  L:{l:'Pretend nothing happened',e:[0,-10,-10,0],law:'The Personal Data Protection Act 2010 requires you to keep employee personal data secure.'},
+  R:{l:'Apologise & lock down access',e:[-5,0,10,0]}},
+ {id:'feature',p:'press',once:1,t:'We\'d like to feature you as a "Rising SME Employer". Interview Friday?',
+  L:{l:'Too busy',e:[0,0,0,-5]},R:{l:'Happy to!',e:[-5,5,0,15]}},
+ {id:'night',p:'client',t:'If you run a night shift, I\'ll double my orders.',
+  L:{l:'We\'re a day company',e:[-10,0,0,0]},R:{l:'Start a night shift',e:[20,-10,-5,0]}},
+ {id:'group',p:'jess',t:'Psst, the staff WhatsApp group is full of memes about you. Want me to add you?',
+  L:{l:'Add me',e:[0,-10,0,0]},R:{l:'Let them have their space',e:[0,5,0,0]}},
+ {id:'probation',p:'jess',once:1,t:'My probation ends this week. Am I confirmed?',
+  L:{l:'Extend probation 3 months',e:[0,-5,0,0]},R:{l:'Confirm her',e:[-5,10,0,0]}},
+ {id:'burnout',p:'raj',t:'Honestly boss, I\'m burnt out. Can I take a week off?',
+  L:{l:'Push through, Q4 matters',e:[5,-15,0,0]},R:{l:'Take the week',e:[-5,10,0,0]}},
+ {id:'mc',p:'mei',t:'Faizal took 3 days MC. The clinic letterhead looks... homemade.',
+  L:{l:'Accept it, not worth the drama',e:[0,-5,-5,0]},R:{l:'Verify with the clinic',e:[0,0,5,0]}},
+ {id:'grant',p:'mei',t:'There\'s a government wage incentive for hiring young graduates. Lots of forms.',
+  L:{l:'Not worth the paperwork',e:[0,0,0,0]},R:{l:'Apply',e:[10,-5,5,0]}},
+ // ---- v2: hiring-bias cards ----
+ {id:'mum',p:'mei',once:1,t:'Final two for the accounts role, equally qualified. Puan Lina mentions she has three young kids.',
+  L:{l:'Pick the other one, less MC risk',e:[5,0,-5,0],bias:'parent'},R:{l:'Judge on skills only',e:[0,5,5,5]}},
+ {id:'mandarin',p:'raj',once:1,t:'Can we put "Mandarin speaker preferred" in the job ad? The role doesn\'t really need it, but...',
+  L:{l:'Sure, add it',e:[0,0,-5,-10],bias:'language'},R:{l:'Only list what the job needs',e:[0,0,5,5]}},
+ {id:'wheel',p:'mei',once:1,t:'Our best candidate for the designer role uses a wheelchair. The office has three steps at the entrance.',
+  L:{l:'Pick someone "easier"',e:[0,-5,-5,-10],bias:'disability'},R:{l:'Hire her, install a ramp',e:[-10,10,5,10]}},
+ {id:'gender',p:'faizal',once:1,t:'For the new forklift driver, should we only hire men? Women won\'t last in the warehouse.',
+  L:{l:'Men only, then',e:[0,0,-5,-5],bias:'gender'},R:{l:'Open to anyone licensed',e:[0,5,5,5]}},
+ // ---- v2: longer story arcs ----
+ {id:'aina_back',p:'aina',req:1,once:1,t:'I\'m back from maternity leave! 🍼 Could I start at 10 and leave at 6 so I can do the nursery run?',
+  L:{l:'9 to 5:30 like everyone',e:[0,-10,-5,0]},R:{l:'Approve the shifted hours',e:[0,10,5,5]}},
+ {id:'kevin2',p:'uncle',req:1,once:1,t:'Why did you warn my son? He says your staff gang up on him. Fix this or I pull my investment.',
+  L:{l:'Apologise, drop the warning',e:[5,-15,0,0]},R:{l:'Stand by the warning',e:[-20,10,0,5],next:['kevin3',5]}},
+ {id:'kevin3',p:'nephew',req:1,once:1,t:'Okay... I\'ve been coming in on time. Can you teach me how to actually manage people?',
+  L:{l:'Not my job',e:[0,-5,0,0]},R:{l:'Mentor him weekly',e:[-5,10,0,5]}},
+ {id:'datin2',p:'client',req:1,once:1,t:'Your weekend team did good work. I\'m signing a 2-year contract, but I\'ll need weekend work every month.',
+  L:{l:'Negotiate rotating weekends + OT',e:[10,0,5,0]},R:{l:'Sign as is',e:[25,-15,-10,0]}},
+ {id:'viral2',p:'siti',req:1,once:1,t:'People liked how we responded to that TikTok. Now job seekers are DMing us!',
+  L:{l:'Ignore the DMs',e:[0,0,0,-5]},R:{l:'Run an open day',e:[-5,5,0,10]}},
+ // ---- v2: cards that react to how you're doing ----
+ {id:'lowcash',p:'mei',cond:s=>s.cash<25,t:'Salary day is Friday. We\'re short. Pay late this month?',
+  L:{l:'Pay a week late',e:[10,-15,-15,-5],law:'Wages must be paid no later than the 7th day after the end of each wage period.'},
+  R:{l:'Pay on time, defer my own salary',e:[-5,5,5,0]}},
+ {id:'lowmorale',p:'jess',cond:s=>s.morale<25,t:'Boss... three people are interviewing elsewhere. Everyone\'s tired.',
+  L:{l:'They can leave if they want',e:[5,-10,0,-5]},R:{l:'Team day off + honest chat',e:[-10,15,0,0]}},
+ {id:'highcash',p:'uncle',cond:s=>s.cash>80,t:'Business is booming! A big group wants to buy you out. Very generous offer.',
+  L:{l:'Not for sale',e:[-10,5,0,5]},R:{l:'Let\'s hear the offer',e:[10,-10,0,0]}},
+ {id:'lowcomp',p:'mei',cond:s=>s.comp<25,t:'We just got a letter from the Labour Department. An ex-staff filed a complaint.',
+  L:{l:'Ignore the letter',e:[0,0,-15,-10],law:'Ignoring a Labour Department complaint can lead to an order against you at the Labour Court.'},
+  R:{l:'Hire a consultant to clean up',e:[-15,0,20,0]}},
+ {id:'highmorale',p:'staff',cond:s=>s.morale>80,t:'We\'ve organised a surprise party for you! 🎂 Also... we\'d like a say in the big decisions.',
+  L:{l:'Thanks, but I decide',e:[0,-15,0,0]},R:{l:'Create a staff committee',e:[0,10,0,5]}},
+ {id:'highrep',p:'press',cond:s=>s.rep>80,t:'A business podcast wants you every week as a regular guest. Great exposure!',
+  L:{l:'Focus on the business',e:[5,5,0,-10]},R:{l:'Sign me up!',e:[-5,-5,0,10]}},
+ {id:'highcomp',p:'aina',cond:s=>s.comp>80,t:'Boss, we now need three forms to order printer paper. Can we simplify?',
+  L:{l:'Rules are rules',e:[0,-10,5,0]},R:{l:'Cut the red tape',e:[5,10,-10,0]}},
+ // ---- v2: more everyday situations ----
+ {id:'flood',p:'faizal',t:'Flash flood in Klang. Half the team can\'t get in today.',
+  L:{l:'Unpaid leave for absentees',e:[5,-15,-5,-5]},R:{l:'Paid day off, stay safe',e:[-10,15,0,5]}},
+ {id:'resign',p:'siti',t:'I\'m resigning. One month\'s notice. Can I use my annual leave to offset it?',
+  L:{l:'No, serve the full notice',e:[0,-5,0,0]},R:{l:'Okay, and thank you',e:[0,5,0,5]}},
+ {id:'exit',p:'mei',once:1,t:'Three resignations this quarter. Should we start doing exit interviews?',
+  L:{l:'Waste of time',e:[0,-5,0,0]},R:{l:'Yes, and act on them',e:[-5,10,0,5]}},
+ {id:'covid',p:'aina',t:'Flu season. Half the office is coughing. Can sick people work from home?',
+  L:{l:'Come in unless on MC',e:[5,-10,0,0]},R:{l:'WFH when sick',e:[-5,10,0,0]}},
+ {id:'smoke',p:'jess',t:'Some staff take 6 smoke breaks a day. Non-smokers say it\'s unfair.',
+  L:{l:'Not my problem',e:[0,-5,0,0]},R:{l:'Set a fair break policy',e:[0,5,5,0]}},
+ {id:'wedding',p:'faizal',once:1,t:'I\'m getting married! 💍 Can the company send something for the kenduri?',
+  L:{l:'A card is enough',e:[0,-5,0,0]},R:{l:'Send a gift hamper',e:[-5,10,0,5]}},
+ {id:'appraisal',p:'mei',t:'Appraisal season. Do we use a proper rating system or just your gut feel?',
+  L:{l:'Gut feel is faster',e:[5,-10,-5,0]},R:{l:'Set clear KPIs',e:[-5,10,5,0]}},
+ {id:'theft',p:'siti',t:'Stock is missing from the store. CCTV shows it might be one of the drivers.',
+  L:{l:'Sack him on the spot',e:[5,-5,-15,0],law:'Even for misconduct, you need a domestic inquiry before dismissal. Skip it and you risk an unfair dismissal claim.'},
+  R:{l:'Suspend & hold a domestic inquiry',e:[-5,5,10,0]}},
+ {id:'mental',p:'jess',once:1,t:'Could we get a counselling hotline as a staff benefit? A few of us are really struggling.',
+  L:{l:'Too expensive',e:[0,-10,0,0]},R:{l:'Set up an EAP',e:[-10,10,0,5]}},
+ {id:'uncle2',p:'uncle',t:'You\'re spending too much on staff. When do I see my returns?',
+  L:{l:'Pay him a dividend',e:[-15,0,0,0]},R:{l:'Explain people are the investment',e:[0,5,0,-5]}},
+];
+const BIAS={age:'Age: you chose the younger, cheaper candidate over the experienced one.',
+ origin:'Origin & age: you kept a tool that filtered out East Malaysians and over-40s.',
+ parent:'Parenthood: you passed over a qualified mother because of her kids.',
+ language:'Language: you added a requirement the job didn\'t need.',
+ disability:'Disability: you skipped the best candidate to avoid adapting the office.',
+ gender:'Gender: you closed a role to women without a job-related reason.'};
+const WIN=156;
+const SHOCKS=[{t:'Ringgit dips. Supplier prices up.',e:[-8,0,0,0]},{t:'New labour amendment gazetted. Policies need updating.',e:[0,0,-8,0]},
+ {t:'A competitor\'s scandal makes you look good.',e:[0,0,0,8]},{t:'Festive season rush! Orders up.',e:[8,-5,0,0]},
+ {t:'Viral "quiet quitting" trend hits the office.',e:[0,-8,0,0]},{t:'An industry award nomination!',e:[0,5,0,5]},
+ {t:'Electricity tariff hike.',e:[-6,0,0,0]},{t:'Big client delays payment by 90 days.',e:[-10,0,0,0]}];
+const ENDINGS={
+ win:{i:'🏆',t:'The Legacy',d:'Three years, still balanced. You hand a healthy company to the next boss and finally take a holiday. Kak Ros cries at the farewell.'},
+ cash0:{i:'🏚️',t:'Bankrupt',d:'The bank took the office keys. Kak Ros locked up one last time.'},
+ cash1:{i:'🏢',t:'Bought Out',d:'Too profitable, too fast. A conglomerate acquired you and replaced you with a "synergy consultant".'},
+ morale0:{i:'🚪',t:'The Great Resignation',d:'Everyone quit on the same Friday, and posted about it on LinkedIn.'},
+ morale1:{i:'🗳️',t:'Staff Takeover',d:'Your team loved working together so much they voted to run the company. Without you.'},
+ comp0:{i:'🚫',t:'Shut Down',d:'Complaints piled up at the Labour Department. Encik Hafiz came back with a court order.'},
+ comp1:{i:'📚',t:'Death by Paperwork',d:'Every decision now needs six forms and two signatures. Your best people left for a startup.'},
+ rep0:{i:'🔥',t:'Viral for the Wrong Reasons',d:'Nobody applies. Nobody buys. Your company name is now a meme.'},
+ rep1:{i:'🎤',t:'LinkedIn Guru',d:'Keynotes, podcasts, "Top 10 Employer". The business collapsed while you gave talks.'},
+};
+
+// ---------- expansion packs ----------
+PACKS.forEach(p=>{Object.assign(P,p.people||{});(p.cards||[]).forEach(c=>{c.pack=p.id})});
+const ALL_CARDS=()=>CARDS.concat(...PACKS.map(p=>p.cards||[]));
+let PACK='base';
+const curPack=()=>PACKS.find(p=>p.id===PACK)||null;
+const ACTIVE=()=>{const p=curPack();return p?CARDS.concat(p.cards):CARDS};
+const findCard=id=>ALL_CARDS().find(c=>c.id===id);
+function packTxt(p,k){const t=LANG!=='en'&&p.i18n&&p.i18n[LANG];return t&&t[k]||p[k]}
+// ---------- state ----------
+let S,deck,cur,queue,log,usedOnce,lastIds,quarterNote='';
+const $=id=>document.getElementById(id);
+const store={get(k,d){try{const v=localStorage.getItem('bb_'+k);return v?JSON.parse(v):d}catch(e){return d}},
+             set(k,v){try{localStorage.setItem('bb_'+k,JSON.stringify(v))}catch(e){}}};
+PACK=store.get('pack','base');if(PACK!=='base'&&!PACKS.find(p=>p.id===PACK))PACK='base';
+
+// seeded randomness: same workshop code = same sequence of situations for the whole room
+let rng=Math.random,code='';
+function seed(str){let h=1779033703^str.length;for(let i=0;i<str.length;i++){h=Math.imul(h^str.charCodeAt(i),3432918353);h=h<<13|h>>>19}
+  let a=h>>>0;return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function anniversary(){const y=S.week/52;return {id:'anniv'+S.week,once:1,p:'staff',
+  t:U('anniv')(y),L:{l:U('annivL'),e:[5,-5,0,0]},R:{l:U('annivR'),e:[-5,10,0,5]}}}
+function newGame(){
+  S={cash:50,morale:50,comp:50,rep:50,week:0};
+  code=($('code').value||'').trim().toUpperCase();rng=code?seed(code):Math.random;
+  queue=[];log=[];usedOnce=new Set();lastIds=[];
+  renderMeters();nextCard(true);
+}
+function ramp(){return 1+Math.min(1,S.week/156)*.6}
+function eff(o){const e=typeof o.e==='function'?o.e(S):o.e;const k=ramp();return e.map(v=>Math.round(v*k))}
+function pickCard(first){
+  if(first){const pk=curPack();return pk&&pk.introCard||CARDS.find(c=>c.id==='intro')}
+  if(S.week>0&&S.week%52===0&&!usedOnce.has('anniv'+S.week))return anniversary();
+  // follow-ups due?
+  queue=queue.filter(q=>!usedOnce.has(q.id));
+  const due=queue.findIndex(q=>q.at<=S.week);
+  if(due>=0){const q=queue.splice(due,1)[0];return findCard(q.id)}
+  const ok=c=>!c.req&&!/intro$/.test(c.id)&&!(c.once&&usedOnce.has(c.id))&&!lastIds.includes(c.id);
+  // situations that react to your meters jump the queue half the time
+  const urgent=ACTIVE().filter(c=>c.cond&&ok(c)&&c.cond(S));
+  if(urgent.length&&rng()<.5)return urgent[Math.floor(rng()*urgent.length)];
+  // in an industry pack, its own situations come up about half the time
+  const pk=curPack(),packPool=pk?pk.cards.filter(c=>ok(c)&&!c.cond):[];
+  if(packPool.length&&rng()<.5)return packPool[Math.floor(rng()*packPool.length)];
+  const pool=CARDS.filter(c=>ok(c)&&!c.cond);
+  return pool[Math.floor(rng()*pool.length)];
+}
+// ---------- rendering ----------
+function renderMeters(prev){
+  $('meters').innerHTML=METERS.map(m=>`<div class="meter"><div class="dot"><i id="d_${m.k}"></i></div>
+   <div class="gauge" id="g_${m.k}"><div class="fill ${S[m.k]<=20||S[m.k]>=80?'warn':''}" style="height:${S[m.k]}%"></div><span>${m.icon}</span></div>
+   <div class="mlabel">${m.name}</div></div>`).join('');
+  if(prev)METERS.forEach((m,i)=>{const d=S[m.k]-prev[i];if(d){const g=$('g_'+m.k);g.classList.add(d>0?'flash-up':'flash-down')}});
+}
+function preview(opt){
+  METERS.forEach((m,i)=>{const el=$('d_'+m.k);el.className='';if(!opt)return;const v=Math.abs(eff(opt)[i]);
+    if(v)el.className=v>=15?'l':v>=10?'m':'s'});
+}
+function timeLabel(){const y=Math.floor(S.week/52)+1,w=S.week%52+1;const tf=U('time');if(typeof tf==='function')return tf(y,w);return `${U('year')} <b>${y}</b> · ${U('week')} <b>${w}</b>`}
+function cardHTML(c){const p=P[c.p];return `<div class="choice l">${c.L.l}</div><div class="choice r">${c.R.l}</div>
+  <div class="ctext">${c.t}</div><div class="portrait"><div class="avatar" style="background:${p.c}">${p.e}</div>${p.bio?`<div class="bio">${p.bio}</div>`:''}</div>
+  <div class="who"><b>${p.n}</b><small>${p.r}</small></div>`}
+function nextCard(first){
+  cur=pickCard(first);
+  if(cur.once)usedOnce.add(cur.id);
+  lastIds.push(cur.id);if(lastIds.length>12)lastIds.shift();
+  const st=$('stage');st.innerHTML='';
+  const back=document.createElement('div');back.className='card back';st.appendChild(back);
+  const el=document.createElement('div');el.className='card';el.innerHTML=cardHTML(cur);
+  el.style.transform='translateY(30px) scale(.96)';el.style.opacity='0';st.appendChild(el);
+  requestAnimationFrame(()=>{el.style.transform='';el.style.opacity='1'});
+  bindDrag(el);
+  if(first){el.classList.add('hint-wiggle');el.addEventListener('pointerdown',()=>el.classList.remove('hint-wiggle'),{once:true});el.addEventListener('animationend',()=>el.classList.remove('hint-wiggle'))}
+  $('bL').textContent='← '+cur.L.l;$('bR').textContent=cur.R.l+' →';
+  $('time').innerHTML=timeLabel();
+  preview(null);
+}
+// ---------- input ----------
+let busy=false;
+function bindDrag(el){
+  let x0=null,dx=0;
+  const lc=el.querySelector('.choice.l'),rc=el.querySelector('.choice.r');
+  const show=d=>{lc.style.opacity=d<-25?1:0;rc.style.opacity=d>25?1:0;preview(d<-25?cur.L:d>25?cur.R:null)};
+  el.addEventListener('pointerdown',e=>{if(busy)return;x0=e.clientX;dx=0;el.classList.add('dragging');el.setPointerCapture(e.pointerId)});
+  el.addEventListener('pointermove',e=>{if(x0===null)return;dx=e.clientX-x0;el.style.transform=`translateX(${dx}px) rotate(${dx/18}deg)`;show(dx)});
+  const up=()=>{if(x0===null)return;x0=null;el.classList.remove('dragging');
+    if(Math.abs(dx)>90)choose(dx<0?'L':'R');else{el.style.transform='';show(0)}};
+  el.addEventListener('pointerup',up);el.addEventListener('pointercancel',up);
+}
+['L','R'].forEach(s=>{const b=$('b'+s);b.onclick=()=>choose(s);
+  b.onmouseenter=b.onfocus=()=>{if(!busy&&cur)preview(cur[s])};b.onmouseleave=b.onblur=()=>preview(null)});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){$('menu').classList.toggle('on');return}
+  if($('intro').classList.contains('on')||$('end').classList.contains('on')||$('menu').classList.contains('on'))return;
+  if(e.key==='ArrowLeft')choose('L');if(e.key==='ArrowRight')choose('R')});
+
+function choose(side){
+  if(busy||!cur)return;busy=true;
+  const o=cur[side],d=eff(o),prev=METERS.map(m=>S[m.k]);
+  METERS.forEach((m,i)=>S[m.k]=Math.max(0,Math.min(100,S[m.k]+d[i])));
+  const other=cur[side==='L'?'R':'L'];
+  log.push({week:S.week,card:cur,side,opt:o,d,risky:!!o.law,
+    people:d[1]>d[0],profit:d[0]>d[1],bias:o.bias||null,missed:other.law&&!o.law?null:null});
+  if(o.next)queue.push({id:o.next[0],at:S.week+o.next[1]});
+  S.week++;
+  // the business ticks along: steady income, better when the team is happy
+  if(!/intro$/.test(cur.id)){S.cash=Math.min(100,S.cash+1);
+    if(S.week%13===0){const q=Math.round((S.morale-45)/4);S.cash=Math.max(0,Math.min(100,S.cash+q));
+      quarterNote=U('quarter')(S.week/13,q)}}
+  const el=$('stage').querySelector('.card:not(.back)');
+  el.style.transform=`translateX(${side==='L'?-600:600}px) rotate(${side==='L'?-25:25}deg)`;el.style.opacity='0';
+  renderMeters(prev);preview(null);snd('swipe');
+  {const up=d.some(v=>v>0),dn=d.some(v=>v<0);setTimeout(()=>snd(dn&&!up?'down':up&&!dn?'up':(d.reduce((a,b)=>a+b,0)>=0?'up':'down')),60)}
+  const WARN=U('warn');
+  let warn='';METERS.forEach((m,i)=>{const v=S[m.k],p=prev[i];
+    if(v<=20&&p>20)warn=WARN[m.k][0];if(v>=80&&p<80)warn=WARN[m.k][1]});
+  const note=(o.note?trNote(o.note(S)):'')||warn||quarterNote;quarterNote='';if(note)toast((warn&&note===warn?'⚠️ ':'')+note);if(warn)setTimeout(()=>snd('warn'),200);
+  if(S.week%26===13){const sh=SHOCKS[Math.floor(rng()*SHOCKS.length)];METERS.forEach((m,i)=>S[m.k]=Math.max(0,Math.min(100,S[m.k]+sh.e[i])));
+    setTimeout(()=>{if($('end').classList.contains('on'))return;renderMeters(METERS.map((m,i)=>S[m.k]-sh.e[i]));toast('📢 '+sh.t)},380)}
+  setTimeout(()=>{busy=false;const end=S.week>=WIN&&!checkEnd()?'win':checkEnd();if(end)return showEnd(end);nextCard()},330);
+}
+function checkEnd(){for(const m of METERS){if(S[m.k]<=0)return m.k+'0';if(S[m.k]>=100)return m.k+'1'}return null}
+function toast(t){const x=$('toast');x.textContent=t;x.classList.add('on');clearTimeout(toast.h);toast.h=setTimeout(()=>x.classList.remove('on'),1800)}
+
+// ---------- end / debrief ----------
+function renderEndings(el){const got=store.get('endings',[]);
+  el.innerHTML=Object.entries(ENDINGS).map(([k,v])=>`<span class="${got.includes(k)?'':'no'}" title="${got.includes(k)?v.t:'???'}">${v.i}</span>`).join('')}
+function showEnd(k){
+  $('toast').classList.remove('on');snd('end');
+  const E=ENDINGS[k],weeks=S.week,best=Math.max(store.get('best',0),weeks);store.set('best',best);
+  const got=store.get('endings',[]);if(!got.includes(k)){got.push(k);store.set('endings',got)}
+  const decisions=log.filter(x=>!/intro$/.test(x.card.id));
+  const n=decisions.length||1;
+  const ppl=decisions.filter(x=>x.people).length,pro=decisions.filter(x=>x.profit).length;
+  const pplPct=Math.round(100*ppl/Math.max(1,ppl+pro));
+  const lawCards=decisions.filter(x=>x.card.L.law||x.card.R.law);
+  const risky=decisions.filter(x=>x.risky);
+  const compPct=lawCards.length?Math.round(100*(lawCards.length-risky.length)/lawCards.length):100;
+  const bias=decisions.filter(x=>x.bias);
+  const y=Math.floor(weeks/52),w=weeks%52;
+  const ST=U('styles'),style=compPct>=80&&pplPct>=60?ST[0]:compPct>=80?ST[1]:pplPct>=60?ST[2]:compPct<50?ST[3]:ST[4];const YR=U('yr'),WK=U('wk');
+  $('endPanel').innerHTML=`
+   <div class="ending-art">${E.i}</div><h2>${E.t}</h2><p>${E.d}</p>
+   <div class="stack" style="margin-top:16px">
+    <div class="stat"><span>${U('survived')}</span><b>${y?y+' '+YR+' ':''}${w} ${WK}</b></div>
+    <div class="stat"><span>${U('best')}</span><b>${Math.floor(best/52)?Math.floor(best/52)+' '+YR+' ':''}${best%52} ${WK}</b></div>
+    <div class="stat"><span>${U('decisions')}</span><b>${decisions.length}</b></div>
+    ${code?`<div class="stat"><span>${U('wscode')}</span><b>${code}</b></div>`:''}
+    <div class="stat"><span>${U('industry')}</span><b>${curPack()?curPack().icon+' '+packTxt(curPack(),'name'):U('baseName')}</b></div>
+   </div>
+   <h3>${U('style')}: ${style}</h3>
+   <div class="barlbl"><span>${U('profit')}</span><span>${U('people')} ${pplPct}%</span></div><div class="bar"><i style="width:${pplPct}%"></i></div>
+   <div class="barlbl" style="margin-top:10px"><span>${U('cut')}</span><span>${U('law')} ${compPct}%</span></div><div class="bar"><i style="width:${compPct}%"></i></div>
+   ${bias.length?`<h3>${U('pattern')}</h3>${bias.map(b=>`<div class="lesson"><b>${BIAS[b.bias]}</b>${b.card.t}</div>`).join('')}<p style="font-size:14px">${U('biasQ')}</p>`:''}
+   ${risky.length?`<h3>${U('lawSays')} (${risky.length})</h3>${risky.map(r=>`<div class="lesson"><b>${U('week')} ${r.week+1}: "${r.opt.l}"</b>${r.opt.law}</div>`).join('')}`:`<h3>${U('compliance')}</h3><p>${U('never')}</p>`}
+   <h3>${U('endingsFound')}</h3><div class="endings" id="endEnd"></div>
+   <div class="stack"><button class="btn primary" id="again">${U('again')}</button>
+   <button class="btn" id="copy">${U('copy')}</button></div>
+   <p class="sync" id="syncNote"></p>
+   <textarea id="logtxt" readonly style="display:none"></textarea>
+   <p class="small">${U('disc')}</p>`;
+  renderEndings($('endEnd'));
+  const choices={};decisions.forEach(x=>{if(findCard(x.card.id))choices[x.card.id]=x.side});
+  sendRun({code,pack:PACK,ending:k,weeks,people:pplPct,law:compPct,biases:[...new Set(bias.map(b=>b.bias))],
+    risky:[...new Set(risky.map(r=>r.card.id))],choices,at:Date.now()});
+  $('again').onclick=()=>{$('end').classList.remove('on');newGame()};
+  $('copy').onclick=()=>{
+    const txt=['Boss & Boss: decision log',...(code?['Workshop code: '+code]:[]),'Biases flagged: '+(bias.map(b=>b.bias).join(', ')||'none'),'Ending: '+E.t+' after '+weeks+' weeks','People-first: '+pplPct+'%  |  Followed the law: '+compPct+'%','',
+      ...decisions.map(x=>`Wk ${x.week+1} | ${P[x.card.p].n}: ${x.card.t.replace(/\s+/g,' ')} -> ${x.opt.l}${x.risky?'  [RISKY]':''}`)].join('\n');
+    const ta=$('logtxt');ta.value=txt;ta.style.display='block';
+    const ok=()=>toast(U('copied')),fail=()=>{ta.select();toast(U('selectCopy'))};
+    try{navigator.clipboard.writeText(txt).then(ok,fail)}catch(e){fail()}
+  };
+  $('end').classList.add('on');$('end').scrollTop=0;
+}
+// ---------- industry picker & cast ----------
+function renderPacks(){
+  const base={id:'base',icon:'🏢',name:U('baseName'),tagline:U('baseTag')};
+  const list=[base,...PACKS.map(p=>({id:p.id,icon:p.icon,name:packTxt(p,'name'),tagline:packTxt(p,'tagline'),note:packTxt(p,'note')}))];
+  $('packs').innerHTML=list.map(p=>`<button class="pk ${p.id==='base'?'base':''} ${p.id===PACK?'on':''}" data-p="${p.id}"><span class="ic">${p.icon}</span><b>${p.name}</b><small>${p.tagline}</small>${p.note?`<small style="opacity:.5">🔤 ${p.note}</small>`:''}</button>`).join('');
+  $('packs').querySelectorAll('.pk').forEach(b=>b.onclick=()=>{PACK=b.dataset.p;store.set('pack',PACK);renderPacks();renderCast()});
+}
+function renderCast(){
+  const pk=curPack(),keys=['aina','faizal','mei','raj','siti','jess','ros','uncle','jtk','client','nephew'].concat(pk?Object.keys(pk.people||{}):[]);
+  $('cast').innerHTML=keys.map(k=>{const p=P[k];return `<div class="cm"><span class="av" style="background:${p.c}">${p.e}</span><span><b>${p.n}</b><small>${p.r}</small><i>${p.bio||''}</i></span></div>`}).join('');
+}
+// ---------- sound ----------
+let AC=null,muted=store.get('muted',false);
+function snd(type){if(muted)return;try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const t=AC.currentTime;
+  const tone=(f1,f2,dur,vol,wave,delay)=>{const o=AC.createOscillator(),g=AC.createGain();o.type=wave||'sine';
+    o.frequency.setValueAtTime(f1,t+(delay||0));o.frequency.exponentialRampToValueAtTime(f2,t+(delay||0)+dur);
+    g.gain.setValueAtTime(vol,t+(delay||0));g.gain.exponentialRampToValueAtTime(.0001,t+(delay||0)+dur);o.connect(g).connect(AC.destination);o.start(t+(delay||0));o.stop(t+(delay||0)+dur)};
+  if(type==='swipe'){const n=AC.sampleRate*.18,buf=AC.createBuffer(1,n,AC.sampleRate),d=buf.getChannelData(0);for(let i=0;i<n;i++)d[i]=(Math.random()*2-1)*(1-i/n);
+    const src=AC.createBufferSource(),f=AC.createBiquadFilter(),g=AC.createGain();f.type='bandpass';f.frequency.value=1800;g.gain.value=.25;src.buffer=buf;src.connect(f).connect(g).connect(AC.destination);src.start()}
+  if(type==='up')tone(520,880,.18,.08,'triangle',.05);
+  if(type==='down')tone(420,220,.22,.08,'triangle',.05);
+  if(type==='warn'){tone(300,300,.12,.07,'square',.1);tone(300,300,.12,.07,'square',.28)}
+  if(type==='end'){[392,330,262].forEach((f,i)=>tone(f,f*.98,.5,.09,'triangle',i*.18))}
+  if(type==='start'){[262,330,392,523].forEach((f,i)=>tone(f,f,.25,.07,'triangle',i*.09))}
+ }catch(e){}}
+function setSnd(){$('snd').textContent=muted?'🔇':'🔊'}
+$('snd').onclick=()=>{muted=!muted;store.set('muted',muted);setSnd();snd('up')};setSnd();
+$('menuBtn').onclick=()=>$('menu').classList.add('on');
+$('mResume').onclick=()=>$('menu').classList.remove('on');
+$('mHow').onclick=()=>{$('menu').classList.remove('on');$('start').textContent=U('startBack');$('intro').classList.add('on');resumeOnStart=true};
+$('mRestart').onclick=()=>{$('menu').classList.remove('on');refreshIntro();$('start').textContent=U('start');$('intro').classList.add('on')};
+let resumeOnStart=false;
+function refreshIntro(){renderEndings($('endIntro'));const got=store.get('endings',[]);$('foundN').textContent=got.length+' / '+Object.keys(ENDINGS).length;
+  const b=store.get('best',0);$('bestIntro').textContent=b?`${U('longest')}${Math.floor(b/52)?Math.floor(b/52)+' '+U('yr')+' ':''}${b%52} ${U('wk')}`:'';$('efLbl').textContent=U('endingsFound')}
+// ---------- live workshop results (shared, when the viewer can reach it) ----------
+let DB=null,USER=null,UID=null;
+(async()=>{try{if(!window.claude||!claude.use)return;
+  DB=await claude.use('db');USER=await claude.use('user');
+  UID=USER?await USER.id():null;
+  const admin=USER?(await USER.canEdit()):false;
+  if(DB&&admin)$('trainerWrap').style.display='';
+ }catch(e){}})();
+async function sendRun(r){
+  const el=$('syncNote');if(!el)return;
+  if(!r.code){el.textContent='';return}
+  if(!DB||!UID){el.textContent=U('syncStay');return}
+  el.textContent=U('syncSend');
+  try{await DB.doc('runs/'+UID).set(r);el.textContent=U('syncOk')}
+  catch(e){el.textContent=U('syncNo')}
+}
+let tUnsub=null,tTimer=null;
+function openTrainer(){$('trainer').classList.add('on');$('tOut').innerHTML=''}
+$('trainerBtn').onclick=openTrainer;
+$('tBack').onclick=()=>{$('trainer').classList.remove('on');if(tUnsub){tUnsub();tUnsub=null}};
+$('tGo').onclick=()=>{
+  const c=($('tcode').value||'').trim().toUpperCase();if(!c||!DB)return;
+  if(tUnsub)tUnsub();clearTimeout(tTimer);
+  $('tOut').innerHTML='<p class="sync">Waiting for results…</p>';
+  tTimer=setTimeout(()=>{$('tOut').insertAdjacentHTML('afterbegin','<p class="sync">Can\'t reach the results yet. They may be out of date.</p>')},10000);
+  tUnsub=DB.collection('runs').where('code','==',c).onSnapshot(snap=>{
+    if(!snap.metadata.fromCache)clearTimeout(tTimer);renderTrainer(c,snap.docs.map(d=>({id:d.id,...d.data()})))},
+    e=>{clearTimeout(tTimer);$('tOut').innerHTML='<p class="sync">Couldn\'t load results.</p>'});
+};
+async function renderTrainer(c,rows){
+  const out=$('tOut');
+  if(!rows.length){out.innerHTML=`<p class="sync">No results yet for <b>${c}</b>. Ask players to enter this code before they start.</p>`;return}
+  let names={};try{if(USER&&USER.profiles)names=await USER.profiles(rows.map(r=>r.id))||{}}catch(e){}
+  const avg=k=>Math.round(rows.reduce((a,r)=>a+(r[k]||0),0)/rows.length);
+  const ends={};rows.forEach(r=>ends[r.ending]=(ends[r.ending]||0)+1);
+  const bias={};rows.forEach(r=>(r.biases||[]).forEach(b=>bias[b]=(bias[b]||0)+1));
+  const risky={};rows.forEach(r=>(r.risky||[]).forEach(b=>risky[b]=(risky[b]||0)+1));
+  const tally={};rows.forEach(r=>Object.entries(r.choices||{}).forEach(([id,side])=>{tally[id]=tally[id]||{L:0,R:0};if(side==='L'||side==='R')tally[id][side]++}));
+  const splits=Object.entries(tally).map(([id,t])=>({id,t,n:t.L+t.R,card:findCard(id)}))
+    .filter(x=>x.card&&x.n>=2&&!/intro$/.test(x.id)).sort((a,b)=>Math.abs(a.t.L/a.n-.5)-Math.abs(b.t.L/b.n-.5)).slice(0,8);
+  const esc=t=>String(t).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]));
+  out.innerHTML=`
+   <h3>${rows.length} player${rows.length>1?'s':''} · code ${esc(c)}</h3>
+   <div class="stat"><span>Average survival</span><b>${avg('weeks')} weeks</b></div>
+   <div class="barlbl" style="margin-top:12px"><span>Profit-first</span><span>People-first ${avg('people')}%</span></div><div class="bar"><i style="width:${avg('people')}%"></i></div>
+   <div class="barlbl" style="margin-top:10px"><span>Cut corners</span><span>Followed the law ${avg('law')}%</span></div><div class="bar"><i style="width:${avg('law')}%"></i></div>
+   <h3>How companies ended</h3>
+   ${Object.entries(ends).sort((a,b)=>b[1]-a[1]).map(([k,n])=>`<div class="stat"><span>${ENDINGS[k]?ENDINGS[k].i+' '+ENDINGS[k].t:esc(k)}</span><b>${n}</b></div>`).join('')}
+   ${Object.keys(risky).length?`<h3>Most common legal shortcuts</h3>${Object.entries(risky).sort((a,b)=>b[1]-a[1]).slice(0,6).map(([id,n])=>{const cd=findCard(id);return cd?`<div class="lesson"><b>${n} of ${rows.length}: ${esc(cd.t)}</b>${esc((cd.L.law||cd.R.law)||'')}</div>`:''}).join('')}`:''}
+   ${Object.keys(bias).length?`<h3>Hiring patterns in the room</h3>${Object.entries(bias).map(([b,n])=>`<div class="stat"><span>${esc((BIAS[b]||b).split(':')[0])}</span><b>${n} player${n>1?'s':''}</b></div>`).join('')}`:''}
+   ${splits.length?`<h3>Most divided decisions (discuss these)</h3>${splits.map(x=>{const lp=Math.round(100*x.t.L/x.n);return `<div class="split">${esc(x.card.t)}
+     <div class="sb"><i class="sl" style="width:${lp}%">${lp?lp+'%':''}</i><i class="sr" style="width:${100-lp}%">${100-lp?100-lp+'%':''}</i></div>
+     <div class="lbls"><span>← ${esc(x.card.L.l)}</span><span style="text-align:right">${esc(x.card.R.l)} →</span></div></div>`}).join('')}`:''}
+   <h3>Players</h3>
+   ${rows.sort((a,b)=>b.weeks-a.weeks).map(r=>`<div class="trow"><span>${esc((names[r.id]&&names[r.id].name)||'Player')}<small>${ENDINGS[r.ending]?ENDINGS[r.ending].t:''} · people ${r.people}% · law ${r.law}%</small></span><b>${r.weeks} wk</b></div>`).join('')}`;
+}
+// ---------- languages (base English here; other editions live in lang/*.js) ----------
+const UI_EN={baseName:'General SME',baseTag:'The original game: a 12-person company in Shah Alam',industry:'Industry',year:'Year',week:'Week',yr:'yr',wk:'wk',hint:'Swipe the card, tap a button, or use ← →',
+  warn:{cash:['Cash is running dangerously low','Cash is piling up. Investors are circling'],morale:['Morale is collapsing','The team is getting a little too comfortable'],
+   comp:['Compliance is slipping badly','You\'re drowning in paperwork'],rep:['Your reputation is in trouble','You\'re becoming more famous than your business']},
+  quarter:(n,q)=>`Quarter ${n} results: ${q>=0?'+':''}${q} cash (${q>=0?'a motivated team sells more':'low morale hurt sales'})`,
+  anniv:y=>`🎉 Happy ${['first','second','third'][y-1]||y+'th'} anniversary, boss! You're still standing. How do we celebrate?`,annivL:'Back to work, no fuss',annivR:'Makan-makan for everyone',
+  survived:'Survived',best:'Best run',decisions:'Decisions made',wscode:'Workshop code',style:'Your HR style',
+  styles:['The Trusted Boss','The By-the-Book Boss','The Big-Hearted Risk-Taker','The Corner-Cutter','The Pragmatist'],
+  profit:'Profit-first',people:'People-first',cut:'Cut corners',law:'Followed the law',pattern:'Pattern spotted',
+  biasQ:'Hiring on anything other than ability narrows your talent pool. Would you make the same call if no one were watching? Would you be comfortable explaining it?',
+  lawSays:'What the law says',compliance:'Compliance',never:'You never took a risky shortcut. Encik Hafiz would be proud.',
+  endingsFound:'Endings found',again:'Run another company',copy:'Copy decision log (for trainers)',copied:'Copied!',selectCopy:'Select & copy the text below',
+  disc:'Employment rules are simplified for gameplay. Not legal advice.',longest:'Your longest-running company: ',
+  syncStay:'Results stay on this device (not signed in to the shared session).',syncSend:'Sending your results to the trainer…',syncOk:'✓ Results sent to your trainer.',syncNo:'Results stay on this device (no permission to send).',
+  paused:'Paused',resume:'Resume',how:'How to play',quit:'Quit this company',start:'Open the office',startBack:'Back to the office',
+  intro:{lead:'You own a 12-person company in Shah Alam. You also <b>are</b> the HR department. Every week, someone walks in with a problem. Swipe left or right to decide.',
+   cash:'<b>💰 Cash</b>Run out and the bank takes the keys. Too much and you get bought out.',morale:'<b>🙂 Morale</b>Too low: everyone quits. Too high: they run the place without you.',
+   comp:'<b>⚖️ Compliance</b>Too low: the Labour Department shuts you down. Too high: buried in paperwork.',rep:'<b>📣 Reputation</b>Too low: nobody applies. Too high: you become a LinkedIn guru and neglect the business.',
+   goal:'<b>Goal: keep the company alive for 3 years.</b> Keep all four in balance. A dot above a meter shows it will change. Bigger dot, bigger change. It doesn\'t say which way.',
+   ws:'Workshop mode',wsText:'Running this in a training session? Give everyone the same code so they face the same situations, then compare decisions in the debrief. Share this page with participants as Contributors and their results appear on your live Trainer view.',
+   codePh:'Code (optional), e.g. HR2026',pickInd:'Choose your industry',meet:'Meet the cast',disc:'Employment rules are simplified for gameplay, based on Malaysian law as of 2025. Not legal advice.'}};
+const LANG_ORDER=['en','ms','zh','ta'];
+let LANG=store.get('lang','en');if(LANG!=='en'&&!LANGS[LANG])LANG='en';
+const LP=()=>LANG==='en'?null:LANGS[LANG];
+const U=k=>{const l=LP();return l&&l.ui&&l.ui[k]!==undefined?l.ui[k]:UI_EN[k]};
+let EN_BASE=null;
+function snapshotEN(){
+  EN_BASE={cards:new Map(ALL_CARDS().map(c=>[c,[c.t,c.L.l,c.R.l,c.L.law,c.R.law]])),people:Object.fromEntries(Object.entries(P).map(([k,v])=>[k,[v.n,v.r,v.bio]])),
+    meters:METERS.map(m=>m.name),endings:Object.fromEntries(Object.entries(ENDINGS).map(([k,v])=>[k,[v.t,v.d]])),bias:{...BIAS},shocks:SHOCKS.map(s=>s.t)}}
+function applyLang(l){
+  if(l!=='en'&&!LANGS[l])l='en';
+  LANG=l;store.set('lang',l);const L=LP();
+  if(!EN_BASE)snapshotEN();
+  ALL_CARDS().forEach(c=>{const e=EN_BASE.cards.get(c);if(!e)return;
+    const m=L&&((L.cards&&L.cards[c.id])||(c.pack&&L.packs&&L.packs[c.pack]&&L.packs[c.pack][c.id]));
+    c.t=m?m[0]:e[0];c.L.l=m?m[1]:e[1];c.R.l=m?m[2]:e[2];
+    if(e[3])c.L.law=m&&m[3]?m[3]:e[3];if(e[4])c.R.law=m&&m[3]?m[3]:e[4]});
+  Object.entries(P).forEach(([k,v])=>{const e=EN_BASE.people[k];if(!e)return;const s=L&&L.people&&L.people[k];v.n=s&&s[0]||e[0];v.r=s&&s[1]||e[1];v.bio=s&&s[2]||e[2]});
+  METERS.forEach((m,i)=>m.name=L&&L.meters?L.meters[i]:EN_BASE.meters[i]);
+  Object.entries(ENDINGS).forEach(([k,v])=>{const s=L&&L.endings&&L.endings[k]||EN_BASE.endings[k];v.t=s[0];v.d=s[1]});
+  Object.keys(BIAS).forEach(k=>BIAS[k]=L&&L.bias&&L.bias[k]||EN_BASE.bias[k]);
+  SHOCKS.forEach((s,i)=>s.t=L&&L.shocks&&L.shocks[i]||EN_BASE.shocks[i]);
+  const I=U('intro');document.querySelectorAll('[data-i]').forEach(el=>{if(I[el.dataset.i]!==undefined)el.innerHTML=I[el.dataset.i]});
+  $('code').placeholder=I.codePh;document.querySelector('.hint').textContent=U('hint');
+  $('mResume').textContent=U('resume');$('mHow').textContent=U('how');$('mRestart').textContent=U('quit');$('mPaused').textContent=U('paused');
+  $('start').textContent=resumeOnStart?U('startBack'):U('start');
+  document.querySelectorAll('.lang button').forEach(b=>b.classList.toggle('on',b.dataset.l===l));
+  document.documentElement.lang=l;
+  if(typeof renderPacks==='function')renderPacks();if(typeof renderCast==='function')renderCast();
+  if(S)renderMeters();
+  if(cur&&!$('intro').classList.contains('on')){const c=$('stage').querySelector('.card:not(.back)');if(c){c.innerHTML=cardHTML(cur);bindDrag(c)}
+    $('bL').textContent='← '+cur.L.l;$('bR').textContent=cur.R.l+' →';$('time').innerHTML=timeLabel()}
+  refreshIntro();
+}
+const trNote=t=>{const L=LP();return L&&L.notes&&L.notes[t]||t};
+function renderLangButtons(){document.querySelectorAll('.lang').forEach(box=>{box.innerHTML=LANG_ORDER.filter(k=>k==='en'||LANGS[k]).map(k=>`<button data-l="${k}">${k==='en'?'English':LANGS[k].name}</button>`).join('');
+  box.querySelectorAll('button').forEach(b=>b.onclick=()=>applyLang(b.dataset.l))})}
+
+renderLangButtons();
+// ---------- boot ----------
+refreshIntro();
+$('start').onclick=()=>{$('intro').classList.remove('on');if(resumeOnStart){resumeOnStart=false;$('start').textContent=U('start');return}snd('start');newGame()};
+S={cash:50,morale:50,comp:50,rep:50,week:0};applyLang(LANG);renderMeters();
+</script>
+</body>
+</html>

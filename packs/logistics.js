@@ -1,0 +1,32 @@
+// Expansion pack: Logistics hub, Port Klang
+registerPack({
+ id:'logistics',icon:'🚛',name:'Logistics Hub, Port Klang',tagline:'Lorries, containers and the 11.11 sale from hell',
+ i18n:{ms:{name:'Hab Logistik, Pelabuhan Klang',tagline:'Lori, kontena dan jualan 11.11 yang dahsyat',note:'Kad dalam Bahasa Inggeris buat masa ini'},zh:{name:"物流中心，巴生港",tagline:"罗里、货柜，还有地狱般的11.11",note:'卡片内容暂为英文'},ta:{name:"சரக்கு மையம், கிள்ளான் துறைமுகம்",tagline:"லாரிகள், கொள்கலன்கள், பயங்கரமான 11.11 விற்பனை",note:'அட்டைகள் தற்போது ஆங்கிலத்தில்'}},
+ people:{
+  lg_lim:{n:'Lorry Lim',r:'Senior driver',e:'🧔🏻‍♂️',c:'#e2dccb',bio:'Driven the North-South Highway 4,000 times. Knows every R&R\'s best nasi lemak.'},
+  lg_hema:{n:'Hema',r:'Operations manager',e:'👩🏾‍💼',c:'#f1d6e2',bio:'Tracks 800 parcels and 40 personalities in real time.'},
+  lg_danial:{n:'Danial',r:'Warehouse picker, 19',e:'🧑🏽',c:'#d3ecd9',bio:'Fastest picker in the warehouse. Wants to be a TikTok star.'},
+ },
+ introCard:{id:'lg_intro',p:'lg_hema',once:1,t:'Welcome to Port Klang, boss! The 11.11 sale is in 10 days. Volume will triple. Nobody is ready.',
+  L:{l:'Nobody?',e:[0,0,0,0]},R:{l:'Let\'s get ready',e:[0,0,0,0]}},
+ cards:[
+  {id:'lg_1111',p:'lg_hema',once:1,t:'11.11 volume tripled. Everyone works 16-hour days this week?',
+   L:{l:'16 hours, all hands',e:[20,-15,-15,0],law:'Under the Employment Act, work including overtime can\'t exceed 12 hours a day, and overtime is capped at 104 hours a month.'},
+   R:{l:'Hire temps, 12-hour maximum',e:[-5,5,10,0]}},
+  {id:'lg_fatigue',p:'lg_lim',t:'Drivers are paid per trip, so some drive 18 hours without sleep.',
+   L:{l:'They choose to',e:[10,-5,-15,-10]},R:{l:'Cap driving hours, fatigue rules',e:[-10,10,10,5]}},
+  {id:'lg_gig',p:'lg_hema',once:1,t:'Idea: make all drivers "independent contractors". No EPF, no SOCSO. Cheaper!',
+   L:{l:'Do it',e:[15,-15,-15,-10],law:'Calling employees contractors doesn\'t change their legal status if you control how they work. Courts look at the reality, so EPF and SOCSO could still be owed.'},
+   R:{l:'Keep them as employees',e:[-5,5,5,0]}},
+  {id:'lg_tiktok',p:'lg_danial',once:1,t:'Boss, my warehouse TikTok went viral! But... you can see customer addresses on the parcels.',
+   L:{l:'Free marketing!',e:[0,5,-15,-5],law:'Publicly showing customers\' names and addresses breaches the Personal Data Protection Act 2010.'},
+   R:{l:'Take it down, PDPA training for all',e:[0,-5,10,5]}},
+  {id:'lg_forklift',p:'lg_hema',t:'Unlicensed staff have been "helping out" on the forklifts.',
+   L:{l:'As long as nobody gets hurt',e:[5,0,-15,0]},R:{l:'Certified drivers only, fund training',e:[-10,5,10,0]}},
+  {id:'lg_aircond',p:'lg_lim',t:'My lorry aircond rosak. Six hours to Penang at 35°C. Can or not fix?',
+   L:{l:'Open the window, more wind',e:[5,-10,0,0]},R:{l:'Fix it this week',e:[-5,10,0,0]}},
+  {id:'lg_ev',p:'lg_hema',once:1,t:'A big client wants green delivery. Switch ten vans to electric?',
+   L:{l:'Too expensive',e:[0,0,0,-10]},R:{l:'Pilot three EV vans',e:[-15,5,0,15]}},
+  {id:'lg_meal',p:'lg_lim',t:'Can drivers get a meal allowance? R&R nasi lemak is RM12 now, boss.',
+   L:{l:'Bring food from home',e:[5,-10,0,0]},R:{l:'RM15 meal allowance per trip',e:[-10,10,0,0]}},
+ ]});

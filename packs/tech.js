@@ -1,0 +1,33 @@
+// Expansion pack: Tech startup & shared services, Cyberjaya
+registerPack({
+ id:'tech',icon:'💻',name:'Tech Startup, Cyberjaya',tagline:'Series A money, Gen Z talent and night shifts for New York',
+ i18n:{ms:{name:'Syarikat Teknologi, Cyberjaya',tagline:'Dana Siri A, bakat Gen Z dan syif malam untuk New York',note:'Kad dalam Bahasa Inggeris buat masa ini'},zh:{name:"科技初创，赛城",tagline:"A轮资金、Z世代人才，还有为纽约上夜班",note:'卡片内容暂为英文'},ta:{name:"தொழில்நுட்ப ஸ்டார்ட்அப், சைபர்ஜெயா",tagline:"Series A பணம், Gen Z திறமை, நியூயார்க்குக்காக இரவு ஷிஃப்ட்",note:'அட்டைகள் தற்போது ஆங்கிலத்தில்'}},
+ people:{
+  tc_darren:{n:'Darren',r:'Founder & CEO',e:'🧑🏻‍💻',c:'#d8e2f6',bio:'Raised RM20 million with a pitch deck and a hoodie.'},
+  tc_nurul:{n:'Nurul',r:'Developer',e:'🧑🏽‍💻',c:'#e0f0dc',bio:'Codes in dark mode, speaks in memes, ships on time.'},
+  tc_arun:{n:'Arun',r:'Night-shift lead, New York accounts',e:'🦉',c:'#e6dccb',bio:'Lives on New York time. Eats breakfast at 9pm.'},
+  tc_grace:{n:'Ms. Grace',r:'VC investor',e:'💼',c:'#f2dcdc',bio:'Asks about "burn rate" the way aunties ask when you\'re getting married.'},
+ },
+ introCard:{id:'tc_intro',p:'tc_darren',once:1,t:'Welcome to the rocket ship, boss! 80 people, RM20 million, and our runway is... let\'s not talk about runway.',
+  L:{l:'Let\'s talk about runway',e:[0,0,0,0]},R:{l:'To the moon 🚀',e:[0,0,0,0]}},
+ cards:[
+  {id:'tc_4day',p:'tc_nurul',once:1,t:'Can we try a four-day week? Same output, I promise. My cat agrees.',
+   L:{l:'Five days, this is a startup',e:[0,-10,0,0]},R:{l:'Three-month trial',e:[-5,15,0,10]}},
+  {id:'tc_layoff',p:'tc_grace',once:1,t:'Burn rate too high. Cut 30% of staff by email, US-style. Fast and clean.',
+   L:{l:'Mass email at 7am',e:[20,-20,-10,-15],law:'Retrenchment in Malaysia needs fair selection, notice and termination benefits, plus notification to the Labour Department. Layoff-by-email also tends to go viral.'},
+   R:{l:'One-to-one talks + support package',e:[5,-5,5,5]}},
+  {id:'tc_esop',p:'tc_darren',once:1,t:'Instead of pay rises this year, let\'s give everyone stock options!',
+   L:{l:'Options only',e:[10,-10,0,0]},R:{l:'Small raise + options, explained clearly',e:[-5,10,0,5]}},
+  {id:'tc_night',p:'tc_arun',t:'Night shift ends at 6am. Some of the team take e-hailing rides home alone.',
+   L:{l:'They\'re adults',e:[5,-10,-5,0]},R:{l:'Company transport home',e:[-10,10,5,5]}},
+  {id:'tc_spy',p:'tc_grace',once:1,t:'Install software to track remote staff mouse movements. Productivity!',
+   L:{l:'Install it quietly',e:[0,-15,-10,-5],law:'Monitoring software collects personal data. Under the PDPA 2010 you must tell employees and have a clear purpose. Secret tracking is risky.'},
+   R:{l:'Measure output, not mouse clicks',e:[0,10,5,0]}},
+  {id:'tc_crunch',p:'tc_nurul',t:'We shipped three releases in two weeks. Half the team is fried.',
+   L:{l:'Pizza party, keep going',e:[5,-10,0,0]},R:{l:'Release freeze, recovery week',e:[-10,15,0,0]}},
+  {id:'tc_diversity',p:'tc_grace',once:1,t:'Your engineering team is 95% men. Investors noticed.',
+   L:{l:'We hire the best',e:[0,0,0,-10],bias:'gender'},R:{l:'Women-in-tech internship pipeline',e:[-5,5,0,10]}},
+  {id:'tc_moonlight',p:'tc_darren',once:1,t:'Two devs are secretly freelancing for a competitor at night.',
+   L:{l:'Fire them today',e:[5,-10,-10,0],law:'Dismissal for misconduct still needs a domestic inquiry first. Check their contracts for conflict-of-interest clauses.'},
+   R:{l:'Inquiry, then a clear moonlighting policy',e:[0,5,5,0]}},
+ ]});

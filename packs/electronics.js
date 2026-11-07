@@ -1,0 +1,33 @@
+// Expansion pack: E&E Factory, Penang
+registerPack({
+ id:'electronics',icon:'🔌',name:'E&E Factory, Penang',tagline:'Chips, cleanrooms and 3am calls with Arizona',
+ i18n:{ms:{name:'Kilang E&E, Pulau Pinang',tagline:'Cip, bilik bersih dan panggilan 3 pagi dengan Arizona',note:'Kad dalam Bahasa Inggeris buat masa ini'},zh:{name:"电子电器工厂，槟城",tagline:"芯片、无尘室，还有凌晨3点跟亚利桑那开会",note:'卡片内容暂为英文'},ta:{name:"மின்னணு தொழிற்சாலை, பினாங்கு",tagline:"சிப்கள், சுத்த அறைகள், அரிசோனாவுடன் அதிகாலை 3 மணி அழைப்புகள்",note:'அட்டைகள் தற்போது ஆங்கிலத்தில்'}},
+ people:{
+  ee_seng:{n:'Ah Seng',r:'Line leader, Bayan Lepas',e:'👨🏻‍🔧',c:'#cfe0f5',bio:'Fluent in Penang Hokkien, English and "can lah".'},
+  ee_priya:{n:'Priya',r:'Customer auditor from US HQ',e:'👩🏾‍💼',c:'#f0d9c4',bio:'Flew 22 hours to check your fire exits. Will check them twice.'},
+  ee_zul:{n:'Engineer Zul',r:'Process engineer',e:'👨🏽‍💻',c:'#d5ecd4',bio:'On Zoom with Arizona at 3am. Runs on teh tarik and ambition.'},
+  ee_bishnu:{n:'Bishnu',r:'Worker rep, contract staff from Nepal',e:'🧑🏽',c:'#f6e0b5',bio:'Sends half his salary home. Remembers every promise you make.'},
+ },
+ introCard:{id:'ee_intro',p:'ee_seng',once:1,t:'Welcome to Bayan Lepas, boss! Line 3 is down again. Wah, today confirm interesting one.',
+  L:{l:'Let\'s see what Line 3 wants',e:[0,0,0,0]},R:{l:'Teh tarik first, then Line 3',e:[0,0,0,0]}},
+ cards:[
+  {id:'ee_fees',p:'ee_bishnu',once:1,t:'Boss, the agent back home charged us RM5,000 each for this job. We are still paying the debt.',
+   L:{l:'Not our problem, it\'s the agent',e:[5,-10,-20,-15],law:'Making workers pay recruitment fees is a forced-labour indicator. Forced labour is an offence under the Employment Act (s.90B), and US customs can block exports from suppliers that use it.'},
+   R:{l:'Reimburse the fees, audit the agent',e:[-20,15,15,10]}},
+  {id:'ee_passport',p:'ee_seng',once:1,t:'HR has been keeping all the foreign workers\' passports in the safe "for safekeeping". Auditor arrives next week.',
+   L:{l:'Keep them, they might run',e:[0,-10,-20,-10],law:'Holding an employee\'s passport is an offence under the Passports Act 1966 and a forced-labour indicator.'},
+   R:{l:'Return them, offer personal lockers',e:[-5,10,15,5]}},
+  {id:'ee_hostel',p:'ee_priya',once:1,t:'Your hostel has 14 people per room. Our code of conduct says 8 maximum, or we pull the order.',
+   L:{l:'Squeeze in more bunk beds',e:[5,-10,-10,-5],law:'The Workers\' Minimum Standards of Housing and Amenities Act 1990 (Act 446) sets space, amenity and approval rules for employer-provided accommodation.'},
+   R:{l:'Rent a second hostel',e:[-20,10,10,10]}},
+  {id:'ee_3am',p:'ee_zul',t:'Arizona wants a daily call at 3am our time. Every day. Forever.',
+   L:{l:'Customer is king',e:[10,-15,0,0]},R:{l:'Rotate the calls across the team',e:[0,10,0,0]}},
+  {id:'ee_cny',p:'ee_seng',t:'CNY order rush, boss! Skip the shutdown and run 12-hour shifts? Double OT, sure huat.',
+   L:{l:'Shutdown as usual, huat anyway',e:[-10,10,0,0]},R:{l:'Run the 12-hour shifts',e:[20,-10,-5,0]}},
+  {id:'ee_poach',p:'ee_zul',once:1,t:'The new chip plant down the road offered me double. They also have free nasi lemak on Fridays.',
+   L:{l:'Can\'t match it, good luck',e:[5,-10,0,-5]},R:{l:'Promote him, add a training budget',e:[-15,10,0,5]}},
+  {id:'ee_robot',p:'ee_priya',once:1,t:'HQ will fund full automation on Line 3. It replaces 40 operators.',
+   L:{l:'Automate and retrench 40',e:[20,-20,0,-10]},R:{l:'Automate, retrain them as technicians',e:[-10,10,5,10]}},
+  {id:'ee_crocs',p:'ee_seng',t:'Someone wore Crocs into the cleanroom again. Yield down 4%.',
+   L:{l:'Name and shame in the group chat',e:[0,-10,0,0]},R:{l:'Retrain, plus a funny poster',e:[0,5,5,0]}},
+ ]});
