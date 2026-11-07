@@ -105,7 +105,7 @@ registerLang('ms','Bahasa Melayu',Object.assign({
  shocks:['Ringgit jatuh. Harga pembekal naik.','Pindaan undang-undang buruh baharu diwartakan. Polisi perlu dikemas kini.','Skandal pesaing buat anda nampak baik.',
   'Musim perayaan! Tempahan meningkat.','Trend "quiet quitting" tular melanda pejabat.','Dicalonkan untuk anugerah industri!','Tarif elektrik naik.','Klien besar lewat bayar 90 hari.'],
  notes:{'Clean records. He leaves happy.':'Rekod lengkap. Dia balik dengan puas hati.','Gaps found. You pay a fine.':'Ada kekurangan. Anda dikenakan denda.','It hurts the bank account.':'Pedih untuk akaun bank.'},
-},{ui:{baseName:'PKS Umum',baseTag:'Permainan asal: syarikat 12 orang di Shah Alam',industry:'Industri',year:'Tahun',week:'Minggu',yr:'thn',wk:'mgg',hint:'Leret kad, tekan butang, atau guna ← →',
+},{ui:{sendTitle:'Hantar keputusan anda kepada jurulatih',yourName:'Nama anda (pilihan)',copyCode:'Salin kod keputusan',whatsapp:'Hantar melalui WhatsApp',baseName:'PKS Umum',baseTag:'Permainan asal: syarikat 12 orang di Shah Alam',industry:'Industri',year:'Tahun',week:'Minggu',yr:'thn',wk:'mgg',hint:'Leret kad, tekan butang, atau guna ← →',
   warn:{cash:['Tunai semakin kritikal','Tunai bertimbun. Pelabur mula mengintai'],morale:['Semangat staf runtuh','Team dah terlalu selesa'],
    comp:['Pematuhan merosot teruk','Anda lemas dalam kertas kerja'],rep:['Reputasi anda dalam bahaya','Anda lebih terkenal daripada bisnes anda']},
   quarter:(n,q)=>`Keputusan suku ${n}: ${q>=0?'+':''}${q} tunai (${q>=0?'team bersemangat, jualan naik':'semangat rendah jejaskan jualan'})`,
@@ -123,5 +123,5 @@ registerLang('ms','Bahasa Melayu',Object.assign({
    cash:'<b>💰 Tunai</b>Habis, bank ambil kunci. Terlalu banyak, syarikat anda dibeli orang.',morale:'<b>🙂 Semangat</b>Terlalu rendah: semua berhenti. Terlalu tinggi: mereka urus syarikat tanpa anda.',
    comp:'<b>⚖️ Pematuhan</b>Terlalu rendah: Jabatan Tenaga Kerja tutup anda. Terlalu tinggi: tertimbus kertas kerja.',rep:'<b>📣 Reputasi</b>Terlalu rendah: tiada siapa memohon. Terlalu tinggi: anda jadi guru LinkedIn dan abaikan bisnes.',
    goal:'<b>Matlamat: pastikan syarikat bertahan 3 tahun.</b> Seimbangkan keempat-empatnya. Titik di atas meter menunjukkan ia akan berubah. Titik besar, perubahan besar. Arahnya tidak ditunjukkan.',
-   ws:'Mod bengkel',wsText:'Guna dalam sesi latihan? Beri semua peserta kod yang sama supaya mereka hadapi situasi yang sama, kemudian bandingkan keputusan semasa debrief. Kongsi halaman ini dengan peserta sebagai Contributor dan keputusan mereka muncul di paparan Jurulatih anda.',
+   ws:'Mod bengkel',wsText:'Guna dalam sesi latihan? Beri semua peserta kod yang sama supaya mereka hadapi situasi yang sama, kemudian bandingkan keputusan semasa debrief. Di akhir permainan, peserta hantar kod keputusan dan anda tampal kod itu di paparan Jurulatih.',
    codePh:'Kod (pilihan), cth. HR2026',pickInd:'Pilih industri anda',meet:'Kenali watak',disc:'Peraturan pekerjaan dipermudahkan untuk permainan, berdasarkan undang-undang Malaysia setakat 2025. Bukan nasihat undang-undang.'}}}));

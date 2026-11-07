@@ -4,8 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Boss &amp; Boss</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Noto+Sans+Tamil:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fonts/fonts.css">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="theme-color" content="#0f3d3e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
 <style>
 :root{
   --bg:#0f3d3e; --bg2:#0b2e2f; --ink:#1d1a16; --paper:#fbf4e6; --paper2:#f1e6cf;
@@ -166,9 +171,9 @@ function registerPack(p){PACKS.push(p)}
   <div class="packs" id="packs"></div>
   <div class="stack"><button class="btn primary" id="start">Open the office</button></div>
   <h3 data-i="ws">Workshop mode</h3>
-  <p style="font-size:14px" data-i="wsText">Running this in a training session? Give everyone the same code so they face the same situations, then compare decisions in the debrief. Share this page with participants as Contributors and their results appear on your live Trainer view.</p>
+  <p style="font-size:14px" data-i="wsText">Running this in a training session? Give everyone the same code so they face the same situations, then compare decisions in the debrief. At the end, players send you their result code and you paste the codes into the Trainer view.</p>
   <input id="code" maxlength="12" placeholder="Code (optional), e.g. HR2026" autocomplete="off">
-  <div class="stack" id="trainerWrap" style="display:none"><button class="btn" id="trainerBtn">📊 Trainer view</button></div>
+  <div class="stack" id="trainerWrap"><button class="btn" id="trainerBtn">📊 Trainer view</button></div>
   <details class="cast"><summary data-i="meet">Meet the cast</summary><div id="cast"></div></details>
   <h3><span id="efLbl">Endings found</span> <span class="found" id="foundN"></span></h3><div class="endings" id="endIntro"></div><p id="bestIntro" style="font-size:14px;margin-top:10px"></p>
   <p class="small" data-i="disc">Employment rules are simplified for gameplay, based on Malaysian law as of 2025. Not legal advice.</p>
@@ -176,9 +181,11 @@ function registerPack(p){PACKS.push(p)}
 
 <div class="overlay" id="trainer"><div class="panel">
   <h2>Trainer view</h2>
-  <p style="font-size:14px">Enter your workshop code to see everyone's results live as they finish a company.</p>
-  <input id="tcode" maxlength="12" placeholder="Workshop code" autocomplete="off" style="width:100%;margin-top:10px;font:inherit;font-size:16px;padding:11px 12px;border-radius:12px;border:1.5px solid rgba(255,255,255,.25);background:rgba(255,255,255,.06);color:var(--paper);text-transform:uppercase">
-  <div class="stack"><button class="btn primary" id="tGo">Show results</button><button class="btn" id="tBack">Back</button></div>
+  <p style="font-size:14px">Players finish a game and send you their result code (copy or WhatsApp). Paste the codes or whole WhatsApp messages below. Results are kept on this device only.</p>
+  <textarea id="tPaste" placeholder="Paste result codes here (BB1-...)" style="height:120px"></textarea>
+  <input id="tcode" maxlength="12" placeholder="Only show workshop code (optional)" autocomplete="off" style="width:100%;margin-top:10px;font:inherit;font-size:16px;padding:11px 12px;border-radius:12px;border:1.5px solid rgba(255,255,255,.25);background:rgba(255,255,255,.06);color:var(--paper);text-transform:uppercase">
+  <div class="stack"><button class="btn primary" id="tGo">Add pasted results</button><button class="btn" id="tCsv">Download CSV</button><button class="btn" id="tClear">Clear all results</button><button class="btn" id="tBack">Back</button></div>
+  <p class="sync" id="tCount"></p>
   <div id="tOut"></div>
 </div></div>
 <div class="overlay" id="end"><div class="panel" id="endPanel"></div></div>
@@ -572,13 +579,20 @@ function showEnd(k){
    <h3>${U('endingsFound')}</h3><div class="endings" id="endEnd"></div>
    <div class="stack"><button class="btn primary" id="again">${U('again')}</button>
    <button class="btn" id="copy">${U('copy')}</button></div>
-   <p class="sync" id="syncNote"></p>
+   <h3>${U('sendTitle')}</h3>
+   <input id="pName" maxlength="40" placeholder="${U('yourName')}" autocomplete="off" style="width:100%;font:inherit;font-size:16px;padding:11px 12px;border-radius:12px;border:1.5px solid rgba(255,255,255,.25);background:rgba(255,255,255,.06);color:var(--paper)">
+   <div class="stack"><button class="btn" id="pCopy">${U('copyCode')}</button><a class="btn" id="pWa" target="_blank" rel="noopener" style="text-align:center;text-decoration:none">${U('whatsapp')}</a></div>
    <textarea id="logtxt" readonly style="display:none"></textarea>
    <p class="small">${U('disc')}</p>`;
   renderEndings($('endEnd'));
   const choices={};decisions.forEach(x=>{if(findCard(x.card.id))choices[x.card.id]=x.side});
-  sendRun({code,pack:PACK,ending:k,weeks,people:pplPct,law:compPct,biases:[...new Set(bias.map(b=>b.bias))],
-    risky:[...new Set(risky.map(r=>r.card.id))],choices,at:Date.now()});
+  const result={c:code,p:PACK,e:k,w:weeks,pp:pplPct,lw:compPct,b:[...new Set(bias.map(b=>b.bias))],r:[...new Set(risky.map(r=>r.card.id))],ch:choices,t:Date.now()};
+  const msg=()=>{result.n=($('pName').value||'').trim();return 'Boss & Boss result '+encodeResult(result)};
+  const upd=()=>{$('pWa').href='https://wa.me/?text='+encodeURIComponent(msg())};
+  $('pName').value=store.get('pname','');upd();
+  $('pName').oninput=()=>{store.set('pname',$('pName').value);upd()};
+  $('pCopy').onclick=()=>{const t=msg(),ta=$('logtxt');ta.value=t;ta.style.display='block';
+    try{navigator.clipboard.writeText(t).then(()=>toast(U('copied')),()=>{ta.select();toast(U('selectCopy'))})}catch(e){ta.select();toast(U('selectCopy'))}};
   $('again').onclick=()=>{$('end').classList.remove('on');newGame()};
   $('copy').onclick=()=>{
     const txt=['Boss & Boss: decision log',...(code?['Workshop code: '+code]:[]),'Biases flagged: '+(bias.map(b=>b.bias).join(', ')||'none'),'Ending: '+E.t+' after '+weeks+' weeks','People-first: '+pplPct+'%  |  Followed the law: '+compPct+'%','',
@@ -623,39 +637,30 @@ $('mRestart').onclick=()=>{$('menu').classList.remove('on');refreshIntro();$('st
 let resumeOnStart=false;
 function refreshIntro(){renderEndings($('endIntro'));const got=store.get('endings',[]);$('foundN').textContent=got.length+' / '+Object.keys(ENDINGS).length;
   const b=store.get('best',0);$('bestIntro').textContent=b?`${U('longest')}${Math.floor(b/52)?Math.floor(b/52)+' '+U('yr')+' ':''}${b%52} ${U('wk')}`:'';$('efLbl').textContent=U('endingsFound')}
-// ---------- live workshop results (shared, when the viewer can reach it) ----------
-let DB=null,USER=null,UID=null;
-(async()=>{try{if(!window.claude||!claude.use)return;
-  DB=await claude.use('db');USER=await claude.use('user');
-  UID=USER?await USER.id():null;
-  const admin=USER?(await USER.canEdit()):false;
-  if(DB&&admin)$('trainerWrap').style.display='';
- }catch(e){}})();
-async function sendRun(r){
-  const el=$('syncNote');if(!el)return;
-  if(!r.code){el.textContent='';return}
-  if(!DB||!UID){el.textContent=U('syncStay');return}
-  el.textContent=U('syncSend');
-  try{await DB.doc('runs/'+UID).set(r);el.textContent=U('syncOk')}
-  catch(e){el.textContent=U('syncNo')}
-}
-let tUnsub=null,tTimer=null;
-function openTrainer(){$('trainer').classList.add('on');$('tOut').innerHTML=''}
-$('trainerBtn').onclick=openTrainer;
-$('tBack').onclick=()=>{$('trainer').classList.remove('on');if(tUnsub){tUnsub();tUnsub=null}};
-$('tGo').onclick=()=>{
-  const c=($('tcode').value||'').trim().toUpperCase();if(!c||!DB)return;
-  if(tUnsub)tUnsub();clearTimeout(tTimer);
-  $('tOut').innerHTML='<p class="sync">Waiting for results…</p>';
-  tTimer=setTimeout(()=>{$('tOut').insertAdjacentHTML('afterbegin','<p class="sync">Can\'t reach the results yet. They may be out of date.</p>')},10000);
-  tUnsub=DB.collection('runs').where('code','==',c).onSnapshot(snap=>{
-    if(!snap.metadata.fromCache)clearTimeout(tTimer);renderTrainer(c,snap.docs.map(d=>({id:d.id,...d.data()})))},
-    e=>{clearTimeout(tTimer);$('tOut').innerHTML='<p class="sync">Couldn\'t load results.</p>'});
-};
+// ---------- workshop results: no server. Players send a code, the trainer pastes it. ----------
+// A result code is the result as JSON, base64url-encoded, with a "BB1-" prefix. Anyone can decode it to audit what is shared.
+function encodeResult(r){return 'BB1-'+btoa(unescape(encodeURIComponent(JSON.stringify(r)))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')}
+function decodeResult(c){try{let b=c.slice(4).replace(/-/g,'+').replace(/_/g,'/');while(b.length%4)b+='=';return JSON.parse(decodeURIComponent(escape(atob(b))))}catch(e){return null}}
+function savedResults(){return store.get('results',{})}
+function trainerRows(){const f=($('tcode').value||'').trim().toUpperCase(),all=savedResults();
+  return Object.entries(all).map(([id,r])=>({id,code:r.c,pack:r.p,ending:r.e,weeks:r.w,people:r.pp,law:r.lw,biases:r.b||[],risky:r.r||[],choices:r.ch||{},name:r.n||''}))
+    .filter(r=>!f||r.code===f)}
+function showTrainer(){const rows=trainerRows();$('tCount').textContent=Object.keys(savedResults()).length+' result(s) saved on this device.';renderTrainer(($('tcode').value||'').trim().toUpperCase()||'all',rows)}
+$('trainerBtn').onclick=()=>{$('trainer').classList.add('on');showTrainer()};
+$('tBack').onclick=()=>$('trainer').classList.remove('on');
+$('tcode').oninput=showTrainer;
+$('tGo').onclick=()=>{const all=savedResults();let added=0;
+  ($('tPaste').value.match(/BB1-[A-Za-z0-9_-]+/g)||[]).forEach(c=>{const r=decodeResult(c);if(r&&!all[c]){all[c]=r;added++}});
+  store.set('results',all);$('tPaste').value='';toast(added+' new result(s) added');showTrainer()};
+$('tClear').onclick=()=>{if($('tClear').dataset.sure){store.set('results',{});delete $('tClear').dataset.sure;$('tClear').textContent='Clear all results';showTrainer()}
+  else{$('tClear').dataset.sure=1;$('tClear').textContent='Tap again to delete all saved results'}};
+$('tCsv').onclick=()=>{const rows=trainerRows(),q=v=>'"'+String(v).replace(/"/g,'""')+'"';
+  const csv=[['name','workshop_code','industry','ending','weeks','people_first_pct','followed_law_pct','biases','risky_shortcuts'].join(','),
+    ...rows.map(r=>[r.name,r.code,r.pack,ENDINGS[r.ending]?ENDINGS[r.ending].t:r.ending,r.weeks,r.people,r.law,r.biases.join(' '),r.risky.join(' ')].map(q).join(','))].join('\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='boss-and-boss-results.csv';document.body.appendChild(a);a.click();a.remove()};
 async function renderTrainer(c,rows){
   const out=$('tOut');
-  if(!rows.length){out.innerHTML=`<p class="sync">No results yet for <b>${c}</b>. Ask players to enter this code before they start.</p>`;return}
-  let names={};try{if(USER&&USER.profiles)names=await USER.profiles(rows.map(r=>r.id))||{}}catch(e){}
+  if(!rows.length){out.innerHTML=`<p class="sync">No results yet. Paste players' result codes above.</p>`;return}
   const avg=k=>Math.round(rows.reduce((a,r)=>a+(r[k]||0),0)/rows.length);
   const ends={};rows.forEach(r=>ends[r.ending]=(ends[r.ending]||0)+1);
   const bias={};rows.forEach(r=>(r.biases||[]).forEach(b=>bias[b]=(bias[b]||0)+1));
@@ -677,10 +682,10 @@ async function renderTrainer(c,rows){
      <div class="sb"><i class="sl" style="width:${lp}%">${lp?lp+'%':''}</i><i class="sr" style="width:${100-lp}%">${100-lp?100-lp+'%':''}</i></div>
      <div class="lbls"><span>← ${esc(x.card.L.l)}</span><span style="text-align:right">${esc(x.card.R.l)} →</span></div></div>`}).join('')}`:''}
    <h3>Players</h3>
-   ${rows.sort((a,b)=>b.weeks-a.weeks).map(r=>`<div class="trow"><span>${esc((names[r.id]&&names[r.id].name)||'Player')}<small>${ENDINGS[r.ending]?ENDINGS[r.ending].t:''} · people ${r.people}% · law ${r.law}%</small></span><b>${r.weeks} wk</b></div>`).join('')}`;
+   ${rows.sort((a,b)=>b.weeks-a.weeks).map(r=>`<div class="trow"><span>${esc(r.name||'Player')}<small>${ENDINGS[r.ending]?ENDINGS[r.ending].t:''} · people ${r.people}% · law ${r.law}%</small></span><b>${r.weeks} wk</b></div>`).join('')}`;
 }
 // ---------- languages (base English here; other editions live in lang/*.js) ----------
-const UI_EN={baseName:'General SME',baseTag:'The original game: a 12-person company in Shah Alam',industry:'Industry',year:'Year',week:'Week',yr:'yr',wk:'wk',hint:'Swipe the card, tap a button, or use ← →',
+const UI_EN={sendTitle:'Send your result to the trainer',yourName:'Your name (optional)',copyCode:'Copy result code',whatsapp:'Send by WhatsApp',baseName:'General SME',baseTag:'The original game: a 12-person company in Shah Alam',industry:'Industry',year:'Year',week:'Week',yr:'yr',wk:'wk',hint:'Swipe the card, tap a button, or use ← →',
   warn:{cash:['Cash is running dangerously low','Cash is piling up. Investors are circling'],morale:['Morale is collapsing','The team is getting a little too comfortable'],
    comp:['Compliance is slipping badly','You\'re drowning in paperwork'],rep:['Your reputation is in trouble','You\'re becoming more famous than your business']},
   quarter:(n,q)=>`Quarter ${n} results: ${q>=0?'+':''}${q} cash (${q>=0?'a motivated team sells more':'low morale hurt sales'})`,
@@ -698,7 +703,7 @@ const UI_EN={baseName:'General SME',baseTag:'The original game: a 12-person comp
    cash:'<b>💰 Cash</b>Run out and the bank takes the keys. Too much and you get bought out.',morale:'<b>🙂 Morale</b>Too low: everyone quits. Too high: they run the place without you.',
    comp:'<b>⚖️ Compliance</b>Too low: the Labour Department shuts you down. Too high: buried in paperwork.',rep:'<b>📣 Reputation</b>Too low: nobody applies. Too high: you become a LinkedIn guru and neglect the business.',
    goal:'<b>Goal: keep the company alive for 3 years.</b> Keep all four in balance. A dot above a meter shows it will change. Bigger dot, bigger change. It doesn\'t say which way.',
-   ws:'Workshop mode',wsText:'Running this in a training session? Give everyone the same code so they face the same situations, then compare decisions in the debrief. Share this page with participants as Contributors and their results appear on your live Trainer view.',
+   ws:'Workshop mode',wsText:'Running this in a training session? Give everyone the same code so they face the same situations, then compare decisions in the debrief. At the end, players send you their result code and you paste the codes into the Trainer view.',
    codePh:'Code (optional), e.g. HR2026',pickInd:'Choose your industry',meet:'Meet the cast',disc:'Employment rules are simplified for gameplay, based on Malaysian law as of 2025. Not legal advice.'}};
 const LANG_ORDER=['en','ms','zh','ta'];
 let LANG=store.get('lang','en');if(LANG!=='en'&&!LANGS[LANG])LANG='en';
@@ -738,6 +743,8 @@ function renderLangButtons(){document.querySelectorAll('.lang').forEach(box=>{bo
   box.querySelectorAll('button').forEach(b=>b.onclick=()=>applyLang(b.dataset.l))})}
 
 renderLangButtons();
+// ---------- offline support (only when served over http/https) ----------
+if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('sw.js').catch(()=>{});
 // ---------- boot ----------
 refreshIntro();
 $('start').onclick=()=>{$('intro').classList.remove('on');if(resumeOnStart){resumeOnStart=false;$('start').textContent=U('start');return}snd('start');newGame()};

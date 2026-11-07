@@ -2,7 +2,8 @@
 // 1. Copy this file to packs/<your-id>.js and fill it in.
 // 2. Add one line to index.html, next to the other packs:
 //      <script src="packs/<your-id>.js"></script>
-// 3. Reload. The pack appears in "Choose your industry".
+// 3. Add 'packs/<your-id>.js', to the FILES list in sw.js and change VERSION there.
+// 4. Reload. The pack appears in "Choose your industry".
 //
 // Card effects are [cash, morale, compliance, reputation], usually between -25 and +25.
 // Put `law:'...'` on the risky option to teach the rule in the debrief.
