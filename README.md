@@ -32,11 +32,16 @@ Result codes are the result as JSON in base64. Paste one into any base64 decoder
 | `sw.js` | Offline cache (list of files + 15 lines of code) |
 | `manifest.webmanifest`, `icons/` | App name and icons for installing |
 | `fonts/` | Fonts, bundled so nothing loads from the internet |
+| `art/` | Character pictures, one file per character, named by id (see `art/README.md`) |
+| `art-styles/` | Other art styles you can copy into `art/` |
 
 ## Add an expansion pack
 1. Copy `packs/_template.js` to `packs/your-pack.js` and fill it in.
 2. Add `<script src="packs/your-pack.js"></script>` next to the other packs in `index.html`.
 3. Add `'packs/your-pack.js',` to the list in `sw.js` and change `VERSION` so installed copies update.
+
+## Change the art
+Drop `art/<id>.svg` or `art/<id>.png` into the `art/` folder. The file name is the only link: no code changes. `art/README.md` lists every character id. A character with no file shows its emoji.
 
 ## Notes
 Employment rules are simplified for gameplay and are not legal advice. Chinese and Tamil text needs a native-speaker review.

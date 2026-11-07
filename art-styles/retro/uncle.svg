@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 232"><defs><pattern id="tile" width="44" height="44" patternUnits="userSpaceOnUse"><rect width="44" height="44" fill="#1f7a6b"/><circle cx="22" cy="22" r="13" fill="#f4e7cc"/><path d="M22 11 Q27 22 22 33 Q17 22 22 11Z M11 22 Q22 17 33 22 Q22 27 11 22Z" fill="#c8382f"/><circle cx="22" cy="22" r="3.2" fill="#e0a530"/><path d="M0 0 Q6 6 0 12 M44 0 Q38 6 44 12 M0 44 Q6 38 0 32 M44 44 Q38 38 44 32" stroke="#e0a530" stroke-width="2" fill="none"/></pattern><style>.fill{stroke:#1d2b3a;stroke-width:1.6;stroke-linejoin:round}.line{fill:none;stroke:#1d2b3a;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}.blush{fill:#d9573f;opacity:.35;stroke:none}.shine{fill:none;stroke:#fff8e6;stroke-width:3}.dark{fill:#1d2b3a}</style></defs><rect width="200" height="232" fill="url(#tile)"/><rect x="14" y="14" width="172" height="232" rx="86" fill="#f4e7cc" stroke="#e0a530" stroke-width="4"/><g>
+ <path class="fill" fill="#c8382f" d="M20 232 Q26 160 100 152 Q174 160 180 232Z"/>
+ <path class="fill" fill="#8f241d" d="M78 156 L100 182 L122 156 Q100 166 78 156Z"/>
+ <ellipse class="fill" fill="#efc49b" cx="55" cy="108" rx="9" ry="13"/><ellipse class="fill" fill="#efc49b" cx="145" cy="108" rx="9" ry="13"/>
+ <ellipse class="fill" fill="#efc49b" cx="100" cy="102" rx="45" ry="50"/>
+ <path class="shine" d="M84 64 Q94 58 106 60"/>
+ <path class="fill" fill="#b9b2a7" d="M57 104 Q52 76 66 66 Q64 86 70 100Z M143 104 Q148 76 134 66 Q136 86 130 100Z"/>
+ <path class="fill" fill="#b9b2a7" d="M70 86 Q82 76 94 84 Q82 82 70 90Z M130 86 Q118 76 106 84 Q118 82 130 90Z"/>
+ <circle class="line" cx="83" cy="102" r="13"/><circle class="line" cx="117" cy="102" r="13"/><path class="line" d="M96 101 Q100 98 104 101"/>
+ <circle class="dark" cx="84" cy="103" r="3.4"/><circle class="dark" cx="116" cy="103" r="3.4"/>
+ <path class="fill" fill="#efc49b" d="M100 106 Q88 124 98 128 Q104 130 108 126 Q110 118 100 106Z"/>
+ <circle class="blush" cx="72" cy="124" r="8"/><circle class="blush" cx="128" cy="124" r="8"/>
+ <path class="line" d="M82 136 Q100 150 118 136"/>
+ <path class="line" d="M84 152 Q100 160 116 152"/>
+ <path class="fill" fill="#e0a530" d="M136 186 L168 182 L172 222 L140 226Z"/>
+ <circle cx="155" cy="203" r="7" fill="#f2cf63" stroke="none"/></g></svg>

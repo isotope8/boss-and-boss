@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 232"><defs><filter id="rough"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="3"/><feDisplacementMap in="SourceGraphic" scale="3.2"/></filter>
+<filter id="paper"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" seed="7"/><feColorMatrix values="0 0 0 0 0.45 0 0 0 0 0.36 0 0 0 0 0.25 0 0 0 0.10 0"/></filter><style>.fill{stroke:#2a211b;stroke-width:2.6;stroke-linejoin:round;stroke-linecap:round}.line{fill:none;stroke:#2a211b;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}.blush{fill:#e98a7a;opacity:.45;stroke:none}.shine{fill:none;stroke:#fff;stroke-width:3;opacity:.8}.dark{fill:#2a211b}</style></defs><rect width="200" height="232" fill="#fbf4e6"/><circle cx="100" cy="112" r="86" fill="#3f4f86" opacity=".18"/><rect width="200" height="232" filter="url(#paper)"/><g filter="url(#rough)" opacity=".95">
+ <path class="fill" fill="#f2c46b" d="M28 232 Q34 172 100 164 Q166 172 172 232Z"/>
+ <path class="fill" fill="#3f4f86" d="M52 122 Q48 58 100 44 Q152 58 148 122 Q150 162 100 178 Q50 162 52 122Z"/>
+ <ellipse class="fill" fill="#e3b089" cx="100" cy="114" rx="34" ry="39"/>
+ <path class="line" d="M68 92 Q100 70 132 92"/>
+ <path class="line" d="M80 100 Q87 95 94 99 M106 99 Q113 95 120 100"/>
+ <ellipse class="dark" cx="87" cy="110" rx="4.2" ry="5.2"/><ellipse class="dark" cx="113" cy="110" rx="4.2" ry="5.2"/>
+ <circle cx="88.5" cy="108" r="1.5" fill="#fff"/><circle cx="114.5" cy="108" r="1.5" fill="#fff"/>
+ <circle class="blush" cx="78" cy="126" r="7"/><circle class="blush" cx="122" cy="126" r="7"/>
+ <path class="line" d="M100 114 Q96 122 101 124"/>
+ <path class="fill" fill="#8a2a2a" d="M88 133 Q100 148 112 133Z"/>
+ <path class="line" d="M78 170 L100 206 L122 170"/>
+ <rect class="fill" fill="#fff" x="90" y="204" width="20" height="24" rx="3"/>
+ <rect class="fill" fill="#2a2a2a" x="140" y="168" width="24" height="40" rx="5"/>
+ <path class="fill" fill="#4fb36b" d="M150 140 h34 a8 8 0 0 1 8 8 v12 a8 8 0 0 1 -8 8 h-20 l-8 7 v-7 h-6 a8 8 0 0 1 -8 -8 v-12 a8 8 0 0 1 8 -8Z"/>
+ <circle cx="158" cy="154" r="2.6" fill="#fff"/><circle cx="167" cy="154" r="2.6" fill="#fff"/><circle cx="176" cy="154" r="2.6" fill="#fff"/></g></svg>

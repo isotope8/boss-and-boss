@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 232"><defs><filter id="rough"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="3"/><feDisplacementMap in="SourceGraphic" scale="3.2"/></filter>
+<filter id="paper"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" seed="7"/><feColorMatrix values="0 0 0 0 0.45 0 0 0 0 0.36 0 0 0 0 0.25 0 0 0 0.10 0"/></filter><style>.fill{stroke:#2a211b;stroke-width:2.6;stroke-linejoin:round;stroke-linecap:round}.line{fill:none;stroke:#2a211b;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}.blush{fill:#e98a7a;opacity:.45;stroke:none}.shine{fill:none;stroke:#fff;stroke-width:3;opacity:.8}.dark{fill:#2a211b}</style></defs><rect width="200" height="232" fill="#fbf4e6"/><circle cx="100" cy="112" r="86" fill="#5b86bd" opacity=".18"/><rect width="200" height="232" filter="url(#paper)"/><g filter="url(#rough)" opacity=".95">
+ <path class="fill" fill="#7ea6d8" d="M20 232 Q26 160 100 152 Q174 160 180 232Z"/>
+ <path class="fill" fill="#5b86bd" d="M78 156 L100 182 L122 156 Q100 166 78 156Z"/>
+ <ellipse class="fill" fill="#f0caa3" cx="55" cy="108" rx="9" ry="13"/><ellipse class="fill" fill="#f0caa3" cx="145" cy="108" rx="9" ry="13"/>
+ <ellipse class="fill" fill="#f0caa3" cx="100" cy="102" rx="45" ry="50"/>
+ <path class="shine" d="M84 64 Q94 58 106 60"/>
+ <path class="fill" fill="#a9a39b" d="M57 104 Q52 76 66 66 Q64 86 70 100Z M143 104 Q148 76 134 66 Q136 86 130 100Z"/>
+ <path class="fill" fill="#a9a39b" d="M70 86 Q82 76 94 84 Q82 82 70 90Z M130 86 Q118 76 106 84 Q118 82 130 90Z"/>
+ <circle class="line" cx="83" cy="102" r="13"/><circle class="line" cx="117" cy="102" r="13"/><path class="line" d="M96 101 Q100 98 104 101"/>
+ <circle class="dark" cx="84" cy="103" r="3.4"/><circle class="dark" cx="116" cy="103" r="3.4"/>
+ <path class="fill" fill="#f0caa3" d="M100 106 Q88 124 98 128 Q104 130 108 126 Q110 118 100 106Z"/>
+ <circle class="blush" cx="72" cy="124" r="8"/><circle class="blush" cx="128" cy="124" r="8"/>
+ <path class="line" d="M82 136 Q100 150 118 136"/>
+ <path class="line" d="M84 152 Q100 160 116 152"/>
+ <path class="fill" fill="#d8423a" d="M136 186 L168 182 L172 222 L140 226Z"/>
+ <circle cx="155" cy="203" r="7" fill="#f2cf63" stroke="none"/></g></svg>

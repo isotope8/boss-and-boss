@@ -1,6 +1,6 @@
 // Offline support. Keeps a copy of every game file so the game works without internet.
 // To ship an update: change VERSION, then reload the page twice.
-const VERSION = 'bb-v8';
+const VERSION = 'bb-v9';
 const FILES = [
   'fonts/bricolage-grotesque-latin-400-normal.woff2',
   'fonts/bricolage-grotesque-latin-600-normal.woff2',
@@ -37,5 +37,9 @@ self.addEventListener('activate', e => {
 });
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
-  e.respondWith(caches.match(e.request, { ignoreSearch: true }).then(hit => hit || fetch(e.request)));
+  // Use the saved copy if there is one; otherwise download it and save a copy (this is how art files get saved).
+  e.respondWith(caches.match(e.request, { ignoreSearch: true }).then(hit => hit || fetch(e.request).then(res => {
+    if (res.ok && new URL(e.request.url).origin === location.origin) { const copy = res.clone(); caches.open(VERSION).then(c => c.put(e.request, copy)); }
+    return res;
+  })));
 });

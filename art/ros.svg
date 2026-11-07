@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 232"><defs><filter id="rough"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="3"/><feDisplacementMap in="SourceGraphic" scale="3.2"/></filter>
+<filter id="paper"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" seed="7"/><feColorMatrix values="0 0 0 0 0.45 0 0 0 0 0.36 0 0 0 0 0.25 0 0 0 0.10 0"/></filter><style>.fill{stroke:#2a211b;stroke-width:2.6;stroke-linejoin:round;stroke-linecap:round}.line{fill:none;stroke:#2a211b;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}.blush{fill:#e98a7a;opacity:.45;stroke:none}.shine{fill:none;stroke:#fff;stroke-width:3;opacity:.8}.dark{fill:#2a211b}</style></defs><rect width="200" height="232" fill="#fbf4e6"/><circle cx="100" cy="112" r="86" fill="#e9a7bf" opacity=".18"/><rect width="200" height="232" filter="url(#paper)"/><g filter="url(#rough)" opacity=".95">
+ <path class="fill" fill="#9cc9a2" d="M28 232 Q34 170 100 162 Q166 170 172 232Z"/>
+ <path class="fill" fill="#e9a7bf" d="M50 124 Q44 54 100 46 Q156 54 150 124 Q152 166 100 176 Q48 166 50 124Z"/>
+ <ellipse class="fill" fill="#d9a07a" cx="100" cy="116" rx="35" ry="41"/>
+ <path class="line" d="M66 96 Q100 72 134 96"/>
+ <circle class="blush" cx="80" cy="128" r="8"/><circle class="blush" cx="120" cy="128" r="8"/>
+ <path class="line" d="M80 112 Q87 105 94 112 M106 112 Q113 105 120 112"/>
+ <path class="line" d="M74 108 l-5 -3 M74 113 l-6 0 M126 108 l5 -3 M126 113 l6 0"/>
+ <path class="line" d="M101 115 Q95 128 103 130"/>
+ <path class="fill" fill="#fff" d="M85 136 Q100 150 115 136 Q100 141 85 136Z"/>
+ <path class="line" d="M84 135 Q100 151 116 135"/>
+ <path class="line" d="M84 150 Q90 153 96 150"/>
+ <path class="fill" fill="#a0703f" d="M150 232 L178 104 L186 106 L158 232Z"/>
+ <path class="fill" fill="#e8c67a" d="M168 104 Q182 70 196 104 Q186 112 178 106 Q172 110 168 104Z"/></g></svg>
