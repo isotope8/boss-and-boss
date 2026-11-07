@@ -121,7 +121,7 @@ registerLang('ms','Bahasa Melayu',{
 });
 ```
 - Anything missing falls back to English automatically, so you can translate bit by bit.
-- Pack **names and taglines** go in the pack file's `i18n`; pack **cards** go in the language file under `packs`.
+- Pack **names and taglines** go in the pack file's `i18n`. Pack **cards** (including the intro card) and pack **characters** go in `lang/<code>-packs.js`, which calls `registerLangPacks('ms',{packs:{…},people:{…}})` with the same `[text, left, right, law]` and `[name, role, bio]` shapes. When you add a pack, add its translations there.
 - New language: create `lang/xx.js`, add `<script src="lang/xx.js">` in `index.html`, add `'xx'` to `LANG_ORDER` in `index.html`, and add the file to `sw.js`.
 - Keep `<b>…</b>` tags in intro texts. Keep emoji.
 

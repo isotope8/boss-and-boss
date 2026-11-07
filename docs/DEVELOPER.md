@@ -8,6 +8,7 @@ Everything a developer needs to understand, change, test and ship the game. The 
 ```
 index.html              Engine + base content + UI (single file, read top to bottom)
 lang/ms.js zh.js ta.js  Language editions (data only)
+lang/*-packs.js         Pack card + character translations (registerLangPacks)
 packs/*.js              Industry packs (data only); _template.js is not loaded
 art/<id>.svg|png        Character portraits, found by file name
 art-styles/<style>/     Alternative portrait sets (copy into art/ to use)

@@ -27,7 +27,7 @@ Result codes are the result as JSON in base64. Paste one into any base64 decoder
 | Path | What it is |
 |---|---|
 | `index.html` | The whole game engine and base 78 cards |
-| `lang/*.js` | Bahasa Melayu, Chinese, Tamil text |
+| `lang/*.js` | Bahasa Melayu, Chinese, Tamil text (`*-packs.js` = industry pack text) |
 | `packs/*.js` | The 10 industry expansion packs |
 | `sw.js` | Offline cache (list of files + 15 lines of code) |
 | `manifest.webmanifest`, `icons/` | App name and icons for installing |
@@ -35,7 +35,8 @@ Result codes are the result as JSON in base64. Paste one into any base64 decoder
 | `art/` | Character pictures, one file per character, named by id (see `art/README.md`) |
 | `art-styles/` | Other art styles you can copy into `art/` |
 | `docs/` | Design document, modder notes, developer guide |
-| `tools/`, `tests/` | Art list builder, automatic play-test |
+| `tools/`, `tests/` | Portrait generator, art list builder, automatic play-test |
+| `marketing/` | Trailer, how-to-play comic, and the launch kit (`marketing/launch-kit/index.html`) |
 
 ## Add an expansion pack
 1. Copy `packs/_template.js` to `packs/your-pack.js` and fill it in.

@@ -115,11 +115,11 @@ At the end of each run the player sees:
 Suggested 45-minute module: 5 min intro · 15 min play (restarts allowed) · 3 min send codes · 17 min debrief · 5 min takeaways.
 
 ## 12. Languages
-English (built in), Bahasa Melayu, 华文, தமிழ். Base game fully translated in all four; pack names translated, pack cards English for now. Chinese and Tamil need native review.
+English (built in), Bahasa Melayu, 华文, தமிழ். Everything is translated in all four: base game, all 10 packs (cards, intro cards, characters) and the interface. Chinese and Tamil are machine drafts and need native review.
 
 ## 13. Art and audio
-- **Current:** cream cards on dark teal, amber accents, Bricolage Grotesque type. Characters use art files when present (`art/<id>.svg|png`), otherwise emoji.
-- **Direction candidates:** see the art style exploration page (newspaper cartoon, kopitiam/Peranakan retro, and others). Decision pending.
+- **Current:** cream cards on dark teal, amber accents, Bricolage Grotesque type. All 56 characters have portraits in `art/` (newspaper-cartoon style). Four are hand-drawn (ros, uncle, aina, sys); the rest come from `tools/draw-cast.py`, a simple spec-per-character generator. Replace any file with the same name to change a picture; delete it and the emoji shows.
+- **Style:** newspaper cartoon chosen for the game; Peranakan retro kept as an alternative set in `art-styles/retro/`.
 - **Audio:** small synthesized sounds (swipe, up/down, warning, start, ending). Mute toggle.
 
 ## 14. Platforms and distribution
@@ -139,10 +139,10 @@ English (built in), Bahasa Melayu, 华文, தமிழ். Base game fully tran
 | **Custom packs** | A client's own industry, policies and characters | Project fee |
 
 ## 16. Roadmap
-1. Choose art direction → draw full cast (56 characters).
-2. Translate pack cards into BM, Chinese, Tamil; native review.
+1. ~~Choose art direction → draw full cast (56 characters).~~ Done: all 56 drawn.
+2. ~~Translate pack cards into BM, Chinese, Tamil.~~ Done. Next: native review of Chinese and Tamil, then BM polish.
 3. Legal review of every law tip by a Malaysian employment practitioner.
-4. GitHub Pages launch → pilot in 2–3 workshops → tune balance from CSVs.
+4. ~~GitHub Pages launch~~ Live at https://isotope8.github.io/boss-and-boss/ → pilot in 2–3 workshops → tune balance from CSVs.
 5. Facilitator guide (slides + debrief questions per pack).
 6. Steam: art, achievements, store page, Next Fest demo.
 

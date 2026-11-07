@@ -130,10 +130,15 @@ textarea{width:100%;height:160px;margin-top:8px;border-radius:10px;padding:10px;
 window.LANGS={};window.PACKS=[];
 function registerLang(code,name,data){data.name=name;LANGS[code]=data}
 function registerPack(p){PACKS.push(p)}
+function registerLangPacks(code,d){const L=LANGS[code];if(!L)return;L.packs=Object.assign(L.packs||{},d.packs||{});L.people=Object.assign(L.people||{},d.people||{})}
 </script>
 <script src="lang/ms.js"></script>
 <script src="lang/zh.js"></script>
 <script src="lang/ta.js"></script>
+<!-- pack translations (load after the language files) -->
+<script src="lang/ms-packs.js"></script>
+<script src="lang/zh-packs.js"></script>
+<script src="lang/ta-packs.js"></script>
 <!-- EXPANSION PACKS: add a file to packs/ and a line here -->
 <script src="packs/electronics.js"></script>
 <script src="packs/palmoil.js"></script>
@@ -426,8 +431,8 @@ const ENDINGS={
 };
 
 // ---------- expansion packs ----------
-PACKS.forEach(p=>{Object.assign(P,p.people||{});(p.cards||[]).forEach(c=>{c.pack=p.id})});
-const ALL_CARDS=()=>CARDS.concat(...PACKS.map(p=>p.cards||[]));
+PACKS.forEach(p=>{Object.assign(P,p.people||{});(p.cards||[]).concat(p.introCard||[]).forEach(c=>{c.pack=p.id})});
+const ALL_CARDS=()=>CARDS.concat(...PACKS.map(p=>(p.cards||[]).concat(p.introCard||[])));
 let PACK='base';
 const curPack=()=>PACKS.find(p=>p.id===PACK)||null;
 const ACTIVE=()=>{const p=curPack();return p?CARDS.concat(p.cards):CARDS};
