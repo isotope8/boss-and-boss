@@ -1,6 +1,6 @@
 // Offline support. Keeps a copy of every game file so the game works without internet.
 // To ship an update: change VERSION, then reload the page twice.
-const VERSION = 'bb-v10';
+const VERSION = 'bb-v11';
 const FILES = [
   'art/agent.svg',
   'art/ai.svg',

@@ -23,6 +23,9 @@ Once installed from the link, it works offline.
 
 Result codes are the result as JSON in base64. Paste one into any base64 decoder to see exactly what it contains: name (optional), workshop code, industry, ending, weeks, scores, and the left/right choice on each card. Nothing is sent anywhere unless the player sends it.
 
+## Disclaimer
+A game for learning, not legal advice. No data is collected. Full text: [DISCLAIMER.md](DISCLAIMER.md) (also in the game under *About & disclaimer*).
+
 ## Files
 | Path | What it is |
 |---|---|

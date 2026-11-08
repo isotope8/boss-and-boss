@@ -125,6 +125,7 @@ p{line-height:1.5;opacity:.92}
 #code::placeholder{text-transform:none;letter-spacing:0;opacity:.5}
 textarea{width:100%;height:160px;margin-top:8px;border-radius:10px;padding:10px;font:12px/1.4 ui-monospace,monospace;background:#062223;color:var(--paper);border:1px solid rgba(255,255,255,.2)}
 @media (max-height:640px){.ctext{font-size:16px;padding:16px 18px 8px}.gauge{height:44px}.who{padding-bottom:12px}}
+.about p{margin:0 0 8px}
 </style>
 <script>
 window.LANGS={};window.PACKS=[];
@@ -184,6 +185,7 @@ function registerLangPacks(code,d){const L=LANGS[code];if(!L)return;L.packs=Obje
   <details class="cast"><summary data-i="meet">Meet the cast</summary><div id="cast"></div></details>
   <h3><span id="efLbl">Endings found</span> <span class="found" id="foundN"></span></h3><div class="endings" id="endIntro"></div><p id="bestIntro" style="font-size:14px;margin-top:10px"></p>
   <p class="small" data-i="disc">Employment rules are simplified for gameplay, based on Malaysian law as of 2025. Not legal advice.</p>
+  <details class="cast about"><summary data-i="about">About &amp; disclaimer</summary><div class="small" data-i="aboutText"><p><b>Not legal advice.</b> Boss &amp; Boss is a game for learning and discussion. Its employment rules are simplified, based on Malaysian law as of 2025, and may be out of date or incomplete. For a real workplace issue, check the current law or ask the Labour Department (JTK) or a qualified lawyer.</p><p><b>Fiction.</b> All characters, companies and situations are made up. Any resemblance to real people or companies is coincidence. Laws, agencies and schemes named in the game (such as JTK, CIDB, Bank Negara, MSPO) are real, but none of them made, checked or endorse this game.</p><p><b>Privacy.</b> The game collects nothing and sends nothing. Your progress stays on this device. A result code holds only your scores, your choices and any name you typed, and goes only where you send it.</p><p><b>No warranty.</b> Provided as is. Use it at your own risk. © 2026 JP.</p></div></details>
 </div></div>
 
 <div class="overlay" id="trainer"><div class="panel">
@@ -721,7 +723,7 @@ const UI_EN={sendTitle:'Send your result to the trainer',yourName:'Your name (op
    comp:'<b>⚖️ Compliance</b>Too low: the Labour Department shuts you down. Too high: buried in paperwork.',rep:'<b>📣 Reputation</b>Too low: nobody applies. Too high: you become a LinkedIn guru and neglect the business.',
    goal:'<b>Goal: keep the company alive for 3 years.</b> Keep all four in balance. A dot above a meter shows it will change. Bigger dot, bigger change. It doesn\'t say which way.',
    ws:'Workshop mode',wsText:'Running this in a training session? Give everyone the same code so they face the same situations, then compare decisions in the debrief. At the end, players send you their result code and you paste the codes into the Trainer view.',
-   codePh:'Code (optional), e.g. HR2026',pickInd:'Choose your industry',meet:'Meet the cast',disc:'Employment rules are simplified for gameplay, based on Malaysian law as of 2025. Not legal advice.'}};
+   about:"About &amp; disclaimer",aboutText:"<p><b>Not legal advice.</b> Boss &amp; Boss is a game for learning and discussion. Its employment rules are simplified, based on Malaysian law as of 2025, and may be out of date or incomplete. For a real workplace issue, check the current law or ask the Labour Department (JTK) or a qualified lawyer.</p><p><b>Fiction.</b> All characters, companies and situations are made up. Any resemblance to real people or companies is coincidence. Laws, agencies and schemes named in the game (such as JTK, CIDB, Bank Negara, MSPO) are real, but none of them made, checked or endorse this game.</p><p><b>Privacy.</b> The game collects nothing and sends nothing. Your progress stays on this device. A result code holds only your scores, your choices and any name you typed, and goes only where you send it.</p><p><b>No warranty.</b> Provided as is. Use it at your own risk. © 2026 JP.</p>",codePh:'Code (optional), e.g. HR2026',pickInd:'Choose your industry',meet:'Meet the cast',disc:'Employment rules are simplified for gameplay, based on Malaysian law as of 2025. Not legal advice.'}};
 const LANG_ORDER=['en','ms','zh','ta'];
 let LANG=store.get('lang','en');if(LANG!=='en'&&!LANGS[LANG])LANG='en';
 const LP=()=>LANG==='en'?null:LANGS[LANG];
